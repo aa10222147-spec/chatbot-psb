@@ -1,0 +1,118 @@
+# Chatbot PSB - Git Ignore
+
+# ===================================
+# Python
+# ===================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ===================================
+# Virtual Environment
+# ===================================
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# ===================================
+# Environment Variables
+# ===================================
+.env
+.env.local
+.env.*.local
+*.env
+
+# ===================================
+# IDE / Editor
+# ===================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ===================================
+# Jupyter Notebook
+# ===================================
+#.ipynb_checkpoints
+#*.ipynb
+
+# ===================================
+# Testing
+# ===================================
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+tests/
+
+# ===================================
+# Logs
+# ===================================
+*.log
+logs/
+*.log.*
+
+# ===================================
+# Model Files (Optional - uncomment if models should not be in Git)
+# ===================================
+# models/*.pkl
+
+# ===================================
+# Knowledge Base (Optional - uncomment if KB should not be in Git)
+# ===================================
+# knowledge_base/*.json
+
+# ===================================
+# Temporary Files
+# ===================================
+*.tmp
+*.temp
+*.bak
+*.swp
+.cache/
+/exports/
+
+# ===================================
+# OS Files
+# ===================================
+Thumbs.db
+.DS_Store
+
+# ===================================
+# Deployment
+# ===================================
+.vercel
+.railway
+.render
+
+# ===================================
+# Docker
+# ===================================
+# Uncomment if using Docker
+# Dockerfile.local
+# docker-compose.override.yml
