@@ -1,0 +1,30 @@
+{
+    "intent": "link_formulir",
+    "description": "Link formulir pendaftaran online dan cara mengisi",
+    "core_facts": {
+        "link_utama": "https://ponpesalfalah.com/daftar",
+        "link_alternatif": "https://forms.ponpesalfalah.com/psb-2026",
+        "link_cek_status": "https://ponpesalfalah.com/cek-status",
+        "biaya_isi_formulir": "GRATIS",
+        "format_file_upload": "PDF atau JPG, maksimal 5MB per file"
+    },
+    "qa_pairs": [
+        {
+            "q": "Di mana link formulir pendaftaran?",
+            "a": "Formulir pendaftaran dapat diakses di:\n🔗 Link Utama: ponpesalfalah.com/daftar\n🔗 Link Alternatif: forms.ponpesalfalah.com/psb-2026\n\nPengisian formulir GRATIS 24 jam."
+        },
+        {
+            "q": "Bagaimana cara mengisi formulir?",
+            "a": "Langkah pengisian:\n1. Klik link pendaftaran\n2. Isi data diri lengkap dan benar\n3. Isi data orang tua/wali\n4. Upload dokumen (PDF/JPG, maks 5MB)\n5. Klik Submit\n6. Simpan nomor pendaftaran yang dikirim via email"
+        },
+        {
+            "q": "Bagaimana cara cek status pendaftaran?",
+            "a": "Cek status di:\n1. Portal: ponpesalfalah.com/cek-status (masukkan nomor pendaftaran + NIK)\n2. WhatsApp: kirim 'STATUS [No.Pendaftaran] [Nama]' ke 0812-3456-7890"
+        }
+    ],
+    "quick_answers": {
+        "link": "ponpesalfalah.com/daftar",
+        "biaya_form": "GRATIS",
+        "cek_status": "ponpesalfalah.com/cek-status"
+    }
+}

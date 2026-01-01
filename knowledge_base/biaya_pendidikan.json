@@ -1,0 +1,35 @@
+{
+    "intent": "biaya_pendidikan",
+    "description": "Informasi biaya pendaftaran, SPP bulanan, dan beasiswa",
+    "core_facts": {
+        "biaya_formulir": "Rp 250.000",
+        "biaya_tes_seleksi": "Rp 150.000",
+        "uang_pangkal_mts": "Rp 5.000.000",
+        "uang_pangkal_ma": "Rp 6.000.000",
+        "spp_bulanan_mts": "Rp 1.200.000",
+        "spp_bulanan_ma": "Rp 1.500.000",
+        "spp_termasuk": "asrama, makan 3x, pendidikan formal & diniyah",
+        "rekening_bri": "1234-5678-9012-3456 a.n. Yayasan Ponpes Al-Falah",
+        "rekening_mandiri": "9876-5432-1098-7654 a.n. Yayasan Ponpes Al-Falah"
+    },
+    "qa_pairs": [
+        {
+            "q": "Berapa biaya pendidikan?",
+            "a": "Rincian biaya:\n\n**Biaya Awal:**\n- Formulir: Rp 250.000\n- Tes Seleksi: Rp 150.000\n- Uang Pangkal MTs: Rp 5.000.000 | MA: Rp 6.000.000\n\n**SPP Bulanan (termasuk asrama & makan):**\n- MTs: Rp 1.200.000/bulan\n- MA: Rp 1.500.000/bulan"
+        },
+        {
+            "q": "Apakah ada beasiswa?",
+            "a": "Ya, tersedia beasiswa:\n1. Beasiswa Prestasi Akademik: potongan 25-50%\n2. Beasiswa Tahfidz (hafal 5+ juz): potongan 50-100%\n3. Beasiswa Kurang Mampu: sesuai survei\n4. Beasiswa Yatim/Dhuafa: potongan 75-100%"
+        },
+        {
+            "q": "Bagaimana cara pembayaran?",
+            "a": "Pembayaran melalui:\n1. Transfer Bank BRI: 1234-5678-9012-3456\n2. Transfer Bank Mandiri: 9876-5432-1098-7654\n3. Tunai di kantor sekretariat\n4. Cicilan tersedia (hubungi admin)"
+        }
+    ],
+    "quick_answers": {
+        "spp_mts": "Rp 1.200.000/bulan (all-in)",
+        "spp_ma": "Rp 1.500.000/bulan (all-in)",
+        "uang_pangkal": "MTs: Rp 5jt | MA: Rp 6jt",
+        "beasiswa": "Tersedia: Prestasi, Tahfidz, Dhuafa"
+    }
+}

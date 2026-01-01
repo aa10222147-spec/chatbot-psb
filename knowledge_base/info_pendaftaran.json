@@ -1,0 +1,36 @@
+{
+    "intent": "info_pendaftaran",
+    "description": "Informasi jadwal dan alur pendaftaran santri baru",
+    "core_facts": {
+        "gelombang_1_start": "3 Januari 2026",
+        "gelombang_1_end": "28 Februari 2026",
+        "gelombang_2_start": "1 Maret 2026",
+        "gelombang_2_end": "30 April 2026",
+        "kuota_mts": 120,
+        "kuota_ma": 100,
+        "batas_akhir": "30 April 2026 atau kuota terpenuhi",
+        "link_pendaftaran": "https://ponpesalfalah.com/daftar",
+        "waktu_pendaftaran": "Senin-Jumat, 08:00-16:00 WIB",
+        "pengumuman_hasil": "H+7 setelah tes seleksi"
+    },
+    "qa_pairs": [
+        {
+            "q": "Kapan pendaftaran dibuka?",
+            "a": "Pendaftaran dibuka dalam 2 gelombang:\n- Gelombang 1: 3 Januari - 28 Februari 2026\n- Gelombang 2: 1 Maret - 30 April 2026"
+        },
+        {
+            "q": "Bagaimana alur pendaftaran?",
+            "a": "Alur pendaftaran:\n1. Isi formulir online di ponpesalfalah.com/daftar\n2. Upload dokumen persyaratan\n3. Bayar biaya tes seleksi Rp 150.000\n4. Ikuti tes seleksi sesuai jadwal\n5. Tunggu pengumuman (H+7 setelah tes)\n6. Daftar ulang jika diterima"
+        },
+        {
+            "q": "Apakah pendaftaran masih dibuka?",
+            "a": "Pendaftaran aktif sampai 30 April 2026 atau sampai kuota terpenuhi. Silakan cek ketersediaan kuota di website kami."
+        }
+    ],
+    "quick_answers": {
+        "jadwal": "Gelombang 1: Jan-Feb | Gelombang 2: Mar-Apr",
+        "kuota": "MTs: 120 santri, MA: 100 santri",
+        "link": "ponpesalfalah.com/daftar",
+        "kontak": "WA: 0812-3456-7890"
+    }
+}

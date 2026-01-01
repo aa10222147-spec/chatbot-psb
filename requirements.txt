@@ -1,0 +1,80 @@
+# Chatbot PSB - Python Production Dependencies
+# Version: 1.1 (Railway Production Ready)
+# Python Version: 3.10+ (Recommended: 3.11)
+# Last Updated: 2026-01-01
+
+# ===================================
+# Core Framework (REQUIRED)
+# ===================================
+fastapi>=0.104.0,<1.0.0
+uvicorn[standard]>=0.24.0,<1.0.0
+pydantic>=2.0.0,<3.0.0
+pydantic-settings>=2.0.0,<3.0.0
+
+# ===================================
+# NLP & Machine Learning (REQUIRED)
+# ===================================
+# Intent Classification (TF-IDF + Logistic Regression)
+scikit-learn>=1.3.0,<2.0.0
+numpy>=1.24.0,<2.0.0
+scipy>=1.11.0,<2.0.0
+
+# Model Serialization
+joblib>=1.3.0,<2.0.0
+
+# ===================================
+# HTTP Clients & API Integration (REQUIRED)
+# ===================================
+# For Telegram Bot API and Groq API calls
+requests>=2.31.0,<3.0.0
+httpx>=0.25.0,<1.0.0
+aiohttp>=3.9.0,<4.0.0
+
+# ===================================
+# Configuration & Environment (REQUIRED)
+# ===================================
+python-dotenv>=1.0.0,<2.0.0
+
+# ===================================
+# Database - PostgreSQL (REQUIRED)
+# ===================================
+sqlalchemy>=2.0.0,<3.0.0
+psycopg2-binary>=2.9.0,<3.0.0
+
+# ===================================
+# Data Processing (REQUIRED)
+# ===================================
+typing-extensions>=4.8.0,<5.0.0
+
+# ===================================
+# Admin Tools (REQUIRED for admin_labeling.py)
+# ===================================
+tabulate>=0.9.0,<1.0.0
+colorama>=0.4.6,<1.0.0
+
+# ===================================
+# Production Server (REQUIRED for Railway)
+# ===================================
+# Gunicorn as production WSGI server (optional but recommended)
+gunicorn>=21.2.0,<24.0.0
+
+# ===================================
+# Deployment Notes
+# ===================================
+# 1. Railway will auto-detect Python and install from requirements.txt
+# 2. DATABASE_URL is auto-injected by Railway when PostgreSQL is linked
+# 3. Procfile: web: uvicorn app:app --host 0.0.0.0 --port $PORT
+# 4. All dependencies have been verified against actual project imports
+#
+# Core Files & Their Dependencies:
+# - app.py: fastapi, uvicorn, python-dotenv
+# - database.py: sqlalchemy, psycopg2-binary
+# - intent_classifier.py: joblib, numpy, scikit-learn
+# - groq_client.py: requests
+# - telegram_bot.py: requests
+# - response_router.py: (uses local modules)
+# - admin_labeling.py: tabulate, colorama, sqlalchemy
+# - export_training_data.py: sqlalchemy
+#
+# Tested with: Python 3.10, 3.11, 3.12
+

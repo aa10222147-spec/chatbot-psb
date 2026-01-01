@@ -1,0 +1,34 @@
+{
+    "intent": "pendidikan_formal",
+    "description": "Jenjang pendidikan formal, kurikulum, dan akreditasi",
+    "core_facts": {
+        "jenjang_mts": "Madrasah Tsanawiyah (setara SMP)",
+        "jenjang_ma": "Madrasah Aliyah (setara SMA)",
+        "durasi_mts": "3 tahun",
+        "durasi_ma": "3 tahun",
+        "akreditasi_mts": "A",
+        "akreditasi_ma": "A",
+        "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
+        "ijazah": "Ijazah resmi Kemendikbud & Kemenag",
+        "jurusan_ma": "IPA, IPS, Keagamaan"
+    },
+    "qa_pairs": [
+        {
+            "q": "Jenjang pendidikan apa saja yang tersedia?",
+            "a": "Jenjang pendidikan:\n\n**1. MTs (setara SMP)**\n- Durasi: 3 tahun\n- Akreditasi: A\n- Kurikulum: Kemenag + Pesantren\n\n**2. MA (setara SMA)**\n- Durasi: 3 tahun\n- Jurusan: IPA, IPS, Keagamaan\n- Akreditasi: A\n\nSemua lulusan mendapat ijazah resmi yang diakui negara."
+        },
+        {
+            "q": "Kurikulum apa yang digunakan?",
+            "a": "Kurikulum terpadu:\n- 70% Kurikulum Kemenag (K13/Merdeka)\n- 30% Kurikulum Kepesantrenan (Kitab Kuning, Tahfidz, Bahasa Arab-Inggris)"
+        },
+        {
+            "q": "Apakah lulusan bisa ke perguruan tinggi?",
+            "a": "Ya! Statistik alumni:\n- 85% melanjutkan ke PT\n- 60% lolos PTN (UGM, UI, UIN, dll)\n- 15% ke luar negeri (Al-Azhar, IIUM)"
+        }
+    ],
+    "quick_answers": {
+        "jenjang": "MTs (SMP) & MA (SMA)",
+        "akreditasi": "Akreditasi A",
+        "ijazah": "Ijazah resmi Kemendikbud & Kemenag"
+    }
+}
