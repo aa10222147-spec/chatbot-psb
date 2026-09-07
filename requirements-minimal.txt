@@ -1,0 +1,17 @@
+# Chatbot PSB - Minimal Dependencies (Core Only)
+# Use this for quick setup or resource-constrained environments
+
+# Core Framework
+fastapi>=0.104.0
+uvicorn>=0.24.0
+
+# NLP & ML
+scikit-learn>=1.3.0
+numpy>=1.24.0
+joblib>=1.3.0
+
+# HTTP & API
+requests>=2.31.0
+
+# Configuration
+python-dotenv>=1.0.0

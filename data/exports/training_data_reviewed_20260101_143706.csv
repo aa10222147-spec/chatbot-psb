@@ -1,0 +1,50 @@
+text,intent,source
+saya ingin tahu informasi pendaftaran di pesantren ini,info_pendaftaran,validated
+apa saja syarat masuk pondok pesantren ?,syarat_pendaftaran,validated
+Apa saja syaratnya?,syarat_pendaftaran,validated
+Apakah ada info pendaftaran,info_pendaftaran,validated
+Apa saja formulir untuk pendaftaran online?,link_formulir,validated
+Apa saja kegiatan sehari-hari santri,kegiatan_harian,validated
+Dimana lokasi pesantren nya,faq_umum,validated
+Program unggulannya nya ada apa saja?,program_unggulan,validated
+"Jika ingin mendaftar, apa saja syarat dan ketentuannya",syarat_pendaftaran,validated
+Gimana sih cara mendaftar nya,syarat_pendaftaran,validated
+Apakah pendaftaran nya bisa dilakukan secara online?,info_pendaftaran,validated
+"Untuk mengisi formulir secara online, formulir apa saja yang dibutuhkan?",link_formulir,validated
+Dokumen apa saja yang dibutuhkan saat mengisi pendaftaran secara online?,syarat_pendaftaran,validated
+Apakah bisa mendaftar secara offline?,syarat_pendaftaran,validated
+Apa saja program pendidikan yang ada di pesantren?,program_unggulan,validated
+Kalo program unggulannya apa saja?,program_unggulan,validated
+Berapa biaya pendaftaran nya?,biaya_pendidikan,validated
+Apakah ada biaya bulanan?,biaya_pendidikan,validated
+bagaimana kegiatan harian santri ?,kegiatan_harian,validated
+Ini pesantren campuran bukan?,faq_umum,validated
+Jadwal harian nya bagaimana?,kegiatan_harian,validated
+Apakah santri bisa bawa handphone?,faq_umum,validated
+Santri boleh membawa hp gak?,faq_umum,validated
+Bagaimana cara mendaftar?,info_pendaftaran,corrected
+dimana pesantren ?,faq_umum,corrected
+Apa saja programnya?,program_unggulan,corrected
+Apa saja program pendidikannya?,program_unggulan,corrected
+Apa saja program pendidikan formalnya,pendidikan_formal,corrected
+Apa saja kitab yang dipelajari?,program_unggulan,corrected
+Apa sih visi misi pesantren nya?,faq_umum,corrected
+Pimpinannya siapa?,faq_umum,corrected
+Siapa pengasuh pondoknya?,faq_umum,corrected
+Visi dan misi pesantren nya apa?,faq_umum,corrected
+Jumlah santri nya sekarang berapa?,faq_umum,corrected
+Sekarang ada berapa jumlah santri nya?,faq_umum,corrected
+"Pesantren ini khusus putra, putri atau campuran?",faq_umum,corrected
+Pesantren ini sudah berapa lama berdiri nya?,faq_umum,corrected
+Pesantren ini berdiri sejak kapan?,faq_umum,corrected
+Kapan waktu liburnya?,faq_umum,corrected
+Kapan Satri bisa pulang ke rumah?,faq_umum,corrected
+Orang tua bisa jenguk santrinya tidak?,faq_umum,corrected
+Waktu libur untuk santri pulang kapan?,faq_umum,corrected
+Barang yang wajib dibawa apa saja?,faq_umum,corrected
+Santri baru wajib bawa barang apa saja?,faq_umum,corrected
+Untuk keamanan di dalam pesantren nya bagaimana?,faq_umum,corrected
+Fasilitas kesehatannya bagaimana?,faq_umum,corrected
+apa saja kitab yang di pakai ?,program_unggulan,corrected
+Di pesantren ada fasilitas kesehatannya gak?,faq_umum,corrected
+Kalo santri nya sakit gimana?,faq_umum,corrected

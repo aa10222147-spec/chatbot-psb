@@ -1,0 +1,50 @@
+text,intent
+saya ingin tahu informasi pendaftaran di pesantren ini,info_pendaftaran
+apa saja syarat masuk pondok pesantren ?,syarat_pendaftaran
+Apa saja syaratnya?,syarat_pendaftaran
+Apakah ada info pendaftaran,info_pendaftaran
+Apa saja formulir untuk pendaftaran online?,link_formulir
+Apa saja kegiatan sehari-hari santri,kegiatan_harian
+Dimana lokasi pesantren nya,faq_umum
+Program unggulannya nya ada apa saja?,program_unggulan
+"Jika ingin mendaftar, apa saja syarat dan ketentuannya",syarat_pendaftaran
+Gimana sih cara mendaftar nya,syarat_pendaftaran
+Apakah pendaftaran nya bisa dilakukan secara online?,info_pendaftaran
+"Untuk mengisi formulir secara online, formulir apa saja yang dibutuhkan?",link_formulir
+Dokumen apa saja yang dibutuhkan saat mengisi pendaftaran secara online?,syarat_pendaftaran
+Apakah bisa mendaftar secara offline?,syarat_pendaftaran
+Apa saja program pendidikan yang ada di pesantren?,program_unggulan
+Kalo program unggulannya apa saja?,program_unggulan
+Berapa biaya pendaftaran nya?,biaya_pendidikan
+Apakah ada biaya bulanan?,biaya_pendidikan
+bagaimana kegiatan harian santri ?,kegiatan_harian
+Ini pesantren campuran bukan?,faq_umum
+Jadwal harian nya bagaimana?,kegiatan_harian
+Apakah santri bisa bawa handphone?,faq_umum
+Santri boleh membawa hp gak?,faq_umum
+Bagaimana cara mendaftar?,info_pendaftaran
+dimana pesantren ?,faq_umum
+Apa saja programnya?,program_unggulan
+Apa saja program pendidikannya?,program_unggulan
+Apa saja program pendidikan formalnya,pendidikan_formal
+Apa saja kitab yang dipelajari?,program_unggulan
+Apa sih visi misi pesantren nya?,faq_umum
+Pimpinannya siapa?,faq_umum
+Siapa pengasuh pondoknya?,faq_umum
+Visi dan misi pesantren nya apa?,faq_umum
+Jumlah santri nya sekarang berapa?,faq_umum
+Sekarang ada berapa jumlah santri nya?,faq_umum
+"Pesantren ini khusus putra, putri atau campuran?",faq_umum
+Pesantren ini sudah berapa lama berdiri nya?,faq_umum
+Pesantren ini berdiri sejak kapan?,faq_umum
+Kapan waktu liburnya?,faq_umum
+Kapan Satri bisa pulang ke rumah?,faq_umum
+Orang tua bisa jenguk santrinya tidak?,faq_umum
+Waktu libur untuk santri pulang kapan?,faq_umum
+Barang yang wajib dibawa apa saja?,faq_umum
+Santri baru wajib bawa barang apa saja?,faq_umum
+Untuk keamanan di dalam pesantren nya bagaimana?,faq_umum
+Fasilitas kesehatannya bagaimana?,faq_umum
+apa saja kitab yang di pakai ?,program_unggulan
+Di pesantren ada fasilitas kesehatannya gak?,faq_umum
+Kalo santri nya sakit gimana?,faq_umum

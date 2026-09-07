@@ -1,0 +1,51 @@
+feedback_id,question_id,question_text,original_intent,corrected_intent,feedback_type,feedback_text,created_at
+50,26,Apakah ada biaya bulanan?,biaya_pendidikan,,helpful,Intent sudah benar,2026-01-01T07:36:56.196122
+49,25,Berapa biaya pendaftaran nya?,biaya_pendidikan,,helpful,Intent sudah benar,2026-01-01T07:36:50.901798
+48,17,"Jika ingin mendaftar, apa saja syarat dan ketentuannya",syarat_pendaftaran,,helpful,Intent sudah benar,2026-01-01T07:36:26.010497
+47,46,Santri boleh membawa hp gak?,faq_umum,,helpful,Intent sudah benar,2026-01-01T07:36:20.473724
+46,27,bagaimana kegiatan harian santri ?,kegiatan_harian,,helpful,Intent sudah benar,2026-01-01T07:36:13.736498
+45,12,Apa saja kegiatan sehari-hari santri,kegiatan_harian,,helpful,Intent sudah benar,2026-01-01T07:36:08.964831
+44,3,apa saja syarat masuk pondok pesantren ?,syarat_pendaftaran,,helpful,Intent sudah benar,2026-01-01T07:36:04.214539
+43,24,Kalo program unggulannya apa saja?,program_unggulan,,helpful,Intent sudah benar,2026-01-01T07:36:00.410277
+42,11,Apa saja formulir untuk pendaftaran online?,link_formulir,,helpful,Intent sudah benar,2026-01-01T07:35:53.872673
+41,16,Program unggulannya nya ada apa saja?,program_unggulan,,helpful,Intent sudah benar,2026-01-01T07:35:47.014090
+40,20,"Untuk mengisi formulir secara online, formulir apa saja yang dibutuhkan?",link_formulir,,helpful,Intent sudah benar,2026-01-01T07:35:38.739552
+39,39,Jadwal harian nya bagaimana?,kegiatan_harian,,helpful,Intent sudah benar,2026-01-01T07:35:34.657570
+38,41,Kapan waktu liburnya?,info_pendaftaran,faq_umum,wrong_intent,,2026-01-01T07:35:25.022421
+37,8,Apa saja syaratnya?,syarat_pendaftaran,,helpful,Intent sudah benar,2026-01-01T07:35:14.096832
+36,14,Apa saja program pendidikannya?,program_unggulan,program_unggulan,wrong_intent,,2026-01-01T07:34:56.596628
+35,53,Kalo santri nya sakit gimana?,kegiatan_harian,faq_umum,wrong_intent,,2026-01-01T07:34:25.505552
+34,47,Barang yang wajib dibawa apa saja?,syarat_pendaftaran,faq_umum,wrong_intent,,2026-01-01T07:34:17.630006
+33,48,Santri baru wajib bawa barang apa saja?,syarat_pendaftaran,faq_umum,wrong_intent,,2026-01-01T07:34:07.065333
+32,40,Libur panjangnya kapan?,info_pendaftaran,,not_helpful,Admin tidak yakin dengan intent,2026-01-01T07:33:45.412575
+31,38,Pesantren ini berdiri sejak kapan?,info_pendaftaran,faq_umum,wrong_intent,,2026-01-01T07:33:29.046090
+30,42,Kapan Satri bisa pulang ke rumah?,eskalasi_admin,faq_umum,wrong_intent,,2026-01-01T07:33:16.312581
+29,2,saya ingin tahu informasi pendaftaran di pesantren ini,info_pendaftaran,,helpful,Intent sudah benar,2026-01-01T07:33:05.724007
+28,45,Waktu libur untuk santri pulang kapan?,info_pendaftaran,faq_umum,wrong_intent,,2026-01-01T07:32:56.670479
+27,4,Dimana lokasi pesantren nya,faq_umum,,helpful,Intent sudah benar,2026-01-01T07:32:48.816271
+26,51,apa saja kitab yang di pakai ?,syarat_pendaftaran,program_unggulan,wrong_intent,,2026-01-01T07:32:38.478365
+25,23,Apa saja program pendidikan yang ada di pesantren?,program_unggulan,,helpful,Intent sudah benar,2026-01-01T07:32:20.422475
+24,15,Apa saja program pendidikan formalnya,program_unggulan,pendidikan_formal,wrong_intent,,2026-01-01T07:32:01.533898
+23,19,Apakah pendaftaran nya bisa dilakukan secara online?,info_pendaftaran,,helpful,Intent sudah benar,2026-01-01T07:31:26.887359
+22,44,Apakah santri bisa bawa handphone?,faq_umum,,helpful,Intent sudah benar,2026-01-01T07:31:22.284213
+21,21,Dokumen apa saja yang dibutuhkan saat mengisi pendaftaran secara online?,syarat_pendaftaran,,helpful,Intent sudah benar,2026-01-01T07:31:14.239260
+20,10,Apakah ada info pendaftaran,info_pendaftaran,,helpful,Intent sudah benar,2026-01-01T07:31:09.289280
+19,29,Apa sih visi misi pesantren nya?,syarat_pendaftaran,faq_umum,wrong_intent,,2026-01-01T07:30:59.217621
+18,32,Visi dan misi pesantren nya apa?,syarat_pendaftaran,faq_umum,wrong_intent,,2026-01-01T07:30:45.497945
+17,18,Gimana sih cara mendaftar nya,syarat_pendaftaran,,helpful,Intent sudah benar,2026-01-01T07:30:37.060831
+16,33,Jumlah santri nya sekarang berapa?,biaya_pendidikan,faq_umum,wrong_intent,,2026-01-01T07:30:29.907863
+15,43,Orang tua bisa jenguk santrinya tidak?,syarat_pendaftaran,faq_umum,wrong_intent,,2026-01-01T07:30:23.791871
+14,22,Apakah bisa mendaftar secara offline?,syarat_pendaftaran,,helpful,Intent sudah benar,2026-01-01T07:30:14.931404
+13,36,Ini pesantren campuran bukan?,faq_umum,,helpful,Intent sudah benar,2026-01-01T07:30:04.065571
+12,37,Pesantren ini sudah berapa lama berdiri nya?,biaya_pendidikan,faq_umum,wrong_intent,,2026-01-01T07:29:40.890136
+11,34,Sekarang ada berapa jumlah santri nya?,biaya_pendidikan,faq_umum,wrong_intent,,2026-01-01T07:29:29.130820
+10,50,Fasilitas kesehatannya bagaimana?,kirim_dokumen,faq_umum,wrong_intent,,2026-01-01T07:28:38.683145
+9,52,Di pesantren ada fasilitas kesehatannya gak?,pendidikan_formal,faq_umum,wrong_intent,,2026-01-01T07:28:28.348148
+8,35,"Pesantren ini khusus putra, putri atau campuran?",syarat_pendaftaran,faq_umum,wrong_intent,,2026-01-01T07:27:50.287265
+7,49,Untuk keamanan di dalam pesantren nya bagaimana?,syariah_guard,faq_umum,wrong_intent,,2026-01-01T07:27:24.954851
+6,30,Pimpinannya siapa?,pendidikan_formal,faq_umum,wrong_intent,,2026-01-01T07:26:50.172646
+5,31,Siapa pengasuh pondoknya?,pendidikan_formal,faq_umum,wrong_intent,,2026-01-01T07:26:21.203257
+4,13,Apa saja programnya?,syarat_pendaftaran,program_unggulan,wrong_intent,,2026-01-01T05:23:39.693320
+3,28,Apa saja kitab yang dipelajari?,syarat_pendaftaran,program_unggulan,wrong_intent,,2026-01-01T05:23:12.560783
+2,6,dimana pesantren ?,syariah_guard,faq_umum,wrong_intent,,2026-01-01T05:21:38.049950
+1,5,Bagaimana cara mendaftar?,kirim_dokumen,info_pendaftaran,wrong_intent,,2026-01-01T05:20:54.808731

@@ -1,0 +1,5 @@
+feedback_id,question_id,question_text,original_intent,corrected_intent,feedback_type,feedback_text,created_at
+4,13,Apa saja programnya?,syarat_pendaftaran,program_unggulan,wrong_intent,,2026-01-01T05:23:39.693320
+3,28,Apa saja kitab yang dipelajari?,syarat_pendaftaran,program_unggulan,wrong_intent,,2026-01-01T05:23:12.560783
+2,6,dimana pesantren ?,syariah_guard,faq_umum,wrong_intent,,2026-01-01T05:21:38.049950
+1,5,Bagaimana cara mendaftar?,kirim_dokumen,info_pendaftaran,wrong_intent,,2026-01-01T05:20:54.808731
