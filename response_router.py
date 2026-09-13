@@ -23,7 +23,7 @@ from typing import Dict, List, Optional, Any
 from pathlib import Path
 from dataclasses import dataclass
 
-from intent_classifier import get_intent_classifier, IntentPrediction
+from intent_classifier import get_intent_classifier, IntentPrediction, CONFIDENCE_THRESHOLD
 from groq_client import get_groq_client, GroqResponse
 from database import log_user_question, init_db
 
@@ -43,6 +43,11 @@ class ResponseResult:
     llm_used: bool
     error: Optional[str] = None
     question_id: Optional[int] = None  # Database record ID
+    confidence_threshold: float = CONFIDENCE_THRESHOLD
+    confidence_status: str = "low"
+    fallback_triggered: bool = False
+    fallback_reason: Optional[str] = None
+    routed_to: str = "unknown"
 
 
 class ResponseRouter:
@@ -99,25 +104,41 @@ class ResponseRouter:
             return self._get_error_response("Pertanyaan tidak boleh kosong.")
         
         logger.info(f"Processing question: {question[:100]}...")
-        
+        threshold = getattr(self.intent_classifier, "confidence_threshold", CONFIDENCE_THRESHOLD)
+        logger.info(f"[QUERY] user_id={user_id} question=\"{question}\"")
+
         try:
             # STEP 1: Intent Classification (Guard Layer 1)
             logger.info("STEP 1: Running intent classification...")
             intent_prediction = self.intent_classifier.predict(question)
-            
+            confidence_status = self.intent_classifier.get_confidence_status(intent_prediction.confidence)
+
             logger.info(
-                f"Intent predicted: {intent_prediction.intent} "
-                f"(confidence: {intent_prediction.confidence:.2%})"
+                f"[CLASSIFICATION] intent={intent_prediction.intent} confidence={intent_prediction.confidence:.4f} threshold={threshold:.2f}"
             )
-            
+
+            if intent_prediction.confidence < threshold:
+                logger.info(
+                    f"[ROUTING] confidence={intent_prediction.confidence:.4f} threshold={threshold:.2f} route=fallback fallback=true reason=confidence_below_threshold"
+                )
+                result = self._get_low_confidence_response(intent_prediction, threshold)
+                question_id = self._log_to_database(
+                    user_id=user_id,
+                    question=question,
+                    result=result,
+                    platform=platform,
+                    knowledge_base_used=None
+                )
+                result.question_id = question_id
+                return result
+
             # STEP 2: Knowledge Base Retrieval
             logger.info("STEP 2: Loading knowledge base...")
             kb_data = self._load_knowledge_base(intent_prediction.intent)
-            
+
             if not kb_data:
                 logger.warning(f"No knowledge base data found for intent: {intent_prediction.intent}")
-                result = self._get_no_kb_response(intent_prediction)
-                # Log to database
+                result = self._get_no_kb_response(intent_prediction, threshold)
                 self._log_to_database(
                     user_id=user_id,
                     question=question,
@@ -126,11 +147,11 @@ class ResponseRouter:
                     knowledge_base_used=None
                 )
                 return result
-            
+
             # Count entries based on KB structure
             entry_count = len(kb_data.get('qa_pairs', [])) if 'qa_pairs' in kb_data else len(kb_data.get('core_facts', {}))
             logger.info(f"Loaded {entry_count} KB entries")
-            
+
             # STEP 3: LLM Bounded Reasoning (Guard Layer 2)
             logger.info("STEP 3: Generating response with Groq API...")
             groq_response = self.groq_client.generate_response(
@@ -139,13 +160,11 @@ class ResponseRouter:
                 confidence=intent_prediction.confidence,
                 knowledge_base_data=kb_data
             )
-            
+
             # STEP 4: Build final response
             logger.info("STEP 4: Building final response...")
-            confidence_level = self.intent_classifier.get_confidence_level(
-                intent_prediction.confidence
-            )
-            
+            confidence_level = self.intent_classifier.get_confidence_level(intent_prediction.confidence)
+
             result = ResponseResult(
                 success=groq_response.success,
                 message=groq_response.message,
@@ -154,9 +173,17 @@ class ResponseRouter:
                 confidence_level=confidence_level,
                 knowledge_base_used=True,
                 llm_used=groq_response.success,
-                error=groq_response.error
+                error=groq_response.error,
+                confidence_threshold=threshold,
+                confidence_status=confidence_status,
+                fallback_triggered=False,
+                fallback_reason=None,
+                routed_to="llm"
             )
-            
+
+            logger.info(f"[ROUTING] confidence={intent_prediction.confidence:.4f} threshold={threshold:.2f} route=llm fallback=false")
+            logger.info(f"[RESPONSE] route=llm success={result.success}")
+
             # STEP 5: Log to database
             logger.info("STEP 5: Logging to database...")
             question_id = self._log_to_database(
@@ -167,9 +194,9 @@ class ResponseRouter:
                 knowledge_base_used=intent_prediction.intent
             )
             result.question_id = question_id
-            
+
             return result
-        
+
         except Exception as e:
             logger.error(f"Error in response router: {str(e)}", exc_info=True)
             return self._get_error_response(f"Terjadi kesalahan: {str(e)}")
@@ -267,7 +294,44 @@ class ResponseRouter:
             # Don't fail the whole request if logging fails
             return None
     
-    def _get_no_kb_response(self, intent_prediction: IntentPrediction) -> ResponseResult:
+    def _get_low_confidence_response(
+        self,
+        intent_prediction: IntentPrediction,
+        threshold: float = CONFIDENCE_THRESHOLD
+    ) -> ResponseResult:
+        """Return the safe graceful-degradation message for low confidence."""
+        message = (
+            "Maaf, saya belum cukup yakin memahami pertanyaan Anda.\n\n"
+            "Untuk mendapatkan informasi yang lebih akurat mengenai PSB Pondok Pesantren Gemayasih, "
+            "silakan hubungi admin pondok.\n\n"
+            "Silakan juga mencoba pertanyaan yang lebih spesifik mengenai:\n"
+            "- pendaftaran\n"
+            "- persyaratan\n"
+            "- biaya\n"
+            "- program pendidikan\n"
+            "- kegiatan pondok"
+        )
+        return ResponseResult(
+            success=True,
+            message=message,
+            intent=intent_prediction.intent,
+            confidence=intent_prediction.confidence,
+            confidence_level=self.intent_classifier.get_confidence_level(intent_prediction.confidence),
+            knowledge_base_used=False,
+            llm_used=False,
+            error=None,
+            confidence_threshold=threshold,
+            confidence_status="low",
+            fallback_triggered=True,
+            fallback_reason="confidence_below_threshold",
+            routed_to="fallback"
+        )
+
+    def _get_no_kb_response(
+        self,
+        intent_prediction: IntentPrediction,
+        threshold: float = CONFIDENCE_THRESHOLD
+    ) -> ResponseResult:
         """
         Generate response when knowledge base is not available.
         
@@ -282,11 +346,9 @@ class ResponseRouter:
             "belum tersedia dalam sistem. Silakan hubungi admin untuk informasi lebih lanjut.\n\n"
             "📧 Kontak Admin: [info@pesantren.example.com]"
         )
-        
-        confidence_level = self.intent_classifier.get_confidence_level(
-            intent_prediction.confidence
-        )
-        
+
+        confidence_level = self.intent_classifier.get_confidence_level(intent_prediction.confidence)
+
         return ResponseResult(
             success=False,
             message=message,
@@ -295,7 +357,12 @@ class ResponseRouter:
             confidence_level=confidence_level,
             knowledge_base_used=False,
             llm_used=False,
-            error="Knowledge base not found"
+            error="Knowledge base not found",
+            confidence_threshold=threshold,
+            confidence_status=self.intent_classifier.get_confidence_status(intent_prediction.confidence),
+            fallback_triggered=intent_prediction.confidence < threshold,
+            fallback_reason="kb_not_found" if intent_prediction.confidence >= threshold else "confidence_below_threshold",
+            routed_to="fallback"
         )
     
     def _get_error_response(self, error_message: str) -> ResponseResult:
@@ -316,7 +383,12 @@ class ResponseRouter:
             confidence_level="very_low",
             knowledge_base_used=False,
             llm_used=False,
-            error=error_message
+            error=error_message,
+            confidence_threshold=CONFIDENCE_THRESHOLD,
+            confidence_status="low",
+            fallback_triggered=True,
+            fallback_reason="system_error",
+            routed_to="fallback"
         )
     
     def get_system_status(self) -> Dict[str, Any]:

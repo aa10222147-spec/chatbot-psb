@@ -29,6 +29,8 @@ from pathlib import Path
 # Configure logging
 logger = logging.getLogger(__name__)
 
+CONFIDENCE_THRESHOLD = 0.70
+
 
 @dataclass
 class IntentPrediction:
@@ -53,7 +55,7 @@ class IntentClassifier:
     def __init__(
         self,
         models_dir: str = "models",
-        confidence_threshold: float = 0.7
+        confidence_threshold: float = CONFIDENCE_THRESHOLD
     ):
         """
         Initialize the Intent Classifier.
@@ -368,7 +370,7 @@ class IntentClassifier:
         """
         if confidence >= 0.9:
             return "very_high"
-        elif confidence >= 0.7:
+        elif confidence >= self.confidence_threshold:
             return "high"
         elif confidence >= 0.5:
             return "medium"
@@ -376,6 +378,10 @@ class IntentClassifier:
             return "low"
         else:
             return "very_low"
+
+    def get_confidence_status(self, confidence: float) -> str:
+        """Return 'high' for normal flow and 'low' for graceful degradation."""
+        return "high" if confidence >= self.confidence_threshold else "low"
     
     def get_model_info(self) -> Dict[str, any]:
         """
@@ -402,7 +408,7 @@ _classifier_instance: Optional[IntentClassifier] = None
 
 def get_intent_classifier(
     models_dir: str = "models",
-    confidence_threshold: float = 0.7
+    confidence_threshold: float = CONFIDENCE_THRESHOLD
 ) -> IntentClassifier:
     """
     Get singleton instance of Intent Classifier.

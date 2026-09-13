@@ -1,5 +1,5 @@
 # Database connections for PSB Chatbot
-from sqlalchemy import create_engine, Column, Integer, String, Text, Float, TIMESTAMP, text
+from sqlalchemy import create_engine, Column, Integer, String, Text, Float, TIMESTAMP, Boolean, inspect, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
@@ -51,8 +51,6 @@ class UserQuestion(Base):
     """
     Store all user questions and their classification results.
     This is used for logging, analytics, and improving the model.
-    
-    Note: This model matches the existing database schema.
     """
     __tablename__ = "user_questions"
 
@@ -62,7 +60,12 @@ class UserQuestion(Base):
     question_text = Column(Text, nullable=False)
     predicted_intent = Column(String(50), index=True)
     confidence_score = Column(Float)
+    confidence_threshold = Column(Float, default=0.70)
+    confidence_status = Column(String(20), default="low")
     routed_to = Column(String(20))  # llm, fallback, admin
+    fallback_triggered = Column(Boolean, default=False)
+    response_text = Column(Text)
+    fallback_reason = Column(String(50))
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
 
 
@@ -102,6 +105,31 @@ class IntentFeedback(Base):
 # INITIALIZE DATABASE
 # ===============================
 
+def ensure_user_question_schema():
+    """Safely add new columns to existing user_questions table for backward compatibility."""
+    try:
+        inspector = inspect(engine)
+        if 'user_questions' not in inspector.get_table_names():
+            Base.metadata.create_all(bind=engine)
+            return
+
+        existing_columns = {column['name'] for column in inspector.get_columns('user_questions')}
+        column_definitions = {
+            'confidence_threshold': 'DOUBLE PRECISION',
+            'confidence_status': 'VARCHAR(20)',
+            'fallback_triggered': 'BOOLEAN',
+            'response_text': 'TEXT',
+            'fallback_reason': 'VARCHAR(50)',
+        }
+
+        for column_name, column_type in column_definitions.items():
+            if column_name not in existing_columns:
+                logger.info(f"Adding missing column {column_name} to user_questions")
+                engine.execute(text(f"ALTER TABLE user_questions ADD COLUMN {column_name} {column_type}"))
+    except Exception as e:
+        logger.warning(f"Schema migration check for user_questions failed: {str(e)}")
+
+
 def init_db():
     """
     Create tables if not exist.
@@ -109,6 +137,7 @@ def init_db():
     """
     try:
         Base.metadata.create_all(bind=engine)
+        ensure_user_question_schema()
         logger.info("Database tables created successfully")
     except Exception as e:
         logger.error(f"Error creating database tables: {str(e)}")
@@ -138,12 +167,15 @@ def log_user_question(
     confidence_score: float = None,
     routed_to: str = None,
     platform: str = "telegram",
-    # These params are kept for backward compatibility but not saved to DB
-    confidence_level: str = None,
+    confidence_threshold: float = 0.70,
+    confidence_status: str = None,
+    fallback_triggered: bool = False,
     response_text: str = None,
+    fallback_reason: str = None,
     knowledge_base_used: str = None,
     llm_used: bool = False,
-    error_message: str = None
+    error_message: str = None,
+    confidence_level: str = None,
 ) -> int:
     """
     Save user question to database.
@@ -170,7 +202,12 @@ def log_user_question(
             question_text=question_text,
             predicted_intent=predicted_intent,
             confidence_score=confidence_score,
-            routed_to=routed_to
+            confidence_threshold=confidence_threshold,
+            confidence_status=confidence_status or ("high" if (confidence_score is not None and confidence_score >= confidence_threshold) else "low"),
+            routed_to=routed_to,
+            fallback_triggered=bool(fallback_triggered),
+            response_text=response_text,
+            fallback_reason=fallback_reason,
         )
         session.add(data)
         session.commit()
@@ -181,6 +218,84 @@ def log_user_question(
         session.rollback()
         logger.error(f"Error logging user question: {str(e)}")
         raise e
+    finally:
+        session.close()
+
+
+def get_graceful_degradation_stats(
+    start_date=None,
+    end_date=None,
+    platform: str = None,
+    user_id: str = None,
+):
+    """Return aggregate statistics for graceful degradation experiments."""
+    session = SessionLocal()
+    try:
+        query = session.query(UserQuestion)
+        if start_date:
+            query = query.filter(UserQuestion.created_at >= start_date)
+        if end_date:
+            query = query.filter(UserQuestion.created_at <= end_date)
+        if platform:
+            query = query.filter(UserQuestion.platform == platform)
+        if user_id:
+            query = query.filter(UserQuestion.user_id == str(user_id))
+
+        all_rows = query.all()
+        total_queries = len(all_rows)
+        high_confidence_queries = sum(1 for row in all_rows if row.confidence_score is not None and row.confidence_score >= 0.70)
+        low_confidence_queries = total_queries - high_confidence_queries
+        fallback_queries = sum(1 for row in all_rows if row.fallback_triggered is True)
+
+        fallback_percentage = (fallback_queries / total_queries * 100) if total_queries else 0.0
+        normal_flow_percentage = 100.0 - fallback_percentage if total_queries else 0.0
+
+        return {
+            "total_queries": total_queries,
+            "high_confidence_queries": high_confidence_queries,
+            "low_confidence_queries": low_confidence_queries,
+            "fallback_queries": fallback_queries,
+            "fallback_percentage": round(fallback_percentage, 2),
+            "normal_flow_percentage": round(normal_flow_percentage, 2),
+            "threshold": 0.70,
+        }
+    finally:
+        session.close()
+
+
+def get_graceful_degradation_samples(
+    start_date=None,
+    end_date=None,
+    platform: str = None,
+    user_id: str = None,
+):
+    """Return samples for Bab IV table generation."""
+    session = SessionLocal()
+    try:
+        query = session.query(UserQuestion)
+        if start_date:
+            query = query.filter(UserQuestion.created_at >= start_date)
+        if end_date:
+            query = query.filter(UserQuestion.created_at <= end_date)
+        if platform:
+            query = query.filter(UserQuestion.platform == platform)
+        if user_id:
+            query = query.filter(UserQuestion.user_id == str(user_id))
+
+        rows = query.order_by(UserQuestion.created_at.asc()).all()
+        return [
+            {
+                "id": row.id,
+                "question": row.question_text,
+                "intent": row.predicted_intent,
+                "confidence": row.confidence_score,
+                "confidence_status": row.confidence_status,
+                "fallback": bool(row.fallback_triggered),
+                "routed_to": row.routed_to,
+                "response": row.response_text,
+            }
+            for row in rows
+        ]
     finally:
         session.close()
 
