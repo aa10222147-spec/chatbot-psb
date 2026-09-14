@@ -93,7 +93,7 @@ class IntentClassifier:
             (
                 "models-v2",
                 self.models_dir / "vectorizer_2.pkl",
-                self.models_dir / "intent_model_2.pkl",
+                self.models_dir / "lr_intent_model_2.pkl",
                 self.models_dir / "label_encoder_2.pkl",
             ),
             (
@@ -440,7 +440,7 @@ class IntentClassifier:
     def get_model_info(self) -> Dict[str, any]:
         """
         Get information about the loaded models.
-        
+
         Returns:
             Dict: Model information and statistics
         """
@@ -449,12 +449,13 @@ class IntentClassifier:
             "num_intents": len(self.get_all_intents()),
             "intents": self.get_all_intents(),
             "confidence_threshold": self.confidence_threshold,
-            "models_directory": str(self.models_dir),\n            "model_bundle": getattr(self, "model_bundle", None),\n            "model_path": getattr(self, "model_path", None),
+            "models_directory": str(self.models_dir),
+            "model_bundle": getattr(self, "model_bundle", None),
+            "model_path": getattr(self, "model_path", None),
             "vectorizer_loaded": self.vectorizer is not None,
             "model_loaded": self.model is not None,
-            "label_encoder_loaded": self.label_encoder is not None
+            "label_encoder_loaded": self.label_encoder is not None,
         }
-
 
 # Singleton instance
 _classifier_instance: Optional[IntentClassifier] = None
