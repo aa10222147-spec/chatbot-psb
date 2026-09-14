@@ -117,11 +117,18 @@ class ResponseRouter:
                 f"[CLASSIFICATION] intent={intent_prediction.intent} confidence={intent_prediction.confidence:.4f} threshold={threshold:.2f}"
             )
 
-            if intent_prediction.confidence < threshold:
+            # Confidence policy:
+            # - >= 70%: normal LLM flow
+            # - 30% <= confidence < 70%: still send to LLM, but mark as uncertain
+            #   and require a confidence-aware disclaimer in the prompt/response.
+            # - < 30%: graceful fallback; do not trust the predicted intent enough
+            #   to select a knowledge-base context for the LLM.
+            if intent_prediction.confidence < 0.30:
                 logger.info(
-                    f"[ROUTING] confidence={intent_prediction.confidence:.4f} threshold={threshold:.2f} route=fallback fallback=true reason=confidence_below_threshold"
+                    f"[ROUTING] confidence={intent_prediction.confidence:.4f} route=fallback "
+                    f"fallback=true reason=confidence_below_30pct"
                 )
-                result = self._get_low_confidence_response(intent_prediction, threshold)
+                result = self._get_low_confidence_response(intent_prediction, 0.30)
                 question_id = self._log_to_database(
                     user_id=user_id,
                     question=question,
@@ -133,6 +140,11 @@ class ResponseRouter:
                 return result
 
             # STEP 2: Knowledge Base Retrieval
+            # Both medium-confidence (30-70%) and high-confidence (>=70%)
+            # predictions continue to Guard Layer 2. The LLM receives the
+            # original confidence so it can answer cautiously when confidence
+            # is in the uncertainty band.
+
             logger.info("STEP 2: Loading knowledge base...")
             kb_data = self._load_knowledge_base(intent_prediction.intent)
 
