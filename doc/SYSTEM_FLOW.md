@@ -336,11 +336,10 @@ Sistem akan melakukan eskalasi ke admin dalam kondisi berikut:
 
 | Departemen | Kontak | Jam Operasional |
 |------------|--------|-----------------|
-| **Pendaftaran** | WA: 0812-3456-7890 (Ustadz Ahmad) | Senin-Jumat 08:00-20:00 WIB |
-| **Keuangan** | WA: 0813-4567-8901 (Ustadzah Fatimah) | Senin-Jumat 08:00-16:00 WIB |
-| **Akademik** | WA: 0821-5678-9012 (Ustadz Abdullah) | Senin-Jumat 08:00-16:00 WIB |
+| **Pendaftaran_calon_santri** | WA: 0812-3456-7890 (Ustadz Dian Amarullah) | Senin-Jumat 08:00-15:00 WIB |
+| **Pendaftaran_calon_santriah** | WA: 0812-3456-7890 (Ustadz Siti Azizah) | Senin-Jumat 08:00-15:00 WIB |
 | **Kantor** | Telepon: (0274) 123-4567 | Senin-Jumat 08:00-16:00 WIB |
-| **Email** | info@ponpesalfalah.com | Response dalam 1x24 jam |
+
 
 ---
 
@@ -373,12 +372,12 @@ Sistem akan melakukan eskalasi ke admin dalam kondisi berikut:
 │ "Maaf, pertanyaan Anda mengandung topik yang tidak sesuai dengan nilai-nilai       │
 │  Islam dan pondok pesantren.                                                        │
 │                                                                                     │
-│  🕌 Pondok Pesantren Al-Falah berkomitmen menjaga lingkungan islami dan edukatif.  │
+│  🕌 Pondok Pesantren Gemayasih berkomitmen menjaga lingkungan islami dan edukatif.  │
 │                                                                                     │
 │  Silakan tanyakan tentang:                                                          │
 │  ✅ Pendaftaran santri                                                              │
 │  ✅ Program pendidikan                                                              │
-│  ✅ Biaya & beasiswa                                                                │
+│  ✅ Biaya                                                             │
 │  ✅ Fasilitas pondok                                                                │
 │                                                                                     │
 │  Atau hubungi admin: 0812-3456-7890"                                               │
