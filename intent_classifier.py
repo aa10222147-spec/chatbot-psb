@@ -83,57 +83,111 @@ class IntentClassifier:
     
     def _load_models(self):
         """
-        Load pre-trained models from disk.
-        
-        Expected files:
-        - vectorizer.pkl: TF-IDF vectorizer
-        - intent_model.pkl: Trained Logistic Regression model
-        - label_encoder.pkl: Label encoder for intent mapping
-        
-        Raises:
-            FileNotFoundError: If model files don't exist
-            ValueError: If models are corrupted or invalid
+        Load a complete trained model bundle.
+
+        The production system must never silently fall back to a mock classifier.
+        We support the current bundle plus the tracked v1 bundle so deployment
+        remains resilient if one artifact is unavailable.
         """
-        vectorizer_path = self.models_dir / "vectorizer_2.pkl"
-        model_path = self.models_dir / "intent_model_2.pkl"
-        label_encoder_path = self.models_dir / "label_encoder_2.pkl"
-        
-        # Check if all model files exist
-        missing_files = []
-        for path, name in [
-            (vectorizer_path, "vectorizer_2.pkl"),
-            (model_path, "intent_model_2.pkl"),
-            (label_encoder_path, "label_encoder_2.pkl")
-        ]:
-            if not path.exists():
-                missing_files.append(name)
-        
-        if missing_files:
-            error_msg = f"Missing model files: {', '.join(missing_files)}"
-            logger.error(error_msg)
-            logger.warning("Using mock classifier for development/demo purposes")
+        model_bundles = [
+            (
+                "models-v2",
+                self.models_dir / "vectorizer_2.pkl",
+                self.models_dir / "intent_model_2.pkl",
+                self.models_dir / "label_encoder_2.pkl",
+            ),
+            (
+                "models-v1",
+                self.models_dir / "v1" / "vectorizer.pkl",
+                self.models_dir / "v1" / "intent_model.pkl",
+                self.models_dir / "v1" / "label_encoder.pkl",
+            ),
+        ]
+
+        missing_by_bundle = []
+
+        for bundle_name, vectorizer_path, model_path, label_encoder_path in model_bundles:
+            paths = {
+                "vectorizer": vectorizer_path,
+                "model": model_path,
+                "label_encoder": label_encoder_path,
+            }
+            missing = [name for name, path in paths.items() if not path.is_file()]
+
+            if missing:
+                missing_by_bundle.append(
+                    f"{bundle_name}: missing {', '.join(missing)}"
+                )
+                continue
+
+            try:
+                logger.info(
+                    "Loading trained intent classifier bundle: %s "
+                    "(vectorizer=%s, model=%s, encoder=%s)",
+                    bundle_name,
+                    vectorizer_path,
+                    model_path,
+                    label_encoder_path,
+                )
+
+                vectorizer = joblib.load(vectorizer_path)
+                model = joblib.load(model_path)
+                label_encoder = joblib.load(label_encoder_path)
+
+                if not hasattr(vectorizer, "transform"):
+                    raise ValueError("Loaded vectorizer does not implement transform()")
+                if not hasattr(model, "predict_proba"):
+                    raise ValueError("Loaded classifier does not implement predict_proba()")
+                if not hasattr(label_encoder, "inverse_transform"):
+                    raise ValueError("Loaded label encoder does not implement inverse_transform()")
+
+                # Validate that the model output classes can be mapped to intent labels.
+                class_count = len(getattr(model, "classes_", []))
+                label_count = len(getattr(label_encoder, "classes_", []))
+                if class_count and label_count and class_count != label_count:
+                    raise ValueError(
+                        f"Model/label encoder class mismatch: "
+                        f"model={class_count}, encoder={label_count}"
+                    )
+
+                self.vectorizer = vectorizer
+                self.model = model
+                self.label_encoder = label_encoder
+                self.model_bundle = bundle_name
+                self.model_path = str(model_path)
+                self._is_mock = False
+
+                logger.info(
+                    "Trained intent classifier loaded successfully: "
+                    "bundle=%s intents=%d",
+                    bundle_name,
+                    len(self.get_all_intents()),
+                )
+                return
+
+            except Exception as e:
+                logger.exception(
+                    "Failed to load trained model bundle %s: %s",
+                    bundle_name,
+                    e,
+                )
+
+        # Mock classification is intentionally opt-in. A production deployment
+        # must fail fast instead of producing academically invalid predictions.
+        if os.getenv("ALLOW_MOCK_CLASSIFIER", "").strip().lower() == "true":
+            logger.warning(
+                "ALLOW_MOCK_CLASSIFIER=true: enabling mock classifier explicitly"
+            )
             self._initialize_mock_classifier()
             return
-        
-        try:
-            # Load models
-            logger.info("Loading TF-IDF vectorizer...")
-            self.vectorizer = joblib.load(vectorizer_path)
-            
-            logger.info("Loading intent classification model...")
-            self.model = joblib.load(model_path)
-            
-            logger.info("Loading label encoder...")
-            self.label_encoder = joblib.load(label_encoder_path)
-            
-            logger.info("All models loaded successfully")
-            
-        except Exception as e:
-            error_msg = f"Error loading models: {str(e)}"
-            logger.error(error_msg)
-            logger.warning("Using mock classifier for development/demo purposes")
-            self._initialize_mock_classifier()
-    
+
+        details = "; ".join(missing_by_bundle) if missing_by_bundle else "no valid model bundle"
+        raise RuntimeError(
+            "No valid trained intent classifier is available. "
+            "Production deployment is blocked. "
+            f"Checked bundles: {details}"
+        )
+
     def _initialize_mock_classifier(self):
         """
         Initialize a mock classifier for development/demo when models are not available.
@@ -395,7 +449,7 @@ class IntentClassifier:
             "num_intents": len(self.get_all_intents()),
             "intents": self.get_all_intents(),
             "confidence_threshold": self.confidence_threshold,
-            "models_directory": str(self.models_dir),
+            "models_directory": str(self.models_dir),\n            "model_bundle": getattr(self, "model_bundle", None),\n            "model_path": getattr(self, "model_path", None),
             "vectorizer_loaded": self.vectorizer is not None,
             "model_loaded": self.model is not None,
             "label_encoder_loaded": self.label_encoder is not None
