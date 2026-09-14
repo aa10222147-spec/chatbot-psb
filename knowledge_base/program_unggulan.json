@@ -12,19 +12,19 @@
     "qa_pairs": [
         {
             "q": "Apa saja program unggulan?",
-            "a": "Program unggulan yang tersedia meliputi:\n\n- Tahfidz target 30 juz dalam 3-6 tahun\n- Bilingual (Arab-Inggris)\n- Kajian Kitab Kuning Intensif\n- Leadership & Entrepreneurship\n- IT & Multimedia"
+            "a": "Program unggulan yang tersedia meliputi:\n\n1. Mengaji Kitab Kuning (metode 1 guru 2 murid)\n2. Program Mujahadah (dzikir, tawajuh, sharing, tabayun, dan islah)\n3. Kurikulum HAS (target dapat menasywir alfiah dan fathul mu'in)\n4. IT & Multimedia\n\nTarget tahfidz: one day one ayat, one day one bait."
         },
         {
             "q": "Apakah ada program tahfidz?",
-            "a": "Ya, program tahfidz menargetkan pencapaian 30 juz dalam 3-6 tahun. Saat ini juga ada prestasi yang dicatatkan: Juara 1 MTQ Kabupaten 2023."
+            "a": "Ya, program tahfidz dengan target one day one ayat, one day one bait.\n\nPrestasi yang telah dicapai: Juara 1 MQK Al-fiah tingkat Kabupaten, Juara 1 MQK Safinatun Najah tingkat Kabupaten."
         }
     ],
     "quick_answers": {
-        "tahfidz": "30 juz dalam 3-6 tahun",
-        "bilingual": "Arab-Inggris",
-        "kitab_kuning": "Kajian Kitab Kuning Intensif",
-        "leadership_entrepreneurship": "Leadership & Entrepreneurship",
+        "program_kitab_kuning": "Mengaji kitab kuning, metode 1 guru 2 murid",
+        "target_tahfidz": "one day one ayat, one day one bait",
+        "program_mujahadah": "Dzikir, tawajuh, sharing, tabayun, dan islah",
+        "kurikulum_has": "Target dapat menasywir alfiah dan fathul mu'in",
         "it_multimedia": "IT & Multimedia",
-        "prestasi_tahfidz": "Juara 1 MTQ Kabupaten 2023"
+        "prestasi": "Juara 1 MQK Al-fiah tingkat Kabupaten, Juara 1 MQK Safinatun Najah tingkat Kabupaten"
     }
 }
