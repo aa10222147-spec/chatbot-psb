@@ -9,26 +9,26 @@
         "pendidikan_mts": "Lulusan SD/MI",
         "pendidikan_ma": "Lulusan SMP/MTs",
         "ukuran_foto": "3x4 cm, latar merah",
-        "jumlah_foto": "6 lembar"
+        "jumlah_foto": "3 lembar"
     },
     "qa_pairs": [
         {
             "q": "Apa saja syarat pendaftaran?",
-            "a": "Syarat pendaftaran:\n1. Beragama Islam\n2. Lulusan SD/MI (untuk MTs) atau SMP/MTs (untuk MA)\n3. Usia sesuai jenjang (MTs: 12-15 tahun, MA: 15-18 tahun)\n4. Sehat jasmani dan rohani\n5. Mendapat izin orang tua/wali"
+            "a": "Syarat pendaftaran berdasarkan jenjang:\n\n- SMP Gemayasih Boarding School: usia 12-15 tahun dan lulusan SD/MI\n- SMA Gemayasih Boarding School: usia 15-18 tahun dan lulusan SMP/MTs"
         },
         {
             "q": "Dokumen apa yang harus disiapkan?",
-            "a": "Dokumen wajib:\n1. Fotokopi Ijazah/SKHUN (2 lembar)\n2. Fotokopi Kartu Keluarga (2 lembar)\n3. Fotokopi Akta Kelahiran (2 lembar)\n4. Fotokopi KTP Orang Tua (2 lembar)\n5. Pas foto 3x4 latar merah (6 lembar)\n6. Surat Keterangan Sehat dari dokter"
-        },
-        {
-            "q": "Apakah ada tes masuk?",
-            "a": "Ya, ada tes seleksi:\n1. Tes tulis (Matematika, Bahasa Indonesia, Bahasa Arab dasar)\n2. Tes baca Al-Quran & Tahsin\n3. Wawancara dengan ustadz/ustadzah\n4. Wawancara orang tua (opsional)"
+            "a": "Dokumen yang perlu disiapkan mencakup foto dengan spesifikasi:\n- Ukuran: 3x4 cm\n- Latar belakang: merah\n- Jumlah: 3 lembar"
         }
     ],
     "quick_answers": {
-        "usia_mts": "12-15 tahun",
-        "usia_ma": "15-18 tahun",
-        "dokumen_utama": "Ijazah, KK, Akta, Pas foto",
-        "tes_masuk": "Tes tulis + Baca Al-Quran + Wawancara"
+        "usia_minimal_mts": "12 tahun",
+        "usia_maksimal_mts": "15 tahun",
+        "usia_minimal_ma": "15 tahun",
+        "usia_maksimal_ma": "18 tahun",
+        "pendidikan_mts": "Lulusan SD/MI",
+        "pendidikan_ma": "Lulusan SMP/MTs",
+        "ukuran_foto": "3x4 cm, latar merah",
+        "jumlah_foto": "3 lembar"
     }
 }

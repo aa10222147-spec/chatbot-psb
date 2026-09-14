@@ -2,35 +2,41 @@
     "intent": "info_pendaftaran",
     "description": "Informasi jadwal dan alur pendaftaran santri baru",
     "core_facts": {
-        "gelombang_1_start": "3 Januari 2026",
+        "gelombang_1_start": "15 Januari  2026",
         "gelombang_1_end": "28 Februari 2026",
         "gelombang_2_start": "1 Maret 2026",
         "gelombang_2_end": "30 April 2026",
-        "kuota_mts": 120,
-        "kuota_ma": 100,
+        "kuota_smp": 50,
+        "kuota_sma": 50,
         "batas_akhir": "30 April 2026 atau kuota terpenuhi",
-        "link_pendaftaran": "https://ponpesalfalah.com/daftar",
-        "waktu_pendaftaran": "Senin-Jumat, 08:00-16:00 WIB",
-        "pengumuman_hasil": "H+7 setelah tes seleksi"
+        "link_pendaftaran": "https://ponpesgemayasih.com/daftar",
+        "waktu_pendaftaran": "Senin-Jumat, 08:00-15:00 WIB"
     },
     "qa_pairs": [
         {
             "q": "Kapan pendaftaran dibuka?",
-            "a": "Pendaftaran dibuka dalam 2 gelombang:\n- Gelombang 1: 3 Januari - 28 Februari 2026\n- Gelombang 2: 1 Maret - 30 April 2026"
+            "a": "Pendaftaran dibuka dalam 2 gelombang:\n- Gelombang 1: 15 Januari 2026 - 28 Februari 2026\n- Gelombang 2: 1 Maret 2026 - 30 April 2026"
         },
         {
             "q": "Bagaimana alur pendaftaran?",
-            "a": "Alur pendaftaran:\n1. Isi formulir online di ponpesalfalah.com/daftar\n2. Upload dokumen persyaratan\n3. Bayar biaya tes seleksi Rp 150.000\n4. Ikuti tes seleksi sesuai jadwal\n5. Tunggu pengumuman (H+7 setelah tes)\n6. Daftar ulang jika diterima"
+            "a": "Pendaftaran dilakukan melalui link berikut:\nhttps://ponpesgemayasih.com/daftar\n\nProsesnya dapat disesuaikan dengan petunjuk pada formulir online dan jadwal layanan pendaftaran yang berlaku."
         },
         {
             "q": "Apakah pendaftaran masih dibuka?",
-            "a": "Pendaftaran aktif sampai 30 April 2026 atau sampai kuota terpenuhi. Silakan cek ketersediaan kuota di website kami."
+            "a": "Pendaftaran dibuka sampai 30 April 2026 atau hingga kuota terpenuhi.\n\nKuota tersedia: SMP 50, SMA 50."
+        },
+        {
+            "q": "Kapan jam layanan pendaftaran?",
+            "a": "Jam pendaftaran: Senin-Jumat, 08:00-15:00 WIB."
         }
     ],
     "quick_answers": {
-        "jadwal": "Gelombang 1: Jan-Feb | Gelombang 2: Mar-Apr",
-        "kuota": "MTs: 120 santri, MA: 100 santri",
-        "link": "ponpesalfalah.com/daftar",
-        "kontak": "WA: 0812-3456-7890"
+        "gelombang_1": "15 Januari 2026 - 28 Februari 2026",
+        "gelombang_2": "1 Maret 2026 - 30 April 2026",
+        "kuota_smp": "50",
+        "kuota_sma": "50",
+        "batas_akhir": "30 April 2026 atau kuota terpenuhi",
+        "link_pendaftaran": "https://ponpesgemayasih.com/daftar",
+        "waktu_pendaftaran": "Senin-Jumat, 08:00-15:00 WIB"
     }
 }

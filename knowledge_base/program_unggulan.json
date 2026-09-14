@@ -2,28 +2,30 @@
     "intent": "program_unggulan",
     "description": "Program unggulan dan keistimewaan pondok pesantren",
     "core_facts": {
-        "program_1": "Tahfidz Al-Quran 30 Juz",
+        "program_1": "",
         "target_tahfidz": "30 juz dalam 3-6 tahun",
         "program_2": "Bilingual (Arab-Inggris)",
         "program_3": "Kajian Kitab Kuning Intensif",
         "program_4": "Leadership & Entrepreneurship",
         "program_5": "IT & Multimedia",
-        "beasiswa_tahfidz": "Potongan 50-100%",
         "prestasi_tahfidz": "Juara 1 MTQ Kabupaten 2023"
     },
     "qa_pairs": [
         {
             "q": "Apa saja program unggulan?",
-            "a": "Program unggulan kami:\n\n**1. Tahfidz Al-Quran 30 Juz**\n- Target: 30 juz dalam 3-6 tahun\n- Metode talaqqi dengan guru hafidz\n- Bonus beasiswa 50-100%\n\n**2. Bilingual (Arab-Inggris)**\n- Wajib berbahasa asing sehari-hari\n- TOEFL & TOAFL Preparation\n\n**3. Kajian Kitab Kuning**\n- Nahwu-Shorof, Fiqih, Tafsir\n- Guru lulusan Timur Tengah\n\n**4. Leadership & Entrepreneurship**\n- Pelatihan kepemimpinan\n- Koperasi santri\n\n**5. IT & Multimedia**\n- Coding, Design, Video Editing"
+            "a": "Program unggulan yang tersedia meliputi:\n\n- Tahfidz target 30 juz dalam 3-6 tahun\n- Bilingual (Arab-Inggris)\n- Kajian Kitab Kuning Intensif\n- Leadership & Entrepreneurship\n- IT & Multimedia"
         },
         {
             "q": "Apakah ada program tahfidz?",
-            "a": "Ya! Program Tahfidz unggulan:\n- Target: 30 juz dalam 3-6 tahun\n- Setoran: Ba'da Subuh (05:00-06:30)\n- Muroja'ah: Ba'da Maghrib (18:30-19:30)\n- Guru hafidz berpengalaman 10+ tahun\n- Beasiswa Tahfidz: potongan 50-100%!"
+            "a": "Ya, program tahfidz menargetkan pencapaian 30 juz dalam 3-6 tahun. Saat ini juga ada prestasi yang dicatatkan: Juara 1 MTQ Kabupaten 2023."
         }
     ],
     "quick_answers": {
-        "program": "Tahfidz, Bilingual, Kitab Kuning, Leadership, IT",
-        "tahfidz": "30 juz dalam 3-6 tahun + Beasiswa",
-        "bahasa": "Wajib Arab & Inggris sehari-hari"
+        "tahfidz": "30 juz dalam 3-6 tahun",
+        "bilingual": "Arab-Inggris",
+        "kitab_kuning": "Kajian Kitab Kuning Intensif",
+        "leadership_entrepreneurship": "Leadership & Entrepreneurship",
+        "it_multimedia": "IT & Multimedia",
+        "prestasi_tahfidz": "Juara 1 MTQ Kabupaten 2023"
     }
 }

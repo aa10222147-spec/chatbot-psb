@@ -4,32 +4,39 @@
     "core_facts": {
         "bangun_tidur": "03:30 WIB",
         "subuh_berjamaah": "04:30 WIB",
-        "tahfidz_pagi": "05:00-06:30 WIB",
-        "sarapan": "06:30-07:00 WIB",
+        "lugoh_kitab": "05:00-06:30 WIB",
+        "patrol_dan_sarapan": "06:30-07:00 WIB",
         "sekolah_formal": "07:00-12:00 WIB",
         "dzuhur_makan_siang": "12:00-13:00 WIB",
         "istirahat": "13:00-15:00 WIB",
         "ashar_berjamaah": "15:30 WIB",
-        "ekstrakurikuler": "16:00-17:30 WIB",
-        "maghrib_mengaji": "18:00-19:00 WIB",
-        "isya_makan_malam": "19:00-19:30 WIB",
-        "belajar_malam": "20:00-21:30 WIB",
-        "istirahat_malam": "22:00 WIB"
+        "tashrifan_dan_lugoh_kitab": "15:40-17:00 WIB",
+        "berjamaah_maghrib": "18:00-18:30 WIB",
+        "Tahfidz": "18:30-19:30 WIB",
+        "berjamaah_isya": "19:30-20:00 WIB",
+        "ngaji_isya": "20:00-21:30 WIB",
+        "dzikiran": "21:30-23:00 WIB",
+        "istirahat_malam": "23:00 WIB"
     },
     "qa_pairs": [
         {
             "q": "Bagaimana jadwal harian santri?",
-            "a": "Jadwal harian santri:\n\n**Pagi:**\n- 03:30 Bangun, sholat tahajud\n- 04:30 Subuh berjamaah\n- 05:00-06:30 Tahfidz/Muroja'ah\n- 07:00-12:00 Sekolah formal\n\n**Siang-Sore:**\n- 12:00 Dzuhur & makan siang\n- 15:30 Ashar berjamaah\n- 16:00-17:30 Ekstrakurikuler\n\n**Malam:**\n- 18:00 Maghrib & mengaji\n- 20:00-21:30 Belajar malam\n- 22:00 Istirahat"
+            "a": "Jadwal harian santri:\n\n- 03:30 WIB: Bangun tidur\n- 04:30 WIB: Subuh berjamaah\n- 05:00-06:30 WIB: Lughoh kitab\n- 06:30-07:00 WIB: Patrol dan sarapan\n- 07:00-12:00 WIB: Sekolah formal\n- 12:00-13:00 WIB: Dzuhur & makan siang\n- 13:00-15:00 WIB: Istirahat\n- 15:30 WIB: Ashar berjamaah\n- 15:40-17:00 WIB: Tashrifan dan lughoh kitab\n- 18:00-18:30 WIB: Jamaah Maghrib\n- 18:30-19:30 WIB: Tahfidz\n- 19:30-20:00 WIB: Jamaah Isya\n- 20:00-21:30 WIB: Ngaji Isya\n- 21:30-23:00 WIB: Dzikir\n- 23:00 WIB: Istirahat malam"
         },
         {
-            "q": "Apa saja kegiatan ekstrakurikuler?",
-            "a": "Ekstrakurikuler tersedia:\n- Olahraga: Futsal, Badminton, Pencak Silat\n- Seni: Hadroh, Kaligrafi, Qiro'ah\n- IT: Multimedia, Desain Grafis\n- Organisasi: OSIS, Pramuka, PMR"
+            "q": "Kapan waktu istirahat dan tidur?",
+            "a": "Santri mendapat istirahat pada 13:00-15:00 WIB dan istirahat malam mulai pukul 23:00 WIB."
         }
     ],
     "quick_answers": {
-        "bangun": "03:30 WIB",
-        "sekolah": "07:00-12:00 WIB",
-        "tidur": "22:00 WIB",
-        "ekskul": "Futsal, Hadroh, IT, Pramuka, dll"
+        "bangun_tidur": "03:30 WIB",
+        "subuh_berjamaah": "04:30 WIB",
+        "lugoh_kitab": "05:00-06:30 WIB",
+        "sekolah_formal": "07:00-12:00 WIB",
+        "istirahat": "13:00-15:00 WIB",
+        "ashar_berjamaah": "15:30 WIB",
+        "tahfidz": "18:30-19:30 WIB",
+        "dzikiran": "21:30-23:00 WIB",
+        "istirahat_malam": "23:00 WIB"
     }
 }

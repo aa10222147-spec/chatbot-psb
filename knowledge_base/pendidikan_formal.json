@@ -2,33 +2,39 @@
     "intent": "pendidikan_formal",
     "description": "Jenjang pendidikan formal, kurikulum, dan akreditasi",
     "core_facts": {
-        "jenjang_mts": "Madrasah Tsanawiyah (setara SMP)",
-        "jenjang_ma": "Madrasah Aliyah (setara SMA)",
-        "durasi_mts": "3 tahun",
-        "durasi_ma": "3 tahun",
-        "akreditasi_mts": "A",
-        "akreditasi_ma": "A",
+        "jenjang_smp": "SMP Gemayasih Boarding School",
+        "jenjang_sma": "SMA Gemayasih Boarding School",
+        "durasi_smp": "3 tahun",
+        "durasi_sma": "3 tahun",
+        "akreditasi_smp": "C",
+        "akreditasi_ma": "B",
         "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
-        "ijazah": "Ijazah resmi Kemendikbud & Kemenag",
-        "jurusan_ma": "IPA, IPS, Keagamaan"
+        "ijazah": "Ijazah resmi Kemendikbud",
+        "jurusan_sma": "IPA, IPS, Keagamaan"
     },
     "qa_pairs": [
         {
             "q": "Jenjang pendidikan apa saja yang tersedia?",
-            "a": "Jenjang pendidikan:\n\n**1. MTs (setara SMP)**\n- Durasi: 3 tahun\n- Akreditasi: A\n- Kurikulum: Kemenag + Pesantren\n\n**2. MA (setara SMA)**\n- Durasi: 3 tahun\n- Jurusan: IPA, IPS, Keagamaan\n- Akreditasi: A\n\nSemua lulusan mendapat ijazah resmi yang diakui negara."
+            "a": "Tersedia dua jenjang formal:\n\n1. SMP Gemayasih Boarding School\n- Durasi: 3 tahun\n- Akreditasi: C\n\n2. SMA Gemayasih Boarding School\n- Durasi: 3 tahun\n- Jurusan: IPA, IPS, Keagamaan\n- Akreditasi: B\n\nSemua lulusan memperoleh ijazah resmi Kemendikbud."
         },
         {
             "q": "Kurikulum apa yang digunakan?",
-            "a": "Kurikulum terpadu:\n- 70% Kurikulum Kemenag (K13/Merdeka)\n- 30% Kurikulum Kepesantrenan (Kitab Kuning, Tahfidz, Bahasa Arab-Inggris)"
+            "a": "Kurikulum yang digunakan adalah Kemenag (K13/Merdeka) yang dipadukan dengan kepesantrenan."
         },
         {
-            "q": "Apakah lulusan bisa ke perguruan tinggi?",
-            "a": "Ya! Statistik alumni:\n- 85% melanjutkan ke PT\n- 60% lolos PTN (UGM, UI, UIN, dll)\n- 15% ke luar negeri (Al-Azhar, IIUM)"
+            "q": "Apakah lulusan mendapat ijazah resmi?",
+            "a": "Ya. Lulusan mendapatkan ijazah resmi Kemendikbud."
         }
     ],
     "quick_answers": {
-        "jenjang": "MTs (SMP) & MA (SMA)",
-        "akreditasi": "Akreditasi A",
-        "ijazah": "Ijazah resmi Kemendikbud & Kemenag"
+        "jenjang_smp": "SMP Gemayasih Boarding School",
+        "jenjang_sma": "SMA Gemayasih Boarding School",
+        "durasi_smp": "3 tahun",
+        "durasi_sma": "3 tahun",
+        "akreditasi_smp": "C",
+        "akreditasi_ma": "B",
+        "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
+        "ijazah": "Ijazah resmi Kemendikbud",
+        "jurusan_sma": "IPA, IPS, Keagamaan"
     }
 }

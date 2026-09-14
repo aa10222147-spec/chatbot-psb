@@ -2,9 +2,8 @@
     "intent": "kirim_dokumen",
     "description": "Cara mengirim dan upload dokumen persyaratan pendaftaran",
     "core_facts": {
-        "link_upload": "ponpesalfalah.com/upload-dokumen",
+        "link_upload": "ponpesgemayasih.com/upload-dokumen",
         "wa_admin": "0812-3456-7890",
-        "email": "pendaftaran@ponpesalfalah.com",
         "format_file": "PDF atau JPG",
         "ukuran_maksimal": "5MB per file",
         "batas_upload": "H-3 sebelum tes seleksi"
@@ -12,16 +11,18 @@
     "qa_pairs": [
         {
             "q": "Bagaimana cara upload dokumen?",
-            "a": "Cara upload dokumen:\n\n1. **Online (Rekomendasi):**\n   - Kunjungi ponpesalfalah.com/upload-dokumen\n   - Login dengan nomor pendaftaran\n   - Upload file PDF/JPG (maks 5MB)\n\n2. **WhatsApp:**\n   - Kirim ke 0812-3456-7890\n   - Cantumkan nama + nomor pendaftaran\n\n3. **Datang Langsung:**\n   - Serahkan fotokopi ke kantor pendaftaran\n   - Jam: Senin-Sabtu, 08.00-15.00"
+            "a": "Cara upload dokumen:\n\n1. Kunjungi link upload: ponpesgemayasih.com/upload-dokumen\n2. Upload file dalam format PDF atau JPG\n3. Ukuran maksimal 5MB per file\n4. Jika mengalami kendala, kirim via WhatsApp ke 0812-3456-7890"
         },
         {
             "q": "Kapan batas waktu upload dokumen?",
-            "a": "Dokumen sebaiknya diupload H-3 sebelum tes seleksi untuk verifikasi. Toleransi maksimal H-1 sebelum tes. Keterlambatan dapat mempengaruhi proses seleksi."
+            "a": "Batas upload dokumen adalah H-3 sebelum tes seleksi.\n\nPastikan file sudah siap sebelum deadline agar proses verifikasi berjalan lancar."
         }
     ],
     "quick_answers": {
-        "link_upload": "ponpesalfalah.com/upload-dokumen",
-        "format": "PDF/JPG, maks 5MB",
-        "batas_waktu": "H-3 sebelum tes"
+        "link_upload": "ponpesgemayasih.com/upload-dokumen",
+        "wa_admin": "0812-3456-7890",
+        "format_file": "PDF atau JPG",
+        "ukuran_maksimal": "5MB per file",
+        "batas_upload": "H-3 sebelum tes seleksi"
     }
 }

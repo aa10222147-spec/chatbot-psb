@@ -2,43 +2,47 @@
     "intent": "faq_umum",
     "description": "Pertanyaan umum tentang pondok pesantren",
     "core_facts": {
-        "nama_pesantren": "Pondok Pesantren Al-Falah",
-        "alamat": "Jl. Pendidikan No. 123, Yogyakarta",
-        "tahun_berdiri": "1995",
-        "jumlah_santri": "500 santri (putra & putri)",
+        "nama_pesantren": "Pondok Pesantren Gemayasih",
+        "nama_pimpinan": "Kyai Bambang Ashif Barkhaya", 
+        "alamat": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
+        "tahun_berdiri": "1924",
+        "jumlah_santri": "200 santri (putra & putri)",
         "tipe": "Campuran (asrama terpisah)",
-        "jam_besuk": "Ahad 08:00-15:00 WIB",
+        "jam_besuk": "Setiap Hari 13:00-15:00 WIB",
         "aturan_hp": "Tidak diperkenankan",
-        "fasilitas_kesehatan": "Klinik 24 jam + kerjasama RS",
         "kontak_sekretariat": "(0274) 123-4567"
     },
     "qa_pairs": [
         {
             "q": "Di mana lokasi pesantren?",
-            "a": "Alamat: Jl. Pendidikan No. 123, Yogyakarta\nTelepon: (0274) 123-4567\nJam berkunjung: Senin-Sabtu 08:00-15:00 WIB"
+            "a": "Pondok Pesantren Gemayasih berlokasi di:\nJl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya\n\nKontak sekretariat: (0274) 123-4567"
         },
         {
             "q": "Apakah santri boleh membawa HP?",
-            "a": "Tidak, HP tidak diperkenankan untuk menjaga fokus belajar. Komunikasi dengan orang tua:\n- Telepon kantor pada jam tertentu\n- Saat jam besuk (Ahad 08:00-15:00)\n- Via pesan melalui admin"
+            "a": "Tidak diperkenankan. Aturan HP di pesantren adalah: tidak boleh membawa HP, dan komunikasi dengan orang tua tetap melalui kanal yang disepakati serta saat jam besuk."
         },
         {
             "q": "Kapan waktu libur/pulang?",
-            "a": "Santri pulang pada:\n- Libur semester (setelah ujian)\n- Libur Idul Fitri & Idul Adha\n- Izin khusus dengan persetujuan pengasuh"
+            "a": "Informasi libur/pulang tidak tercantum dalam core facts saat ini. Untuk detail jadwal libur atau izin pulang, silakan hubungi admin atau sekretariat." 
         },
         {
             "q": "Apakah orang tua boleh menjenguk?",
-            "a": "Ya, jam besuk:\n- Hari Ahad: 08:00-15:00 WIB\n- Waktu khusus yang diumumkan\nMohon konfirmasi ke admin sebelum berkunjung."
+            "a": "Ya, jam besuk adalah setiap hari pukul 13:00-15:00 WIB. Mohon menyesuaikan dengan jadwal dan mengonfirmasi ke admin jika diperlukan."
         },
         {
-            "q": "Bagaimana jika santri sakit?",
-            "a": "Penanganan kesehatan:\n1. Lapor ke musyrif asrama\n2. Pemeriksaan di klinik pesantren\n3. Rujukan ke RS jika diperlukan\n4. Orang tua dihubungi untuk kondisi serius"
+            "q": "Siapa pimpinan pesantren?",
+            "a": "Pimpinan Pondok Pesantren Gemayasih adalah Kyai Bambang Ashif Barkhaya."
         }
     ],
     "quick_answers": {
-        "lokasi": "Jl. Pendidikan No. 123, Yogyakarta",
-        "telepon": "(0274) 123-4567",
-        "jam_besuk": "Ahad 08:00-15:00 WIB",
-        "hp": "Tidak diperkenankan",
-        "tipe": "Campuran (asrama terpisah)"
+        "nama_pesantren": "Pondok Pesantren Gemayasih",
+        "pimpinan": "Kyai Bambang Ashif Barkhaya",
+        "lokasi": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
+        "tahun_berdiri": "1924",
+        "jumlah_santri": "200 santri (putra & putri)",
+        "tipe": "Campuran (asrama terpisah)",
+        "jam_besuk": "Setiap Hari 13:00-15:00 WIB",
+        "aturan_hp": "Tidak diperkenankan",
+        "kontak_sekretariat": "(0274) 123-4567"
     }
 }

@@ -2,28 +2,25 @@
     "intent": "eskalasi_admin",
     "description": "Informasi kontak admin untuk pertanyaan lebih lanjut",
     "core_facts": {
-        "wa_pendaftaran": "0812-3456-7890 (Ustadz Ahmad)",
-        "wa_keuangan": "0813-4567-8901 (Ustadzah Fatimah)",
-        "wa_akademik": "0821-5678-9012 (Ustadz Abdullah)",
-        "telepon_kantor": "(0274) 123-4567",
-        "email_info": "info@ponpesalfalah.com",
-        "email_pendaftaran": "pendaftaran@ponpesalfalah.com",
-        "alamat": "Jl. Pendidikan No. 123, Yogyakarta",
-        "jam_operasional": "Senin-Jumat 08:00-16:00 WIB"
+        "wa_pendaftaran_calon_santri": "0812-3456-7890 (Ustadz Dian Amarullah)",
+        "wa_pendaftaran_calon_santriah": "0813-4567-8901 (Ustadzah Siti Azizah)",
+        "alamat": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
+        "jam_operasional": "Senin-Jumat 08:00-15:00 WIB"
     },
     "qa_pairs": [
         {
             "q": "Bagaimana cara menghubungi admin?",
-            "a": "Kontak admin:\n\n**WhatsApp:**\n- Pendaftaran: 0812-3456-7890\n- Keuangan: 0813-4567-8901\n- Akademik: 0821-5678-9012\n\n**Telepon:** (0274) 123-4567\n**Email:** info@ponpesalfalah.com\n\nJam operasional: Senin-Jumat, 08:00-16:00 WIB"
+            "a": "Untuk pendaftaran calon santri, hubungi WhatsApp:\n- Ustadz Dian Amarullah: 0812-3456-7890\n- Ustadzah Siti Azizah: 0813-4567-8901\n\nAlamat: Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya\n\nJam operasional: Senin-Jumat 08:00-16:00 WIB"
         },
         {
             "q": "Saya ingin bicara dengan admin pendaftaran",
-            "a": "Silakan hubungi Ustadz Ahmad (Koordinator Pendaftaran):\n- WhatsApp: 0812-3456-7890\n- Email: pendaftaran@ponpesalfalah.com\n- Tersedia: Senin-Jumat, 08:00-20:00 WIB"
+            "a": "Silakan hubungi Ustadz Dian Amarullah di WhatsApp: 0812-3456-7890 (Ustadz Dian Amarullah)\n\nInformasi lain: pendaftaran calon santriah dapat dihubungi Ustadzah Siti Azizah di 0813-4567-8901\n\nJam operasional: Senin-Jumat 08:00-15:00 WIB"
         }
     ],
     "quick_answers": {
-        "wa_utama": "0812-3456-7890",
-        "email": "info@ponpesalfalah.com",
-        "telepon": "(0274) 123-4567"
+        "wa_calon_santri": "0812-3456-7890 (Ustadz Dian Amarullah)",
+        "wa_calon_santriah": "0813-4567-8901 (Ustadzah Siti Azizah)",
+        "alamat": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
+        "jam_operasional": "Senin-Jumat 08:00-15:00 WIB"
     }
 }
