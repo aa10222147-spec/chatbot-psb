@@ -66,6 +66,9 @@ class UserQuestion(Base):
     fallback_triggered = Column(Boolean, default=False)
     response_text = Column(Text)
     fallback_reason = Column(String(50))
+    knowledge_base_used = Column(String(100))
+    llm_used = Column(Boolean, default=False)
+    error_message = Column(Text)
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
 
 
@@ -106,28 +109,38 @@ class IntentFeedback(Base):
 # ===============================
 
 def ensure_user_question_schema():
-    """Safely add new columns to existing user_questions table for backward compatibility."""
+    """Synchronize the existing user_questions table with the current ORM schema."""
     try:
         inspector = inspect(engine)
-        if 'user_questions' not in inspector.get_table_names():
+        if "user_questions" not in inspector.get_table_names():
             Base.metadata.create_all(bind=engine)
             return
 
-        existing_columns = {column['name'] for column in inspector.get_columns('user_questions')}
+        existing_columns = {column["name"] for column in inspector.get_columns("user_questions")}
         column_definitions = {
-            'confidence_threshold': 'DOUBLE PRECISION',
-            'confidence_status': 'VARCHAR(20)',
-            'fallback_triggered': 'BOOLEAN',
-            'response_text': 'TEXT',
-            'fallback_reason': 'VARCHAR(50)',
+            "confidence_threshold": "DOUBLE PRECISION",
+            "confidence_status": "VARCHAR(20)",
+            "routed_to": "VARCHAR(20)",
+            "fallback_triggered": "BOOLEAN DEFAULT FALSE",
+            "response_text": "TEXT",
+            "fallback_reason": "VARCHAR(50)",
+            "knowledge_base_used": "VARCHAR(100)",
+            "llm_used": "BOOLEAN DEFAULT FALSE",
+            "error_message": "TEXT",
         }
 
-        for column_name, column_type in column_definitions.items():
-            if column_name not in existing_columns:
-                logger.info(f"Adding missing column {column_name} to user_questions")
-                engine.execute(text(f"ALTER TABLE user_questions ADD COLUMN {column_name} {column_type}"))
-    except Exception as e:
-        logger.warning(f"Schema migration check for user_questions failed: {str(e)}")
+        with engine.begin() as conn:
+            for column_name, column_type in column_definitions.items():
+                if column_name not in existing_columns:
+                    logger.info(f"Adding missing column {column_name} to user_questions")
+                    conn.execute(text(
+                        f"ALTER TABLE user_questions ADD COLUMN {column_name} {column_type}"
+                    ))
+
+        logger.info("user_questions schema is synchronized")
+    except Exception:
+        logger.exception("Schema migration for user_questions failed")
+        raise
 
 
 def init_db():
@@ -138,7 +151,7 @@ def init_db():
     try:
         Base.metadata.create_all(bind=engine)
         ensure_user_question_schema()
-        logger.info("Database tables created successfully")
+        logger.info("Database tables and schema are ready")
     except Exception as e:
         logger.error(f"Error creating database tables: {str(e)}")
         raise e
@@ -167,7 +180,7 @@ def log_user_question(
     confidence_score: float = None,
     routed_to: str = None,
     platform: str = "telegram",
-    confidence_threshold: float = 0.70,
+    confidence_threshold: float = 0.30,
     confidence_status: str = None,
     fallback_triggered: bool = False,
     response_text: str = None,
@@ -177,25 +190,19 @@ def log_user_question(
     error_message: str = None,
     confidence_level: str = None,
 ) -> int:
-    """
-    Save user question to database.
-    
-    Note: Only saves columns that exist in the database schema:
-    user_id, platform, question_text, predicted_intent, confidence_score, routed_to
-    
-    Args:
-        user_id: Telegram user ID or other platform ID
-        question_text: The user's question
-        predicted_intent: Intent classified by the model
-        confidence_score: Confidence score (0.0 - 1.0)
-        routed_to: Where the question was routed (llm/fallback/admin)
-        platform: Platform source (telegram, web, etc)
-    
-    Returns:
-        int: The ID of the created record
-    """
+    """Persist the complete decision trail for one user question."""
     session = SessionLocal()
     try:
+        if confidence_status is None:
+            if confidence_score is None:
+                confidence_status = "unknown"
+            elif confidence_score < 0.30:
+                confidence_status = "very_low"
+            elif confidence_score < 0.70:
+                confidence_status = "medium"
+            else:
+                confidence_status = "high"
+
         data = UserQuestion(
             user_id=str(user_id),
             platform=platform,
@@ -203,21 +210,28 @@ def log_user_question(
             predicted_intent=predicted_intent,
             confidence_score=confidence_score,
             confidence_threshold=confidence_threshold,
-            confidence_status=confidence_status or ("high" if (confidence_score is not None and confidence_score >= confidence_threshold) else "low"),
+            confidence_status=confidence_status,
             routed_to=routed_to,
             fallback_triggered=bool(fallback_triggered),
             response_text=response_text,
             fallback_reason=fallback_reason,
+            knowledge_base_used=knowledge_base_used,
+            llm_used=bool(llm_used),
+            error_message=error_message,
         )
         session.add(data)
         session.commit()
         session.refresh(data)
-        logger.info(f"Logged question from user {user_id}, ID: {data.id}")
+        logger.info(
+            f"Logged question id={data.id} user_id={user_id} "
+            f"intent={predicted_intent} confidence={confidence_score} "
+            f"route={routed_to} fallback={fallback_triggered} llm={llm_used}"
+        )
         return data.id
-    except Exception as e:
+    except Exception:
         session.rollback()
-        logger.error(f"Error logging user question: {str(e)}")
-        raise e
+        logger.exception("Error logging user question")
+        raise
     finally:
         session.close()
 
@@ -244,7 +258,9 @@ def get_graceful_degradation_stats(
         all_rows = query.all()
         total_queries = len(all_rows)
         high_confidence_queries = sum(1 for row in all_rows if row.confidence_score is not None and row.confidence_score >= 0.70)
-        low_confidence_queries = total_queries - high_confidence_queries
+        medium_confidence_queries = sum(1 for row in all_rows if row.confidence_score is not None and 0.30 <= row.confidence_score < 0.70)
+        very_low_confidence_queries = sum(1 for row in all_rows if row.confidence_score is not None and row.confidence_score < 0.30)
+        low_confidence_queries = medium_confidence_queries + very_low_confidence_queries
         fallback_queries = sum(1 for row in all_rows if row.fallback_triggered is True)
 
         fallback_percentage = (fallback_queries / total_queries * 100) if total_queries else 0.0
@@ -254,6 +270,8 @@ def get_graceful_degradation_stats(
             "total_queries": total_queries,
             "high_confidence_queries": high_confidence_queries,
             "low_confidence_queries": low_confidence_queries,
+            "medium_confidence_queries": medium_confidence_queries,
+            "very_low_confidence_queries": very_low_confidence_queries,
             "fallback_queries": fallback_queries,
             "fallback_percentage": round(fallback_percentage, 2),
             "normal_flow_percentage": round(normal_flow_percentage, 2),
