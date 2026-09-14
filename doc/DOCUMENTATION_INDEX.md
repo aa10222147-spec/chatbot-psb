@@ -1,350 +1,190 @@
-# 📚 Chatbot PSB - Documentation Index
+# 📚 Chatbot PSB – Documentation Index
 
-Complete guide to all documentation files and how to navigate them.
+Panduan navigasi lengkap semua dokumentasi teknis sistem Chatbot PSB.
 
----
-
-## Quick Navigation
-
-### 🚀 Getting Started
-- **[Quick Start Guide](QUICK_START.md)** - Set up and run in 5 minutes
-  - Installation steps
-  - Configuration
-  - Testing
-  - Common issues quick fixes
-
-### 🏗️ Architecture & Design
-- **[Architecture Guide](ARCHITECTURE.md)** - Complete system design
-  - Double Guard Architecture diagram
-  - System components overview
-  - Technology stack
-  - Design patterns
-  - Security & safety measures
-
-- **[Components Reference](COMPONENTS.md)** - Detailed component documentation
-  - Telegram Bot Handler
-  - FastAPI Application
-  - Response Router
-  - Intent Classifier
-  - Groq Client
-  - Database
-  - Data classes and configuration
-
-- **[Data Flow Diagrams](DATA_FLOW.md)** - Visual representation of data movement
-  - Request-response flow
-  - Intent classification pipeline
-  - Error handling flow
-  - Deployment architecture
-  - Database schema
-
-### 📡 API & Integration
-- **[API Reference](API_REFERENCE.md)** - REST API documentation
-  - HTTP endpoints
-  - Telegram webhook
-  - Response formats
-  - Error codes
-  - Integration examples
-  - Rate limiting
-
-### 🚀 Deployment
-- **[Deployment Guide](DEPLOYMENT_GUIDE.md)** - Production deployment
-  - Railway deployment (recommended)
-  - Docker deployment
-  - Environment configuration
-  - Monitoring & maintenance
-  - Troubleshooting
-  - Scaling strategies
-
-### 🛠️ Development
-- **[Development Guide](DEVELOPMENT_GUIDE.md)** - For developers
-  - Development setup
-  - Project structure
-  - Code style standards
-  - Development workflow
-  - Testing guidelines
-  - Debugging techniques
-  - Common development tasks
-
-- **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Problem solving
-  - Installation issues
-  - Runtime issues
-  - API issues
-  - Database issues
-  - Performance issues
-  - Testing issues
-  - Deployment issues
-  - FAQ
+> **Sumber tunggal dokumentasi:** folder `chatbot-psb/doc/`  
+> Folder `Doc/` (root workspace) sudah tidak aktif.
 
 ---
 
-## Documentation by Use Case
+## 🚀 Quick Navigation
 
-### "I want to set up the bot locally"
-1. Read: [Quick Start Guide](QUICK_START.md)
-2. Reference: [Architecture Guide](ARCHITECTURE.md) (optional, for understanding)
-3. Help: [Troubleshooting Guide](TROUBLESHOOTING.md) if issues arise
+### Mulai dari Sini
+- **[Quick Start Guide](QUICK_START.md)** — Setup dan jalankan dalam 5 menit
+  - Instalasi, konfigurasi, testing, webhook Telegram
 
-### "I want to understand how the system works"
-1. Start: [Architecture Guide](ARCHITECTURE.md) - Overall design
-2. Deep dive: [Components Reference](COMPONENTS.md) - Each component
-3. Visual: [Data Flow Diagrams](DATA_FLOW.md) - How data moves
+### 🏗️ Arsitektur & Desain
+- **[System Overview](SYSTEM_OVERVIEW.md)** — Gambaran umum sistem, tujuan, komponen utama
+- **[Architecture Guide](ARCHITECTURE.md)** — Diagram arsitektur lengkap (Mermaid), alur request, dependency
+- **[Components Reference](COMPONENTS.md)** — Dokumentasi detail tiap komponen Python
+- **[Data Flow Diagrams](DATA_FLOW.md)** — Diagram visual alur data
+- **[System Flow](SYSTEM_FLOW.md)** — Alur sistem end-to-end lengkap
 
-### "I want to integrate with the API"
-1. Reference: [API Reference](API_REFERENCE.md)
-2. Examples: Integration examples in API_REFERENCE.md
-3. Deployment: [Deployment Guide](DEPLOYMENT_GUIDE.md) - Where to point
+### 📡 API & Integrasi
+- **[API Reference](API_REFERENCE.md)** — Dokumentasi REST API (endpoint, format, error codes)
 
-### "I want to deploy to production"
-1. Follow: [Deployment Guide](DEPLOYMENT_GUIDE.md)
-2. Understand: [Architecture Guide](ARCHITECTURE.md) - Deployment architecture section
-3. Verify: [Troubleshooting Guide](TROUBLESHOOTING.md) - Deployment issues
+### 🚀 Deployment & Operasi
+- **[Deployment Guide](DEPLOYMENT_GUIDE.md)** — Deploy ke Railway, konfigurasi, monitoring
 
-### "I want to develop features"
-1. Setup: [Quick Start Guide](QUICK_START.md) - Local setup
-2. Guidelines: [Development Guide](DEVELOPMENT_GUIDE.md)
-3. Reference: [Components Reference](COMPONENTS.md) - Component APIs
-4. Help: [Troubleshooting Guide](TROUBLESHOOTING.md)
+### 🛠️ Pengembangan
+- **[Development Guide](DEVELOPMENT_GUIDE.md)** — Setup dev, standar kode, testing, debugging
+- **[Troubleshooting Guide](TROUBLESHOOTING.md)** — Pemecahan masalah umum
 
-### "Something is broken"
-1. Check: [Troubleshooting Guide](TROUBLESHOOTING.md)
-2. Verify: [Deployment Guide](DEPLOYMENT_GUIDE.md) - If in production
-3. Debug: See debugging section in [Development Guide](DEVELOPMENT_GUIDE.md)
+### 🤖 NLP & Model
+- **[NLP Pipeline](NLP_PIPELINE.md)** — Pipeline klasifikasi intent: preprocessing, TF-IDF, LR, MNB
+- **[Model Evaluation](MODEL_EVALUATION.md)** — Hasil evaluasi Logistic Regression vs Naive Bayes
+- **[Dataset Description](DATASET_DESCRIPTION.md)** — Deskripsi dataset, distribusi intent, labeling
 
----
+### 📋 Knowledge Base & LLM
+- **[Knowledge Base Schema](KNOWLEDGE_BASE_SCHEMA.md)** — Skema JSON KB, field, legacy support
+- **[Prompt Guardrails](PROMPT_GUARD.md)** — Aturan prompt Groq, allowed/forbidden, confidence strategy
 
-## File Structure in `/doc`
-
-```
-doc/
-├── README.md                    # Main overview (old)
-├── DOCUMENTATION_INDEX.md       # This file - navigation guide
-│
-├── QUICK_START.md              # Getting started (5 min setup)
-│
-├── ARCHITECTURE.md             # System design & overview
-│   ├─ Double Guard Architecture
-│   ├─ System overview
-│   ├─ Component descriptions
-│   ├─ Technology stack
-│   ├─ Design patterns
-│   ├─ Security
-│   └─ Deployment architecture
-│
-├── COMPONENTS.md               # Detailed component reference
-│   ├─ Component APIs
-│   ├─ Data classes
-│   ├─ Configuration
-│   └─ Dependencies
-│
-├── DATA_FLOW.md               # Visual data flow diagrams
-│   ├─ Sequence diagrams
-│   ├─ Flow charts
-│   ├─ Entity relationships
-│   └─ Deployment flows
-│
-├── API_REFERENCE.md           # REST API documentation
-│   ├─ Endpoints
-│   ├─ Request/response formats
-│   ├─ Error codes
-│   ├─ Integration examples
-│   └─ Rate limiting
-│
-├── DEPLOYMENT_GUIDE.md        # Production deployment
-│   ├─ Railway setup
-│   ├─ Docker setup
-│   ├─ Configuration
-│   ├─ Monitoring
-│   ├─ Troubleshooting
-│   └─ Scaling
-│
-├── DEVELOPMENT_GUIDE.md       # Development guidelines
-│   ├─ Setup
-│   ├─ Code standards
-│   ├─ Testing
-│   ├─ Debugging
-│   ├─ Common tasks
-│   └─ Release process
-│
-└── TROUBLESHOOTING.md         # Problem solving guide
-    ├─ Installation issues
-    ├─ Runtime issues
-    ├─ API issues
-    ├─ Database issues
-    ├─ Performance issues
-    └─ FAQ
-```
+### 📝 Laporan & Panduan Penulisan
+- **[Outline Final](OUTLINE_FINAL.md)** — Struktur laporan skripsi (BAB I–VII)
+- **[Writing Guideline](WRITING_GUIDELINE.md)** — Panduan gaya penulisan akademik
+- **[Decision Log](DECISION_LOG.md)** — Catatan keputusan desain (tidak pakai RAG, pemilihan model)
 
 ---
 
-## Learning Path by Role
+## 📖 Navigasi Berdasarkan Use Case
 
-### For End Users
-- Nothing here! Use the Telegram bot directly 😊
-
-### For Bot Administrators
-1. [Quick Start Guide](QUICK_START.md) - Setup
-2. [Troubleshooting Guide](TROUBLESHOOTING.md) - Common issues
-3. [Architecture Guide](ARCHITECTURE.md#knowledge-base-system) - Knowledge base section
-4. [Deployment Guide](DEPLOYMENT_GUIDE.md#monitoring--maintenance) - Monitoring
-
-### For DevOps / System Administrators
-1. [Architecture Guide](ARCHITECTURE.md#deployment-architecture)
-2. [Deployment Guide](DEPLOYMENT_GUIDE.md)
-3. [Components Reference](COMPONENTS.md) - Dependencies
-4. [Troubleshooting Guide](TROUBLESHOOTING.md) - Deployment issues
-
-### For Backend Developers
+### "Saya ingin setup bot secara lokal"
 1. [Quick Start Guide](QUICK_START.md)
-2. [Architecture Guide](ARCHITECTURE.md)
-3. [Components Reference](COMPONENTS.md)
-4. [Development Guide](DEVELOPMENT_GUIDE.md)
-5. [API Reference](API_REFERENCE.md)
-6. [Data Flow Diagrams](DATA_FLOW.md)
+2. [Troubleshooting Guide](TROUBLESHOOTING.md) jika ada masalah
 
-### For Data Scientists / ML Engineers
-1. [Architecture Guide](ARCHITECTURE.md) - Intent classifier section
-2. [Components Reference](COMPONENTS.md#4-intent-classifier)
-3. [Development Guide](DEVELOPMENT_GUIDE.md#train-new-intent-classifier)
-4. Jupyter notebook in `notebooks/`
+### "Saya ingin memahami cara kerja sistem"
+1. [System Overview](SYSTEM_OVERVIEW.md) — gambaran besar
+2. [Architecture Guide](ARCHITECTURE.md) — desain lengkap
+3. [Data Flow Diagrams](DATA_FLOW.md) — visual alur data
+4. [Components Reference](COMPONENTS.md) — detail per komponen
 
-### For Integration Partners
+### "Saya ingin integrasi dengan API"
 1. [API Reference](API_REFERENCE.md)
-2. Integration examples in API_REFERENCE.md
-3. [Deployment Guide](DEPLOYMENT_GUIDE.md) - For your deployment
+2. [Deployment Guide](DEPLOYMENT_GUIDE.md) — untuk mengetahui URL deployment
+
+### "Saya ingin deploy ke produksi"
+1. [Deployment Guide](DEPLOYMENT_GUIDE.md)
+2. [Architecture Guide](ARCHITECTURE.md) — seksi deployment
+3. [Troubleshooting Guide](TROUBLESHOOTING.md) — deployment issues
+
+### "Saya ingin mengembangkan fitur"
+1. [Quick Start Guide](QUICK_START.md) — setup lokal
+2. [Development Guide](DEVELOPMENT_GUIDE.md)
+3. [Components Reference](COMPONENTS.md) — referensi API komponen
+4. [Troubleshooting Guide](TROUBLESHOOTING.md)
+
+### "Saya ingin memahami NLP/model"
+1. [NLP Pipeline](NLP_PIPELINE.md) — pipeline lengkap
+2. [Model Evaluation](MODEL_EVALUATION.md) — hasil evaluasi LR vs MNB
+3. [Dataset Description](DATASET_DESCRIPTION.md) — data training
+
+### "Ada yang rusak"
+1. [Troubleshooting Guide](TROUBLESHOOTING.md)
+2. [Deployment Guide](DEPLOYMENT_GUIDE.md) — jika masalah deployment
 
 ---
 
-## Key Concepts Explained
+## 🎓 Learning Path Berdasarkan Peran
 
-### Double Guard Architecture
-- **Guard 1 (Intent Classifier)**: Traditional ML for intent prediction
-- **Guard 2 (LLM Reasoning)**: Modern LLM for language refinement
-- **Why?**: Prevents hallucination while maintaining response quality
-- **Read**: [Architecture Guide](ARCHITECTURE.md#double-guard-architecture)
+### Pengguna Bot
+- Langsung pakai di Telegram 😊
 
-### Knowledge Base
-- Single source of truth for all facts
-- JSON files organized by intent
-- Never changes during conversation
-- **Read**: [Architecture Guide](ARCHITECTURE.md#6-knowledge-base-system)
+### Administrator Bot
+1. [Quick Start Guide](QUICK_START.md)
+2. [Troubleshooting Guide](TROUBLESHOOTING.md)
+3. [Knowledge Base Schema](KNOWLEDGE_BASE_SCHEMA.md) — update konten KB
+4. [Deployment Guide](DEPLOYMENT_GUIDE.md) — monitoring
 
-### Response Router
-- Central orchestrator
-- Manages pipeline through both guards
-- Handles errors gracefully
-- **Read**: [Components Reference](COMPONENTS.md#3-response-router)
+### DevOps / System Administrator
+1. [Architecture Guide](ARCHITECTURE.md)
+2. [Deployment Guide](DEPLOYMENT_GUIDE.md)
+3. [Troubleshooting Guide](TROUBLESHOOTING.md)
 
-### Confidence Scoring
-- 0.0 - 1.0 scale from intent classifier
-- Determines response pipeline
-- Used for validation
-- **Read**: [Data Flow Diagrams](DATA_FLOW.md#confidence-based-response-selection-flow)
+### Backend Developer
+1. [Quick Start Guide](QUICK_START.md)
+2. [System Overview](SYSTEM_OVERVIEW.md)
+3. [Architecture Guide](ARCHITECTURE.md)
+4. [Components Reference](COMPONENTS.md)
+5. [Development Guide](DEVELOPMENT_GUIDE.md)
+6. [API Reference](API_REFERENCE.md)
 
----
+### Data Scientist / ML Engineer
+1. [NLP Pipeline](NLP_PIPELINE.md)
+2. [Model Evaluation](MODEL_EVALUATION.md)
+3. [Dataset Description](DATASET_DESCRIPTION.md)
+4. [Development Guide](DEVELOPMENT_GUIDE.md) — seksi retraining
+5. Jupyter notebook di `notebooks/`
 
-## Common Tasks & Where to Find Them
-
-### Setup & Installation
-- Local setup: [Quick Start Guide](QUICK_START.md#1-clone--setup)
-- Production setup: [Deployment Guide](DEPLOYMENT_GUIDE.md)
-- Docker setup: [Deployment Guide](DEPLOYMENT_GUIDE.md#docker-deployment)
-
-### Configuration
-- Environment variables: [Quick Start Guide](QUICK_START.md#3-configure-environment)
-- Advanced config: [Components Reference](COMPONENTS.md#configuration)
-- Production config: [Deployment Guide](DEPLOYMENT_GUIDE.md#environment-configuration)
-
-### Development
-- New feature: [Development Guide](DEVELOPMENT_GUIDE.md#feature-development)
-- Bug fix: [Development Guide](DEVELOPMENT_GUIDE.md#bug-fix-workflow)
-- Testing: [Development Guide](DEVELOPMENT_GUIDE.md#testing)
-- Code style: [Development Guide](DEVELOPMENT_GUIDE.md#code-style--standards)
-
-### Knowledge Base
-- Update KB: [Development Guide](DEVELOPMENT_GUIDE.md#add-new-knowledge-base-topic)
-- New intent: [Development Guide](DEVELOPMENT_GUIDE.md#add-new-knowledge-base-topic)
-- Retrain: [Development Guide](DEVELOPMENT_GUIDE.md#train-new-intent-classifier)
-
-### Deployment
-- To Railway: [Deployment Guide](DEPLOYMENT_GUIDE.md#railway-deployment)
-- To Docker: [Deployment Guide](DEPLOYMENT_GUIDE.md#docker-deployment)
-- Monitoring: [Deployment Guide](DEPLOYMENT_GUIDE.md#monitoring--maintenance)
-- Scaling: [Deployment Guide](DEPLOYMENT_GUIDE.md#scaling)
-
-### Troubleshooting
-- All issues: [Troubleshooting Guide](TROUBLESHOOTING.md)
-- Installation: [Troubleshooting Guide](TROUBLESHOOTING.md#installation-issues)
-- Runtime: [Troubleshooting Guide](TROUBLESHOOTING.md#runtime-issues)
-- Database: [Troubleshooting Guide](TROUBLESHOOTING.md#database-issues)
-- Performance: [Troubleshooting Guide](TROUBLESHOOTING.md#performance-issues)
+### Reviewer Skripsi / Akademik
+1. [Outline Final](OUTLINE_FINAL.md)
+2. [Writing Guideline](WRITING_GUIDELINE.md)
+3. [System Overview](SYSTEM_OVERVIEW.md)
+4. [NLP Pipeline](NLP_PIPELINE.md)
+5. [Model Evaluation](MODEL_EVALUATION.md)
 
 ---
 
-## External Links & Resources
+## 📁 Struktur Folder `doc/`
 
-### Official Documentation
-- [FastAPI Docs](https://fastapi.tiangolo.com/)
-- [Telegram Bot API](https://core.telegram.org/bots/api)
-- [Groq API](https://console.groq.com/docs)
-- [PostgreSQL Docs](https://www.postgresql.org/docs/)
-
-### Deployment Platforms
-- [Railway.app](https://railway.app) - Recommended
-- [Heroku](https://www.heroku.com)
-- [DigitalOcean](https://www.digitalocean.com)
-- [AWS](https://aws.amazon.com)
-
-### Development Tools
-- [VS Code](https://code.visualstudio.com)
-- [PyCharm](https://www.jetbrains.com/pycharm/)
-- [Git](https://git-scm.com)
-- [Docker](https://www.docker.com)
-
-### Libraries & Frameworks
-- [scikit-learn](https://scikit-learn.org) - ML
-- [SQLAlchemy](https://www.sqlalchemy.org) - ORM
-- [Pydantic](https://pydantic-settings.readthedocs.io) - Validation
-- [Pytest](https://pytest.org) - Testing
-
----
-
-## Documentation Maintenance
-
-### How to Update Docs
-1. Edit relevant .md files
-2. Keep examples current
-3. Update diagrams if architecture changes
-4. Add new documents as needed
-5. Keep INDEX updated
-6. Commit with clear message: "docs: update FILENAME"
-
-### Version Information
-- **Last Updated**: January 1, 2026
-- **API Version**: 1.0.0
-- **Python**: 3.10+
-- **FastAPI**: >=0.104.0
+```
+chatbot-psb/doc/
+├── DOCUMENTATION_INDEX.md      ← File ini — navigasi utama
+│
+├── Arsitektur & Desain
+│   ├── SYSTEM_OVERVIEW.md      ← Overview sistem (Sep 2026)
+│   ├── ARCHITECTURE.md         ← Diagram Mermaid arsitektur
+│   ├── COMPONENTS.md           ← Referensi komponen Python
+│   ├── DATA_FLOW.md            ← Diagram alur data
+│   └── SYSTEM_FLOW.md          ← Alur sistem end-to-end
+│
+├── API & Integrasi
+│   └── API_REFERENCE.md        ← REST API docs
+│
+├── Deployment & Operasi
+│   ├── DEPLOYMENT_GUIDE.md     ← Railway, monitoring
+│   ├── QUICK_START.md          ← 5-menit setup
+│   └── TROUBLESHOOTING.md      ← Pemecahan masalah
+│
+├── Pengembangan
+│   └── DEVELOPMENT_GUIDE.md    ← Contributing, kode standar
+│
+├── NLP & Model
+│   ├── NLP_PIPELINE.md         ← Pipeline klasifikasi intent
+│   ├── MODEL_EVALUATION.md     ← Evaluasi LR vs MNB
+│   └── DATASET_DESCRIPTION.md ← Dataset training
+│
+├── Knowledge Base & LLM
+│   ├── KNOWLEDGE_BASE_SCHEMA.md ← Skema JSON KB
+│   └── PROMPT_GUARD.md          ← Guardrail prompt Groq
+│
+└── Laporan & Panduan
+    ├── OUTLINE_FINAL.md        ← Outline skripsi (BAB I–VII)
+    ├── WRITING_GUIDELINE.md    ← Panduan penulisan akademik
+    └── DECISION_LOG.md         ← Keputusan desain
+```
 
 ---
 
-## Quick Reference
+## ⚡ Quick Reference
 
-### Environment Variables (Complete List)
+### Environment Variables
 
 ```bash
-# REQUIRED
+# WAJIB
 TELEGRAM_BOT_TOKEN=...
 GROQ_API_KEY=...
-DATABASE_URL=...
 
-# OPTIONAL (have defaults)
+# OPSIONAL (ada default)
 LOG_LEVEL=INFO
-ENVIRONMENT=production
+ENVIRONMENT=production           # atau development
 GROQ_MODEL=llama-3.3-70b-versatile
 GROQ_MAX_TOKENS=500
 GROQ_TEMPERATURE=0.3
+DATABASE_URL=...                 # PostgreSQL (Railway inject)
+ALLOW_MOCK_CLASSIFIER=false      # true hanya untuk demo
 ```
 
-### Common Commands
+### Perintah Umum
 
 ```bash
 # Setup
@@ -353,51 +193,55 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Development
-python app.py
+python app_polling.py            # polling lokal
 pytest tests/ -v
 black .
 flake8 .
 
-# Deployment
-git push origin main  # Railway auto-deploys
-
-# Database
+# Database & Training
 python init_database.py
 python export_training_data.py
 python admin_labeling.py
 
-# Training
-jupyter notebook notebooks/intent_classifier_training_executed_v2.ipynb
+# Produksi
+uvicorn app:app --host 0.0.0.0 --port $PORT
 ```
 
-### Key Files
+### File Kunci
 
-| File | Purpose |
-|------|---------|
-| `app.py` | FastAPI entry point |
-| `response_router.py` | Core orchestration |
-| `intent_classifier.py` | Guard 1 (Intent prediction) |
-| `groq_client.py` | Guard 2 (LLM refinement) |
-| `database.py` | Data persistence |
-| `telegram_bot.py` | Telegram integration |
-| `.env` | Configuration (create from .env.example) |
-| `knowledge_base/` | Curated facts (JSON files) |
-| `models/` | Pre-trained ML models |
-
----
-
-## Feedback & Contribution
-
-To improve documentation:
-1. Identify unclear sections
-2. Propose improvements
-3. Submit via GitHub issue or PR
-4. Include:
-   - What was confusing
-   - What would help
-   - Suggested changes
+| File | Fungsi |
+|------|--------|
+| `app.py` | FastAPI entry point (webhook) |
+| `app_polling.py` | Long polling (dev) |
+| `response_router.py` | Orchestrator Double Guard |
+| `intent_classifier.py` | Guard 1 — klasifikasi intent |
+| `groq_client.py` | Guard 2 — bounded LLM |
+| `database.py` | PostgreSQL logging |
+| `telegram_bot.py` | Handler Telegram |
+| `knowledge_base/` | 11 file JSON (sumber fakta) |
+| `models/` | Bundle v2: `vectorizer_2.pkl`, `lr_intent_model_2.pkl`, `label_encoder_2.pkl` |
 
 ---
 
-**Start with [Quick Start Guide](QUICK_START.md) or [Architecture Guide](ARCHITECTURE.md) depending on your needs!**
+### Konsep Kunci
 
+**Double Guard Architecture**
+- Guard 1 (Intent Classifier): ML klasik, menentukan ruang jawaban
+- Guard 2 (Groq LLM): hanya merangkai bahasa, tidak mengubah fakta
+- Mengapa? Mencegah hallucination sambil mempertahankan kualitas bahasa
+
+**Confidence Policy**
+- `< 0.30` → fallback tanpa LLM
+- `0.30–<0.70` → KB + Groq dengan instruksi hati-hati
+- `≥ 0.70` → alur normal
+
+**Knowledge Base**
+- Satu-satunya sumber fakta, file JSON per intent
+- Tidak pernah berubah saat percakapan berlangsung
+- Ubah fakta di JSON, bukan di prompt
+
+---
+
+**Mulai dari [Quick Start Guide](QUICK_START.md) atau [System Overview](SYSTEM_OVERVIEW.md).**
+
+*Last Updated: September 2026*

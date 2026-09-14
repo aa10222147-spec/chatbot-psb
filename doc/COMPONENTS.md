@@ -93,7 +93,6 @@ Process bot commands like `/start`, `/help`.
 
 **Environment Variables**:
 - `TELEGRAM_BOT_TOKEN` (required)
-- `TELEGRAM_WEBHOOK_URL` (optional, for webhook mode)
 
 ---
 
@@ -110,6 +109,21 @@ Process bot commands like `/start`, `/help`.
 
 **Endpoints**:
 
+#### `GET /`
+Info layanan dan status singkat
+
+```
+GET /
+Response: 200 OK
+{
+  "status": "online",
+  "service": "Chatbot PSB - Penerimaan Santri Baru",
+  "architecture": "Double Guard (Intent Classifier + LLM Reasoning)",
+  "platform": "Telegram",
+  "version": "1.0.0"
+}
+```
+
 #### `POST /webhook`
 Receive Telegram webhook updates
 
@@ -123,6 +137,7 @@ Content-Type: application/json
 }
 
 Response: 200 OK
+{"status": "ok"}
 ```
 
 #### `GET /health`
@@ -134,42 +149,36 @@ GET /health
 Response: 200 OK
 {
   "status": "healthy",
-  "timestamp": "2026-01-01T12:00:00Z"
-}
-```
-
-#### `GET /ready`
-Readiness probe - checks if all components are initialized
-
-```
-GET /ready
-
-Response: 200 OK (if ready) or 503 (if not ready)
-{
-  "ready": true,
+  "timestamp": "2026-09-14T04:00:00Z",
+  "uptime_seconds": 3600,
   "components": {
-    "intent_classifier": "ready",
-    "groq_client": "ready",
-    "database": "ready"
+    "bot_handler": "ready",
+    "database": "connected",
+    "intent_classifier": "loaded"
   }
 }
 ```
+
+#### `GET /webhook/info`
+Debug webhook configuration (semua environment)
+
+#### `/debug/*`
+Debug endpoints — hanya jika `ENVIRONMENT=development`:
+- `GET /debug/test-intent?message=...`
+- `GET /debug/db-stats`
+- `POST /debug/simulate-message`
 
 **Startup Sequence**:
 ```python
 @app.on_event("startup")
 async def startup():
-    # 1. Load models
-    get_intent_classifier()
+    # 1. Validate environment variables (TELEGRAM_BOT_TOKEN, GROQ_API_KEY)
     
-    # 2. Initialize database
+    # 2. Initialize database (best-effort)
     init_db()
     
-    # 3. Verify Groq API
-    get_groq_client()
-    
-    # 4. Initialize Telegram handler
-    TelegramBotHandler()
+    # 3. Initialize Telegram handler (which loads classifier + groq)
+    bot_handler = TelegramBotHandler()
 ```
 
 **Deployment**:
@@ -276,10 +285,9 @@ except Exception as e:
     response = ResponseResult(success=False, ...)
 ```
 
-**Confidence Levels**:
-- `HIGH`: confidence ≥ 0.7 → Use full pipeline
-- `MEDIUM`: 0.5 ≤ confidence < 0.7 → Use KB, cautious LLM
-- `LOW`: confidence < 0.5 → Best guess, with disclaimer
+**Confidence Levels & Routing**:
+- `>= 0.30`: Load KB + Groq. LLM mendapat instruksi berdasarkan range confidence
+- `< 0.30`: Fallback langsung tanpa load KB dan tanpa Groq
 
 **Knowledge Base Loading**:
 ```python
@@ -316,9 +324,9 @@ classifier = IntentClassifier(
 ```
 
 **Model Files** (in `models/` directory):
-- `vectorizer.pkl` - TF-IDF Vectorizer
-- `model.pkl` - Logistic Regression Classifier  
-- `label_encoder.pkl` - Intent label encoder
+- Bundle v2 (primary): `vectorizer_2.pkl`, `lr_intent_model_2.pkl`, `label_encoder_2.pkl`
+- Bundle v1 (fallback): `models/v1/vectorizer.pkl`, `models/v1/intent_model.pkl`, `models/v1/label_encoder.pkl`
+- Mock classifier hanya aktif jika `ALLOW_MOCK_CLASSIFIER=true`
 
 **Key Method**: `predict()`
 
@@ -348,7 +356,7 @@ The classifier is trained from:
 1. **Training Data**: `data/intents_v2.csv`
 2. **Training Script**: `notebooks/intent_classifier_training_executed_v2.ipynb`
 3. **Algorithm**:
-   - Vectorization: TF-IDF (max_features=1000, ngram_range=(1,2))
+   - Vectorization: TF-IDF (training notebook: max_features=3000, ngram_range=(1,2))
    - Classification: Logistic Regression
 4. **Output**: Serialized models in `models/` directory
 
@@ -369,7 +377,7 @@ jupyter notebook notebooks/intent_classifier_training_executed_v2.ipynb
 intents = classifier.get_all_intents()
 # Returns list of all trained intent labels
 
-# Example output:
+# 11 intents (sesuai label_encoder bundle v2):
 [
     'biaya_pendidikan',
     'eskalasi_admin',
@@ -385,17 +393,7 @@ intents = classifier.get_all_intents()
 ]
 ```
 
-**Batch Prediction**:
-```python
-questions = [
-    "Berapa biaya pendaftaran?",
-    "Apa saja syaratnya?",
-    "Kapan pembukaan pendaftaran?"
-]
-
-results = classifier.predict_batch(questions)
-# Returns list of IntentPrediction objects
-```
+> **Catatan:** Metode `predict_batch()` tidak ada di kode. Gunakan `predict()` per pertanyaan.
 
 **Confidence Analysis**:
 ```python
@@ -518,7 +516,8 @@ request = {
     ],
     "temperature": 0.3,
     "max_tokens": 500,
-    "top_p": 1
+    "top_p": 0.9,
+    "stream": False
 }
 ```
 
@@ -540,12 +539,12 @@ except requests.exceptions.RequestException as e:
 ```
 
 **Response Validation**:
-```python
-# Validates that:
-# 1. Intent matches original intent (not changed)
-# 2. Response is within safety guidelines
-# 3. No hallucinated information
-# 4. Proper JSON structure
+```
+Groq client memastikan:
+1. Intent tidak diubah — field intent di GroqResponse selalu
+   sama dengan intent input (passed through, not parsed)
+2. Fallback dari KB jika API gagal
+3. Timeout 30 detik
 ```
 
 ---
@@ -556,13 +555,13 @@ except requests.exceptions.RequestException as e:
 
 **Setup**:
 ```python
-from database import init_db, get_db_session, log_user_question
+from database import init_db, log_user_question, SessionLocal
 
 # Initialize database on startup
 init_db()
 
-# Get session for operations
-session = get_db_session()
+# Get session for custom queries
+session = SessionLocal()
 ```
 
 **Data Models**:
@@ -572,17 +571,36 @@ session = get_db_session()
 class UserQuestion(Base):
     __tablename__ = "user_questions"
     
-    id: int              # Primary key
-    user_id: str         # Telegram user ID
-    platform: str        # "telegram", "web", etc.
-    question: str        # Original user question
-    intent: str          # Predicted intent
-    confidence: float    # Confidence score (0-1)
-    response: str        # Bot response
-    timestamp: datetime  # When question was asked
-    # Optional fields:
-    feedback: str        # User feedback (if provided)
-    is_correct: bool     # If intent was correct
+    id: int                   # Primary key
+    user_id: str              # Telegram user ID atau platform ID
+    platform: str             # "telegram", default
+    question_text: str        # Original user question
+    predicted_intent: str     # Predicted intent label
+    confidence_score: float   # Confidence score (0-1)
+    confidence_threshold: float  # Threshold saat itu (default 0.70)
+    confidence_status: str    # "high" atau "low"
+    routed_to: str            # "llm", "fallback"
+    fallback_triggered: bool  # Apakah fallback dijalankan
+    response_text: str        # Bot response
+    fallback_reason: str      # Alasan fallback (jika ada)
+    created_at: datetime      # Timestamp
+```
+
+#### `ConversationLog`
+```python
+class ConversationLog(Base):
+    __tablename__ = "conversation_logs"
+    
+    id, user_id, platform, session_id, message_type, message_text, created_at
+```
+
+#### `IntentFeedback`
+```python
+class IntentFeedback(Base):
+    __tablename__ = "intent_feedback"
+    
+    id, question_id, user_id, original_intent, corrected_intent,
+    feedback_type, feedback_text, created_at
 ```
 
 **Logging Questions**:
@@ -591,12 +609,13 @@ from database import log_user_question
 
 question_id = log_user_question(
     user_id="123456789",
+    question_text="Berapa biaya pendaftaran?",
+    predicted_intent="biaya_pendidikan",
+    confidence_score=0.94,
+    routed_to="llm",
     platform="telegram",
-    question="Berapa biaya pendaftaran?",
-    intent="biaya_pendidikan",
-    confidence=0.94,
-    response="Biaya pendaftaran adalah...",
-    username="user123"
+    llm_used=True,
+    response_text="Biaya pendaftaran adalah...",
 )
 # Returns: ID of logged question
 ```
@@ -632,12 +651,12 @@ user_questions = session.query(UserQuestion)\
 
 # Get questions by intent
 intent_questions = session.query(UserQuestion)\
-    .filter(UserQuestion.intent == "biaya_pendidikan")\
+    .filter(UserQuestion.predicted_intent == "biaya_pendidikan")\
     .all()
 
 # Statistics
 high_conf = session.query(UserQuestion)\
-    .filter(UserQuestion.confidence >= 0.7)\
+    .filter(UserQuestion.confidence_score >= 0.7)\
     .count()
 
 session.close()
@@ -648,21 +667,21 @@ session.close()
 # Intent distribution
 from sqlalchemy import func
 intent_counts = session.query(
-    UserQuestion.intent,
+    UserQuestion.predicted_intent,
     func.count(UserQuestion.id).label('count')
-).group_by(UserQuestion.intent).all()
+).group_by(UserQuestion.predicted_intent).all()
 
 # Average confidence per intent
 avg_confidence = session.query(
-    UserQuestion.intent,
-    func.avg(UserQuestion.confidence).label('avg_conf')
-).group_by(UserQuestion.intent).all()
+    UserQuestion.predicted_intent,
+    func.avg(UserQuestion.confidence_score).label('avg_conf')
+).group_by(UserQuestion.predicted_intent).all()
 
 # Questions per day
 daily_counts = session.query(
-    func.date(UserQuestion.timestamp).label('date'),
+    func.date(UserQuestion.created_at).label('date'),
     func.count(UserQuestion.id).label('count')
-).group_by(func.date(UserQuestion.timestamp)).all()
+).group_by(func.date(UserQuestion.created_at)).all()
 ```
 
 ---
@@ -698,11 +717,16 @@ class ResponseResult:
     message: str                            # Final response message
     intent: str                             # Predicted intent
     confidence: float                       # Confidence score
-    confidence_level: str                   # "HIGH", "MEDIUM", "LOW"
+    confidence_level: str                   # "very_high", "high", "medium", "low", "very_low"
     knowledge_base_used: bool               # Was KB consulted?
     llm_used: bool                          # Was Groq API used?
     error: Optional[str] = None             # Error message if failed
     question_id: Optional[int] = None       # Database record ID
+    confidence_threshold: float = 0.70      # Threshold at time of prediction
+    confidence_status: str = "low"          # "high" or "low"
+    fallback_triggered: bool = False        # Was fallback triggered?
+    fallback_reason: Optional[str] = None   # Reason for fallback
+    routed_to: str = "unknown"             # "llm", "fallback"
 ```
 
 ---
@@ -715,7 +739,6 @@ class ResponseResult:
 ```
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 GROQ_API_KEY=your_groq_api_key
-DATABASE_URL=postgresql://user:pass@host:port/db
 ```
 
 **Optional** (have defaults):
@@ -731,13 +754,16 @@ GROQ_TEMPERATURE=0.3
 
 # Server
 PORT=8000
-WORKERS=4
+HOST=0.0.0.0
+WEBHOOK_URL=...                   # URL publik untuk Telegram webhook
 
-# Intent Classifier
-CLASSIFIER_CONFIDENCE_THRESHOLD=0.7
+# Database (Railway inject otomatis jika terhubung)
+DATABASE_URL=postgresql://...
+# Atau variabel DB terpisah untuk dev lokal:
+# DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 
-# Knowledge Base
-KB_DIR=knowledge_base
+# Classifier
+ALLOW_MOCK_CLASSIFIER=false       # true hanya untuk demo tanpa .pkl
 ```
 
 ### Local Development (.env)
@@ -794,7 +820,7 @@ from response_router import get_response_router
 # Sub-components (usually auto-initialized by router)
 from intent_classifier import get_intent_classifier
 from groq_client import get_groq_client
-from database import init_db, get_db_session
+from database import init_db, SessionLocal, log_user_question
 
 # Models/Types
 from response_router import ResponseResult, IntentPrediction

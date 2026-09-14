@@ -83,7 +83,12 @@ sequenceDiagram
         IC->>IC: TF-IDF Vectorization
         IC->>IC: Logistic Regression Prediction
         IC-->>R: IntentPrediction(intent, confidence, is_confident)
-        
+
+        alt confidence < 0.30
+            Note over R: Graceful degradation — LLM tidak dipanggil
+            R->>DB: log_user_question (fallback)
+            R-->>T: Pesan "belum cukup yakin" + arahkan admin
+        else confidence >= 0.30
         Note over R: STEP 2: Load Knowledge Base
         R->>KB: Load {intent}.json
         KB-->>R: KB Data (core_facts, qa_pairs, quick_answers)
@@ -110,6 +115,7 @@ sequenceDiagram
             DB-->>R: question_id
             
             R-->>T: ResponseResult(message, intent, confidence, ...)
+        end
         end
         
         T->>T: Build response with metadata
@@ -156,11 +162,15 @@ START: User mengirim pesan ke Telegram Bot
 │       │       │
 │       │       ├── [GUARD LAYER 1] Intent Classification
 │       │       │   │
-│       │       │   ├── Preprocess: lowercase, trim whitespace
+│       │       │   ├── Preprocess: lowercase, trim whitespace (tanpa hapus tanda baca)
 │       │       │   ├── Vectorize: TF-IDF transform
 │       │       │   ├── Predict: Logistic Regression
 │       │       │   │
 │       │       │   └── Output: (intent, confidence, is_confident)
+│       │       │
+│       │       ├── [CHECK] confidence < 0.30?
+│       │       │   ├── YES ──► Fallback aman, TANPA load KB, TANPA Groq
+│       │       │   └── NO
 │       │       │
 │       │       ├── [CHECK] Apakah file KB untuk intent ada?
 │       │       │   │
@@ -172,13 +182,13 @@ START: User mengirim pesan ke Telegram Bot
 │       │       │       │
 │       │       │       ├── [GUARD LAYER 2] LLM Bounded Reasoning
 │       │       │       │   │
-│       │       │       │   ├── [CHECK] Confidence Level
+│       │       │       │   ├── [CHECK] Confidence (instruksi GroqClient)
 │       │       │       │   │   ├── < 0.5 (LOW)
-│       │       │       │   │   │   └── Instruction: Tambah disclaimer + saran ke admin
+│       │       │       │   │   │   └── Disclaimer + cek relevansi intent
 │       │       │       │   │   ├── 0.5-0.7 (MEDIUM)
-│       │       │       │   │   │   └── Instruction: Jawab hati-hati + saran konfirmasi
+│       │       │       │   │   │   └── Jawab hati-hati + saran konfirmasi
 │       │       │       │   │   └── >= 0.7 (HIGH)
-│       │       │       │   │       └── Instruction: Jawab dengan percaya diri
+│       │       │       │   │       └── Jawab dengan percaya diri
 │       │       │       │   │
 │       │       │       │   ├── Build System Prompt (guardrails)
 │       │       │       │   ├── Build User Prompt (context + KB)
@@ -232,12 +242,12 @@ Sistem akan melakukan eskalasi ke admin dalam kondisi berikut:
 └───────────────────────────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────────────────────────┐
-│ TRIGGER 2: Confidence Score Rendah (< 50%)                                        │
+│ TRIGGER 2: Confidence sangat rendah (< 30%)                                       │
 ├───────────────────────────────────────────────────────────────────────────────────┤
-│ Kondisi  : Intent Classifier confidence < 0.5                                     │
-│ Response : Jawab dengan disclaimer + saran konfirmasi admin                       │
-│ Action   : "Untuk memastikan informasi lebih akurat, silakan konfirmasi          │
-│            dengan admin kami."                                                    │
+│ Kondisi  : Intent Classifier confidence < 0.30 (response_router)                  │
+│ Response : Tidak memanggil Groq. Pesan "belum cukup yakin" + arahkan admin.       │
+│ Catatan  : Pada 0.30–0.70 Groq tetap dipanggil dengan instruksi hati-hati.        │
+│            Instruksi Groq membedakan <0.50, 0.50–0.70, dan ≥0.70.               │
 └───────────────────────────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────────────────────────┐
@@ -462,4 +472,4 @@ Level 5: System Error
 
 ---
 
-*Dokumen ini diperbarui: 3 Januari 2026*
+*Dokumen ini diperbarui: September 2026*

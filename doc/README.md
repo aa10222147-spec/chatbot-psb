@@ -1,284 +1,136 @@
 # Chatbot PSB - Penerimaan Santri Baru
 
-**Version:** 1.0.0  
+**Version:** 1.2  
 **Platform:** Telegram  
-**Architecture:** Double Guard (Intent Classifier + LLM Reasoning)
+**Architecture:** Double Guard (Intent Classifier + LLM Reasoning)  
+**Last aligned with code:** September 2026
 
-Chatbot berbasis NLP untuk Penerimaan Santri Baru (PSB) Pondok Pesantren menggunakan Intent Classification dan bounded LLM reasoning.
+Chatbot NLP untuk Penerimaan Santri Baru Pondok Pesantren Gemayasih. Intent classification mengunci konteks; Groq hanya merangkai bahasa dari knowledge base JSON.
 
----
-
-## 📋 Fitur Utama
-
-- ✅ **Intent Classification**: TF-IDF + Logistic Regression
-- ✅ **Knowledge Base**: File-based JSON (Single Source of Truth)
-- ✅ **LLM Integration**: Groq API untuk bounded reasoning
-- ✅ **Double Guard Architecture**: Mencegah hallucination
-- ✅ **Telegram Bot**: Interface user-friendly
-- ✅ **Stateless Design**: Tanpa database persistence
-- ✅ **Production-Ready**: Logging, error handling, monitoring
+Dokumentasi folder ini menjelaskan implementasi di root `chatbot-psb/`. Ini adalah satu-satunya lokasi dokumentasi teknis yang aktif.
 
 ---
 
-## 🏗️ Arsitektur
+## Fitur yang benar-benar ada di kode
+
+- Intent classification: TF-IDF + Logistic Regression (`intent_classifier.py`)
+- Knowledge base JSON, 11 intent (`knowledge_base/`)
+- Groq API bounded reasoning (`groq_client.py`)
+- Telegram via HTTP `requests` (`telegram_bot.py`)
+- Webhook FastAPI (`app.py`) dan polling lokal (`app_polling.py`)
+- PostgreSQL logging (`database.py`) — **bukan** sistem tanpa database
+- Admin labeling & export dataset (`admin_labeling.py`, `export_training_data.py`)
+- Fallback jika confidence `< 0.30`, KB hilang, atau Groq gagal
+
+---
+
+## Arsitektur
 
 ```
 User → Telegram Bot API
   ↓
-FastAPI Backend (app.py)
+FastAPI webhook (app.py)  atau  polling (app_polling.py)
   ↓
-Intent Classifier (Guard 1) ← PRIMARY DECISION MAKER
+telegram_bot.py
   ↓
-Knowledge Base (JSON files)
-  ↓
-Groq API (Guard 2) ← BOUNDED REASONING
+response_router.py
+  ├─ Guard 1: intent_classifier.py
+  ├─ knowledge_base/{intent}.json
+  ├─ Guard 2: groq_client.py
+  └─ database.py (log, best-effort)
   ↓
 Response → User
 ```
 
-**Control Layers:**
-1. **Intent Classifier** → Context control
-2. **Knowledge Base Schema** → Factual control
-3. **Prompt Guard** → LLM behavior control
+**Lapisan kontrol:** classifier (konteks) → skema KB (fakta) → prompt Groq (perilaku) → policy confidence (routing).
 
 ---
 
-## 📦 Instalasi
+## Instalasi singkat
 
-### Prerequisites
+Prasyarat: Python 3.10+ (Railway memakai 3.11), token Telegram, kunci Groq, PostgreSQL untuk logging (opsional agar bot tetap menjawab).
 
-- Python 3.10 atau lebih tinggi
-- Telegram Bot Token (dari [@BotFather](https://t.me/BotFather))
-- Groq API Key (dari [console.groq.com](https://console.groq.com))
-
-### Quick Start
-
-1. **Clone repository**
 ```bash
 cd chatbot-psb
-```
-
-2. **Setup Python virtual environment**
-```bash
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# atau
-venv\Scripts\activate  # Windows
+source venv/bin/activate
+pip install -r requirements.txt          # production
+# pip install -r requirements-dev.txt    # + pytest, black, jupyter
+cp .env.example .env                     # isi token & API key
+python init_database.py                  # jika PostgreSQL tersedia
+python app_polling.py                    # dev tanpa URL publik
+# atau: python app.py                    # FastAPI + webhook/ngrok
 ```
 
-3. **Install dependencies**
-```bash
-# Production
-pip install -r requirements.txt
-
-# Development (includes testing tools)
-pip install -r requirements-dev.txt
-
-# Minimal (core only)
-pip install -r requirements-minimal.txt
-```
-
-4. **Configure environment variables**
-```bash
-cp .env.example .env
-# Edit .env dengan credentials Anda
-```
-
-5. **Setup Knowledge Base**
-```bash
-# Isi file JSON di folder knowledge_base/
-# Format: sesuai doc/KNOWLEDGE_BASE_SCHEMA.md
-```
-
-6. **Run application**
-```bash
-# Development
-python app.py
-
-# Production
-uvicorn app:app --host 0.0.0.0 --port 8000
-```
+Produksi: `uvicorn app:app --host 0.0.0.0 --port $PORT` (lihat `Procfile`, `railway.json`).
 
 ---
 
-## ⚙️ Konfigurasi
+## Environment
 
-### Environment Variables (.env)
+Wajib: `TELEGRAM_BOT_TOKEN`, `GROQ_API_KEY`.
 
-```env
-# Telegram Bot
-TELEGRAM_BOT_TOKEN=your_bot_token_here
-
-# Groq API
-GROQ_API_KEY=your_groq_api_key_here
-GROQ_MODEL=llama-3.3-70b-versatile
-GROQ_MAX_TOKENS=500
-GROQ_TEMPERATURE=0.3
-
-# Webhook (for deployment)
-WEBHOOK_URL=https://your-app-url.com/webhook
-
-# Server
-HOST=0.0.0.0
-PORT=8000
-ENVIRONMENT=production  # or development
-```
+Opsional: `GROQ_MODEL` (default `llama-3.3-70b-versatile`), `GROQ_MAX_TOKENS`, `GROQ_TEMPERATURE`, `WEBHOOK_URL`, `HOST`, `PORT`, `ENVIRONMENT`, `LOG_LEVEL`, `DATABASE_URL` atau `DB_*`, `ALLOW_MOCK_CLASSIFIER`.
 
 ---
 
-## 📁 Struktur Project
+## Struktur project (aktual)
 
 ```
 chatbot-psb/
-├── app.py                      # Entry point & FastAPI webhook
-├── telegram_bot.py             # Telegram message handler
-├── response_router.py          # Core decision & routing logic
-├── intent_classifier.py        # NLP model inference
-├── groq_client.py              # Groq API client
-├── utils/
-│   └── prompt_builder.py       # Prompt construction with guardrails
-├── models/
-│   ├── intent_model.pkl        # Trained intent classifier
-│   ├── vectorizer.pkl          # TF-IDF vectorizer
-│   └── label_encoder.pkl       # Label encoder
-├── knowledge_base/
-│   ├── info_pendaftaran.json
-│   ├── syarat_pendaftaran.json
-│   ├── biaya_pendidikan.json
-│   └── faq_umum.json
-├── requirements.txt            # Python dependencies
-├── requirements-minimal.txt    # Minimal dependencies
-├── requirements-dev.txt        # Development dependencies
-└── .env.example                # Environment template
+├── app.py
+├── app_polling.py
+├── telegram_bot.py
+├── response_router.py
+├── intent_classifier.py
+├── groq_client.py
+├── database.py
+├── init_database.py
+├── admin_labeling.py
+├── export_training_data.py
+├── utils/prompt_builder.py      # tidak di-import pipeline
+├── knowledge_base/              # 11 JSON
+├── models/                      # v2: vectorizer_2.pkl, lr_intent_model_2.pkl, label_encoder_2.pkl
+├── data/intents_v2.csv
+├── notebooks/
+├── tests/                       # pytest; folder di-.gitignore
+├── requirements.txt
+├── Procfile
+├── railway.json
+└── runtime.txt                  # python-3.11
 ```
 
----
-
-## 🚀 Deployment
-
-### Railway / Render
-
-1. Push code ke GitHub
-2. Connect repository di Railway/Render
-3. Set environment variables
-4. Deploy!
-
-### Docker (Coming Soon)
-
-```bash
-docker build -t chatbot-psb .
-docker run -p 8000:8000 --env-file .env chatbot-psb
-```
+Tidak ada Dockerfile di repo saat ini.
 
 ---
 
-## 🧪 Testing
+## Perintah bot
 
-```bash
-# Run tests
-pytest
-
-# With coverage
-pytest --cov=.
-
-# Specific test
-pytest tests/test_intent_classifier.py
-```
+`/start` `/help` `/status` `/about`
 
 ---
 
-## 📚 Dokumentasi
+## Endpoint HTTP
 
-Lihat folder `doc/` untuk dokumentasi lengkap:
-
-- `SYSTEM_OVERVIEW.md` - Arsitektur sistem
-- `ARCHITECTURE.md` - Diagram arsitektur
-- `KNOWLEDGE_BASE_SCHEMA.md` - Schema knowledge base
-- `PROMPT_GUARD.md` - Guardrails LLM
-- `PRD & ARSITEKTUR TEKNIS.md` - Requirements teknis
+- `GET /` — info layanan
+- `GET /health` — healthcheck Railway
+- `POST /webhook` — update Telegram
+- `GET /webhook/info` — debug webhook
+- `/debug/*` — hanya jika `ENVIRONMENT=development`
 
 ---
 
-## 🔧 Development
-
-### Setup Development Environment
+## Testing
 
 ```bash
 pip install -r requirements-dev.txt
-```
-
-### Code Quality
-
-```bash
-# Format code
-black .
-
-# Check linting
-flake8 .
-
-# Type checking
-mypy .
+pytest
 ```
 
 ---
 
-## 📞 Bot Commands
+## Indeks dokumen
 
-- `/start` - Pesan selamat datang
-- `/help` - Bantuan penggunaan
-- `/status` - Status sistem
-- `/about` - Tentang chatbot
+Mulai dari [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) untuk navigasi lengkap semua dokumentasi.
 
----
-
-## 🔒 Keamanan
-
-- ✅ Tidak ada hallucination LLM (bounded reasoning)
-- ✅ Knowledge base sebagai satu-satunya sumber fakta
-- ✅ Intent classification sebagai primary decision maker
-- ✅ Prompt guardrails ketat
-- ✅ Error handling lengkap
-
----
-
-## 📊 Monitoring
-
-### Health Check Endpoints
-
-- `GET /` - System info
-- `GET /health` - Health status
-- `GET /webhook/info` - Webhook config
-
----
-
-## 🤝 Contributing
-
-1. Fork repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
-
----
-
-## 📝 License
-
-[Specify your license here]
-
----
-
-## 👥 Tim Pengembang
-
-Tim IT Pondok Pesantren
-
----
-
-## 📧 Kontak
-
-Untuk informasi lebih lanjut, hubungi:
-- Email: info@pesantren.example.com
-- Telegram: [@admin_pesantren](https://t.me/admin_pesantren)
-
----
-
-**Made with ❤️ for Islamic Education**
+> **Catatan:** Folder `Doc/` di root workspace sudah tidak aktif. Semua dokumentasi ada di folder ini (`chatbot-psb/doc/`).

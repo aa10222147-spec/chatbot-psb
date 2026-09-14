@@ -23,7 +23,7 @@
 - **Hybrid Approach**: Combines classical NLP with modern LLM reasoning
 - **Knowledge-Driven**: All responses grounded in curated knowledge base
 - **Double Guard**: Prevents hallucination through layered decision making
-- **Production-Ready**: Stateless design, comprehensive logging, error handling
+- **Production-oriented**: logging PostgreSQL, FastAPI healthcheck; jawaban tetap single-turn (tanpa memori percakapan)
 - **Platform**: Telegram Bot API (webhook + polling support)
 
 ---
@@ -169,7 +169,7 @@ OUTPUT: {
 
 ```
 Component: TelegramBotHandler
-├─ Dependencies: requests, python-telegram-bot
+├─ Dependencies: requests (Telegram Bot HTTP API)
 ├─ Methods:
 │  ├─ __init__(): Initialize with TELEGRAM_BOT_TOKEN
 │  ├─ process_update(): Handle webhook/polling updates
@@ -184,7 +184,6 @@ Component: TelegramBotHandler
 
 **Key Environment Variables**:
 - `TELEGRAM_BOT_TOKEN`: Bot token from @BotFather
-- `TELEGRAM_WEBHOOK_URL`: Webhook endpoint (for webhook mode)
 
 ### 2. FastAPI Application (`app.py`)
 
@@ -193,22 +192,22 @@ Component: TelegramBotHandler
 ```
 Component: FastAPI App
 ├─ Endpoints:
+│  ├─ GET /: Info layanan & status
 │  ├─ POST /webhook: Telegram webhook endpoint
-│  ├─ GET /health: Health check
-│  ├─ GET /ready: Readiness probe
-│  └─ GET /metrics: Prometheus metrics (optional)
+│  ├─ GET /health: Health check (liveness probe)
+│  ├─ GET /webhook/info: Debug webhook config
+│  └─ /debug/*: Test endpoints (development only)
 ├─ Middleware:
 │  ├─ CORS handling
-│  ├─ Request logging
-│  └─ Error handling
+│  └─ Error handling (404, 500)
 └─ Lifecycle:
-   ├─ startup: Initialize database, load models
-   └─ shutdown: Cleanup resources
+   ├─ startup: Validate env vars, init database, init bot handler
+   └─ shutdown: Log shutdown
 ```
 
 **Deployment Modes**:
-- **Development**: `python app.py` (auto-reload)
-- **Production**: `uvicorn app:app --host 0.0.0.0 --port 8000`
+- **Development**: `python app_polling.py` (polling, tanpa URL publik)
+- **Production**: `uvicorn app:app --host 0.0.0.0 --port $PORT`
 
 ### 3. Response Router (`response_router.py`)
 
@@ -261,9 +260,8 @@ Component: IntentClassifier
 │  └─ label_encoder: Intent label encoder
 ├─ Methods:
 │  ├─ predict(): Single prediction
-│  ├─ predict_batch(): Multiple predictions
 │  ├─ get_all_intents(): List available intents
-│  └─ confidence_threshold: Default 0.7
+│  └─ confidence_threshold: Default 0.70
 └─ Input: User question (string)
    Output: IntentPrediction (intent, confidence, probabilities)
 ```
@@ -313,18 +311,19 @@ Component: GroqClient
 1. Role Definition
    └─ "Anda adalah asisten chatbot untuk PSB..."
 
-2. Guardrails
+2. Guardrails (System Prompt)
    ├─ HARUS menggunakan knowledge base SAJA
    ├─ TIDAK BOLEH mengubah intent
    ├─ TIDAK BOLEH menambah informasi baru
    ├─ TIDAK BOLEH menjawab di luar PSB
    └─ HARUS sopan dan ramah
 
-3. Output Format
-   └─ JSON with message, intent, confidence
+3. User Prompt
+   ├─ Konteks: intent, confidence score, pertanyaan user
+   ├─ Knowledge Base resmi (core_facts, qa_pairs, quick_answers)
+   └─ Instruksi confidence-aware (berbeda per level)
 
-4. Examples
-   └─ Few-shot examples for better performance
+Catatan: Output adalah teks natural (bukan JSON).
 ```
 
 ### 6. Knowledge Base System
@@ -438,18 +437,20 @@ Component: SQLAlchemy ORM
 ### Confidence-Based Flow Control
 
 ```
-High Confidence (≥ 0.7)
-  └─ Use Guard 1 + Guard 2
-     └─ Full pipeline with LLM refinement
+High Confidence (≥ 0.70 / CONFIDENCE_THRESHOLD)
+  └─ Guard 1 + KB + Guard 2 (LLM)
+     └─ Jawab percaya diri
 
-Medium Confidence (0.5 - 0.7)
-  ├─ Use Guard 1 + Knowledge Base
-  └─ May use Guard 2 with extra caution
+Medium Confidence (0.30 ≤ conf < 0.70)
+  ├─ Guard 1 + KB + Guard 2 (LLM tetap dipanggil)
+  └─ Groq menerima instruksi hati-hati berdasarkan range:
+       < 0.50: disclaimer + saran konfirmasi ke admin
+       0.50-0.70: jawab hati-hati + sarankan konfirmasi
 
-Low Confidence (< 0.5)
-  ├─ Demo mode: Still answer with best match
-  ├─ Add disclaimer: "Best guess based on..."
-  └─ Consider escalation to human
+Low Confidence (< 0.30)
+  ├─ TIDAK memanggil KB atau Groq
+  └─ Langsung fallback: "belum cukup yakin"
+     + arahkan ke admin + log ke DB
 ```
 
 ### Error Handling Flow
@@ -495,9 +496,10 @@ At any step, if error occurs:
 ### API Integration
 | Component | Technology | Version | Purpose |
 |-----------|-----------|---------|---------|
-| **Telegram Bot** | requests | ≥2.31.0 | HTTP calls to Telegram |
-| **Groq API** | requests/httpx | ≥0.25.0 | LLM API calls |
-| **Async HTTP** | aiohttp | ≥3.9.0 | Async HTTP requests |
+| **Telegram Bot** | requests | ≥2.31.0 | HTTP calls to Telegram Bot API |
+| **Groq API** | requests | ≥2.31.0 | LLM API calls (sync HTTP) |
+| **httpx** | httpx | ≥0.25.0 | Ada di requirements (unused direct import) |
+| **aiohttp** | aiohttp | ≥3.9.0 | Ada di requirements (unused direct import) |
 
 ### Database
 | Component | Technology | Version | Purpose |
@@ -510,7 +512,7 @@ At any step, if error occurs:
 | Component | Technology | Version | Purpose |
 |-----------|-----------|---------|---------|
 | **Environment** | python-dotenv | ≥1.0.0 | .env file loading |
-| **Settings** | pydantic-settings | ≥2.0.0 | Config validation |
+| **Pydantic** | pydantic | ≥2.0.0 | Schema validation (FastAPI dep) |
 | **Typing** | typing-extensions | ≥4.8.0 | Type hints |
 
 ### Development & Testing
@@ -652,7 +654,7 @@ Telegram Integration
 Groq API
   ├─ API key from environment (never hardcoded)
   ├─ Rate limiting (Groq's rate limits)
-  └─ Timeout protection (5s timeout)
+  └─ Timeout protection (30s timeout di requests.post)
 
 Database
   ├─ Connection via environment variables
@@ -696,7 +698,7 @@ Exceptions
 ```
 Developer Machine
   ├─ Python virtual environment
-  ├─ SQLite/PostgreSQL (local)
+  ├─ PostgreSQL (SQLAlchemy; DATABASE_URL atau DB_HOST/…)
   ├─ FastAPI development server (auto-reload)
   ├─ Telegram Bot (webhook via ngrok or polling)
   └─ Environment: .env.example → .env
@@ -706,14 +708,15 @@ Developer Machine
 
 ```
 Railway.app Deployment
-  ├─ Container: Dockerfile (buildpack or custom)
-  ├─ Runtime: Python 3.11 (or specified in runtime.txt)
+  ├─ Runtime: Python 3.11 (dari runtime.txt)
+  ├─ Build: Nixpacks (deteksi otomatis, tanpa Dockerfile)
   ├─ Dependencies: requirements.txt
   ├─ Environment: Railway environment variables
-  ├─ Database: Railway PostgreSQL addon
-  ├─ Server: Uvicorn (via Procfile)
-  ├─ Port: 0.0.0.0:$PORT (Railway assigns dynamically)
-  └─ Webhook: RAILWAY_URL → Telegram
+  ├─ Database: Railway PostgreSQL addon (DATABASE_URL inject otomatis)
+  ├─ Server: Uvicorn via Procfile
+  │    → web: uvicorn app:app --host 0.0.0.0 --port $PORT
+  ├─ Port: $PORT (Railway assigns dynamically)
+  └─ Webhook: WEBHOOK_URL env var → Telegram setWebhook
 ```
 
 ### Configuration Management
@@ -747,9 +750,7 @@ Application Logging
   └─ Components: Each module has logger = logging.getLogger(__name__)
 
 Health Checks
-  ├─ GET /health (FastAPI liveness)
-  ├─ GET /ready (readiness check)
-  └─ Metrics endpoint (optional Prometheus)
+  └─ GET /health (FastAPI liveness — cek bot_handler, db, env)
 
 Database Monitoring
   ├─ Questions logged per day
@@ -806,7 +807,7 @@ The **Double Guard Architecture** provides:
 ✅ **Accuracy**: Intent classification grounds responses in reality  
 ✅ **Quality**: LLM refinement ensures natural language  
 ✅ **Maintainability**: Clear separation of concerns  
-✅ **Scalability**: Stateless design allows horizontal scaling  
+✅ **Scalability**: Instance FastAPI dapat di-scale; state percakapan tidak dipakai untuk jawaban. Logging bergantung pada PostgreSQL.  
 ✅ **Observability**: Comprehensive logging and database tracking  
 
 This architecture represents a balance between the deterministic reliability of classical NLP and the language quality of modern LLMs.

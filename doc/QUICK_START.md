@@ -7,7 +7,7 @@ Get the chatbot running in 5 minutes on your machine.
 ## Prerequisites
 
 - **Python 3.10+** (Recommended: 3.11)
-- **PostgreSQL 13+** (or use local SQLite for development)
+- **PostgreSQL 13+** untuk logging (wajib jika ingin `init_database.py` / labeling). Bot FastAPI tetap start jika DB gagal. **Tidak ada SQLite** di `database.py`.
 - **Telegram Bot Token** (from [@BotFather](https://t.me/BotFather))
 - **Groq API Key** (from [console.groq.com](https://console.groq.com))
 - **Git** (for cloning)
@@ -106,23 +106,22 @@ python init_database.py
 ✓ Database initialized successfully
 ✓ Tables created:
   - user_questions
+  - conversation_logs
+  - intent_feedback
 ```
 
 ---
 
 ## 5. Run the Chatbot
 
-### Development Mode (with auto-reload)
+### Development Mode (FastAPI)
+
+`python app.py` menjalankan Uvicorn. Telegram **tidak** akan mengirim webhook ke localhost kecuali memakai ngrok + `setWebhook`.
+
+Untuk chat langsung di mesin lokal tanpa URL publik:
 
 ```bash
-python app.py
-```
-
-**Expected output**:
-```
-INFO:     Uvicorn running on http://127.0.0.1:8000
-INFO:     Press CTRL+C to quit
-INFO:     Started server process [12345]
+python app_polling.py
 ```
 
 ### Production Mode
@@ -278,9 +277,9 @@ print(f'Message: {response.message}')
 
 ```bash
 python -c "
-from database import get_db_session, UserQuestion
+from database import SessionLocal, UserQuestion
 
-session = get_db_session()
+session = SessionLocal()
 count = session.query(UserQuestion).count()
 print(f'Total questions logged: {count}')
 session.close()
@@ -347,9 +346,11 @@ venv\Scripts\activate     # Windows
 ```bash
 # Models should be in models/ directory
 ls -la models/
+# Expected v2: vectorizer_2.pkl, lr_intent_model_2.pkl, label_encoder_2.pkl
 
-# If empty, you need to train:
+# If empty, train via:
 jupyter notebook notebooks/intent_classifier_training_executed_v2.ipynb
+# Production refuses to start without a valid bundle unless ALLOW_MOCK_CLASSIFIER=true
 ```
 
 ### Issue: No response from bot
@@ -360,13 +361,13 @@ jupyter notebook notebooks/intent_classifier_training_executed_v2.ipynb
 # Also check database logging:
 
 python -c "
-from database import get_db_session, UserQuestion
+from database import SessionLocal, UserQuestion
 
-session = get_db_session()
-latest = session.query(UserQuestion).order_by(UserQuestion.timestamp.desc()).first()
-print(f'Latest question: {latest.question}')
-print(f'Intent: {latest.intent}')
-print(f'Response: {latest.response}')
+session = SessionLocal()
+latest = session.query(UserQuestion).order_by(UserQuestion.created_at.desc()).first()
+print(f'Latest question: {latest.question_text}')
+print(f'Intent: {latest.predicted_intent}')
+print(f'Response: {latest.response_text}')
 session.close()
 "
 ```
@@ -421,11 +422,11 @@ psql $DATABASE_URL -c "\dt"
 
 # View logs for user
 python -c "
-from database import get_db_session, UserQuestion
-session = get_db_session()
+from database import SessionLocal, UserQuestion
+session = SessionLocal()
 user_q = session.query(UserQuestion).filter_by(user_id='YOUR_ID').all()
 for q in user_q:
-    print(f'{q.timestamp}: {q.question} -> {q.intent}')
+    print(f'{q.created_at}: {q.question_text} -> {q.predicted_intent}')
 session.close()
 "
 ```

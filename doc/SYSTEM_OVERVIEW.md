@@ -112,7 +112,7 @@ sequenceDiagram
 |-------|--------|
 | **Algoritma** | TF-IDF Vectorizer + Logistic Regression |
 | **Framework** | scikit-learn |
-| **Model Files** | `vectorizer_2.pkl`, `intent_model_2.pkl`, `label_encoder_2.pkl` |
+| **Model Files** | `vectorizer_2.pkl`, `lr_intent_model_2.pkl`, `label_encoder_2.pkl` (bundle v2); fallback `models/v1/*.pkl` |
 | **Lokasi** | `models/` |
 | **Intents** | `info_pendaftaran`, `syarat_pendaftaran`, `biaya_pendidikan`, `program_unggulan`, `faq_umum`, `eskalasi_admin`,  `kegiatan_harian`, `kirim_dokumen`, `link_formulir`, `pendidikan_formal`, `syariah_guard`|
 
@@ -142,7 +142,7 @@ sequenceDiagram
 | Aspek | Detail |
 |-------|--------|
 | **File** | `telegram_bot.py` (webhook), `app_polling.py` (polling) |
-| **Framework** | python-telegram-bot |
+| **HTTP client** | `requests` ke Telegram Bot API (bukan paket `python-telegram-bot`) |
 
 ### 6. Database
 | Aspek | Detail |
@@ -196,11 +196,20 @@ chatbot-psb/
 │   └── ... (11 files)
 ├── models/                   # ML model files
 │   ├── vectorizer_2.pkl
-│   ├── intent_model_2.pkl
-│   └── label_encoder_2.pkl
-└── data/                     # Training data
+│   ├── lr_intent_model_2.pkl
+│   ├── label_encoder_2.pkl
+│   └── v1/                   # fallback bundle
+└── data/intents_v2.csv
 ```
+
+### Policy confidence (kode)
+
+- `< 0.30`: fallback, tanpa LLM
+- `≥ 0.30`: muat KB + Groq
+- `≥ 0.70`: `CONFIDENCE_THRESHOLD` (high)
+
+Prompt produksi: `groq_client.py`. `utils/prompt_builder.py` tidak terhubung ke pipeline.
 
 ---
 
-*Dokumen ini diperbarui: 3 Januari 2026*
+*Dokumen ini diperbarui: 14 September 2026*

@@ -166,56 +166,6 @@ curl http://localhost:8000/health
 
 ---
 
-### `GET /ready`
-
-Readiness probe - check if all components are initialized.
-
-**URL**:
-```
-GET /ready
-```
-
-**Response** (Ready):
-```json
-{
-  "ready": true,
-  "components": {
-    "intent_classifier": "ready",
-    "groq_client": "ready",
-    "database": "ready",
-    "telegram_handler": "ready"
-  },
-  "timestamp": "2026-01-01T12:00:00Z"
-}
-```
-
-**Status Code**: `200 OK`
-
-**Response** (Not Ready):
-```json
-{
-  "ready": false,
-  "components": {
-    "intent_classifier": "not_ready",
-    "groq_client": "not_ready",
-    "database": "error",
-    "telegram_handler": "ready"
-  },
-  "error": "Database connection failed"
-}
-```
-
-**Status Code**: `503 Service Unavailable`
-
-**Purpose**: Used by Kubernetes and container orchestration to determine if service can receive traffic.
-
-**Example**:
-```bash
-curl http://localhost:8000/ready
-```
-
----
-
 ## Interactive API Documentation
 
 ### `GET /docs`
@@ -351,10 +301,11 @@ Confidence score of intent prediction. Range: 0.0 to 1.0
 Human-readable confidence level:
 
 ```
-"HIGH"      - confidence >= 0.7
-"MEDIUM"    - 0.5 <= confidence < 0.7
-"LOW"       - confidence < 0.5
-"UNKNOWN"   - error occurred
+"very_high" - confidence >= 0.90
+"high"      - confidence >= 0.70 (CONFIDENCE_THRESHOLD)
+"medium"    - 0.50 <= confidence < 0.70
+"low"       - 0.30 <= confidence < 0.50
+"very_low"  - confidence < 0.30
 ```
 
 ### `knowledge_base_used` (boolean)
@@ -390,7 +341,7 @@ Error message if something went wrong.
 
 ```
 "Intent classifier error: Model not loaded"
-"Groq API timeout: exceeded 5 seconds"
+"Groq API timeout: exceeded 30 seconds"
 "Database connection failed"
 null - No error
 ```
@@ -611,8 +562,9 @@ def sanitize_input(question: str) -> str:
 | Component | Timeout | Note |
 |-----------|---------|------|
 | Telegram webhook | 30s | Set by Telegram |
-| Groq API | 5s | Configurable |
-| Database | 10s | Connection pool |
+| Groq API | 30s | Dikonfigurasi di requests.post() |
+| Telegram sendMessage | 10s | Retry tanpa parse_mode jika gagal |
+| Telegram sendChatAction | 5s | Fire-and-forget |
 | Intent classifier | <100ms | In-memory |
 
 ---
@@ -653,14 +605,18 @@ SELECT AVG(confidence) FROM user_questions;  # Average confidence
 ### Health Status
 
 ```bash
-# Check all components
-curl http://localhost:8000/ready
+# Check health status
+curl http://localhost:8000/health
 
-# Returns component status:
-# - intent_classifier: ready/error
-# - groq_client: ready/error
-# - database: ready/error
-# - telegram_handler: ready/error
+# Returns:
+# {
+#   "status": "healthy",
+#   "components": {
+#     "bot_handler": "ready",
+#     "database": "connected",
+#     "intent_classifier": "loaded"
+#   }
+# }
 ```
 
 ---
@@ -691,7 +647,7 @@ FastAPI: >=0.104.0
 ## Support
 
 For API issues:
-1. Check status: `GET /ready`
+1. Check status: `GET /health`
 2. Check logs
 3. Review error messages
 4. Check documentation

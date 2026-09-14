@@ -21,8 +21,8 @@ Complete guide for developers contributing to the Chatbot PSB project.
 
 ### Prerequisites
 
-- Python 3.10+ (3.11 recommended)
-- PostgreSQL 13+ or SQLite for local dev
+- Python 3.10+ (3.11 recommended; `runtime.txt` = python-3.11)
+- PostgreSQL 13+ untuk logging/admin tools (`database.py` hanya PostgreSQL, bukan SQLite)
 - Git
 - IDE (VS Code, PyCharm, etc.)
 
@@ -94,18 +94,18 @@ chatbot-psb/
 │   ├── DEVELOPMENT_GUIDE.md      # This file
 │   └── ...other docs
 │
-├── chatbot/
-│   ├── app.py                    # FastAPI entry point
-│   ├── telegram_bot.py           # Telegram integration
-│   ├── response_router.py        # Core orchestration
-│   ├── intent_classifier.py      # Guard 1 (NLP)
-│   ├── groq_client.py            # Guard 2 (LLM)
-│   ├── database.py               # Data persistence
-│   ├── init_database.py          # DB setup
-│   ├── export_training_data.py   # Data export
-│   ├── admin_labeling.py         # Admin interface
-│   └── utils/
-│       └── prompt_builder.py     # Utility functions
+├── app.py                        # FastAPI entry point (webhook mode)
+├── app_polling.py                # Polling mode untuk dev lokal
+├── telegram_bot.py               # Telegram integration
+├── response_router.py            # Core orchestration
+├── intent_classifier.py          # Guard 1 (NLP)
+├── groq_client.py                # Guard 2 (LLM)
+├── database.py                   # Data persistence
+├── init_database.py              # DB setup
+├── export_training_data.py       # Data export
+├── admin_labeling.py             # Admin interface
+├── utils/
+│   └── prompt_builder.py         # Prompt spec (tidak terhubung ke pipeline)
 │
 ├── tests/                        # Unit & integration tests
 │   ├── test_intent_classifier.py
@@ -123,24 +123,24 @@ chatbot-psb/
 │   ├── syarat_pendaftaran.json
 │   └── ... (11 JSON files)
 │
-├── models/                       # Pre-trained ML models
-│   ├── vectorizer.pkl
-│   ├── model.pkl
-│   ├── label_encoder.pkl
-│   └── v1/                       # Version 1 models
+├── models/                       # Pre-trained ML models (bundle v2)
+│   ├── vectorizer_2.pkl
+│   ├── lr_intent_model_2.pkl
+│   ├── label_encoder_2.pkl
+│   └── v1/                       # Fallback bundle v1
 │
 ├── data/                         # Training data
-│   ├── intents_v2.csv           # Training examples
-│   └── exports/                 # Data exports
+│   ├── intents_v2.csv            # Training examples (~1.066 baris)
+│   └── exports/                  # Data exports
 │
 ├── notebooks/                    # Jupyter notebooks
 │   └── intent_classifier_training_executed_v2.ipynb
 │
 ├── requirements.txt              # Production dependencies
 ├── requirements-dev.txt          # Development dependencies
-├── requirements-minimal.txt      # Minimal dependencies
 ├── Procfile                      # Deployment config
 ├── runtime.txt                   # Python version
+├── railway.json                  # Railway deployment config
 ├── .env.example                  # Environment template
 └── README.md                     # Project overview
 ```
@@ -571,13 +571,13 @@ print(f"Error: {result.error}")
 ### Debug Database
 
 ```python
-from database import get_db_session, UserQuestion
+from database import SessionLocal, UserQuestion
 
-session = get_db_session()
+session = SessionLocal()
 
 # View all logged questions
-for q in session.query(UserQuestion).limit(10):
-    print(f"{q.timestamp}: {q.question} -> {q.intent} (conf: {q.confidence})")
+for q in session.query(UserQuestion).order_by(UserQuestion.created_at.desc()).limit(10):
+    print(f"{q.created_at}: {q.question_text} -> {q.predicted_intent} (conf: {q.confidence_score})")
 
 # Check specific user
 user_q = session.query(UserQuestion).filter_by(user_id="123456789").all()
@@ -586,9 +586,9 @@ print(f"User has {len(user_q)} questions")
 # Analytics
 from sqlalchemy import func
 intent_dist = session.query(
-    UserQuestion.intent,
+    UserQuestion.predicted_intent,
     func.count(UserQuestion.id)
-).group_by(UserQuestion.intent).all()
+).group_by(UserQuestion.predicted_intent).all()
 
 for intent, count in intent_dist:
     print(f"{intent}: {count}")
@@ -777,14 +777,15 @@ def predict_cached(question: str) -> IntentPrediction:
 ### Batch Processing
 
 ```python
-# Process multiple questions efficiently
+# Process multiple questions (predict() satu per satu)
 questions = [
     "Question 1?",
     "Question 2?",
     "Question 3?"
 ]
 
-results = classifier.predict_batch(questions)
+# predict_batch() tidak ada di kode; iterasi manual:
+results = [classifier.predict(q) for q in questions]
 ```
 
 ---

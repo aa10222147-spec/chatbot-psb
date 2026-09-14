@@ -60,9 +60,9 @@ sequenceDiagram
 flowchart TD
     A["📝 User Question<br/>Input: string"] 
     
-    B["🔤 Text Preprocessing<br/>- Lowercase<br/>- Remove punctuation<br/>- Tokenize"]
+    B["🔤 Text Preprocessing<br/>- Lowercase<br/>- Trim / collapse whitespace"]
     
-    C["📊 TF-IDF Vectorization<br/>- Convert to numerical features<br/>- Max features: 1000<br/>- Bigrams enabled"]
+    C["📊 TF-IDF Vectorization<br/>- Convert to numerical features<br/>- Training: max_features=3000, ngram (1,2)"]
     
     D["🧮 Logistic Regression<br/>- Predict class<br/>- Calculate probabilities<br/>- Get confidence score"]
     

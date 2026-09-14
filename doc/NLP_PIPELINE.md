@@ -54,10 +54,11 @@ def _preprocess_text(self, text: str) -> str:
 | Step | Deskripsi |
 |------|-----------|
 | **Lowercase** | Semua karakter diubah menjadi huruf kecil |
-| **Remove Punctuation** | Menghapus tanda baca dan karakter non-alfabet |
 | **Normalize Whitespace** | Menghapus spasi berlebih (multiple → single) |
 
-> **Catatan:** Preprocessing sederhana dipilih karena dataset Bahasa Indonesia dan domain PSB yang terbatas. Tidak menggunakan stemming/lemmatization karena dapat merusak konteks kata dalam Bahasa Indonesia informal.
+Inference produksi (`intent_classifier._preprocess_text`) **tidak** menghapus tanda baca. Penghapusan non-alfabet hanya didokumentasikan untuk langkah training di notebook; pastikan notebook dan inference tetap konsisten saat retraining.
+
+> **Catatan:** Preprocessing sederhana dipilih karena dataset Bahasa Indonesia dan domain PSB yang terbatas. Tidak menggunakan stemming/lemmatization.
 
 ---
 
@@ -273,8 +274,10 @@ P(Class|Text) = P(Text|Class) × P(Class) / P(Text)
 | File | Deskripsi | Lokasi |
 |------|-----------|--------|
 | `vectorizer_2.pkl` | TF-IDF Vectorizer yang sudah fit | `models/` |
-| `intent_model_2.pkl` | Logistic Regression model yang sudah trained | `models/` |
-| `label_encoder_2.pkl` | Label Encoder untuk mapping intent | `models/` |
+| `lr_intent_model_2.pkl` | Logistic Regression yang sudah dilatih | `models/` (bundle v2) |
+| `label_encoder_2.pkl` | Mapping kelas → nama intent | `models/` |
+
+Fallback: `models/v1/intent_model.pkl`, `models/v1/vectorizer.pkl`, `models/v1/label_encoder.pkl`. Mock hanya jika `ALLOW_MOCK_CLASSIFIER=true`.
 
 ### Prediction Output
 
@@ -395,4 +398,4 @@ Model dievaluasi menggunakan metrik standar:
 
 ---
 
-*Dokumen ini diperbarui: 4 Januari 2026*
+*Dokumen ini diperbarui: September 2026*

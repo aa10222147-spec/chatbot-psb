@@ -150,9 +150,7 @@ Send a message to your bot on Telegram. You should get a response in 2-3 seconds
 
 ## Docker Deployment
 
-### Option: Self-Hosted with Docker
-
-If you prefer to host on your own server.
+Repo **tidak** menyertakan `Dockerfile`. Langkah di bawah adalah contoh jika Anda menambahkannya sendiri. Produksi yang didukung di kode: Railway + Nixpacks (`railway.json`, `Procfile`).
 
 ### Step 1: Create Dockerfile
 
@@ -251,6 +249,8 @@ docker-compose down
 # =======================
 TELEGRAM_BOT_TOKEN=your_bot_token_from_botfather
 GROQ_API_KEY=your_api_key_from_console_groq_com
+# DATABASE_URL di-inject otomatis oleh Railway jika PostgreSQL terhubung
+# Untuk non-Railway, set manual:
 DATABASE_URL=postgresql://user:pass@host:port/db
 
 # =======================
@@ -269,10 +269,8 @@ GROQ_TEMPERATURE=0.3                    # Lower = more consistent
 # =======================
 # Optional - Advanced
 # =======================
-TELEGRAM_WEBHOOK_URL=https://your-domain.com/webhook
-KB_DIR=knowledge_base                   # Knowledge base directory
-MODELS_DIR=models                       # Models directory
-CLASSIFIER_CONFIDENCE_THRESHOLD=0.7     # Intent confidence threshold
+WEBHOOK_URL=https://your-domain.com/webhook  # URL publik untuk setWebhook
+ALLOW_MOCK_CLASSIFIER=false            # true hanya untuk demo tanpa .pkl
 ```
 
 ### Environment Variable Validation
@@ -304,9 +302,6 @@ for var in required:
 # Check if service is running
 curl https://chatbot-psb.railway.app/health
 
-# Check if service is ready
-curl https://chatbot-psb.railway.app/ready
-
 # Both should return 200 OK with status=healthy
 ```
 
@@ -329,24 +324,24 @@ docker-compose logs -f chatbot
 
 ```python
 # Run analytics script
-from database import get_db_session, UserQuestion
+from database import SessionLocal, UserQuestion
 from sqlalchemy import func
 from datetime import datetime, timedelta
 
-session = get_db_session()
+session = SessionLocal()
 
 # Questions in last 24 hours
 day_ago = datetime.now() - timedelta(days=1)
 recent = session.query(UserQuestion)\
-    .filter(UserQuestion.timestamp >= day_ago)\
+    .filter(UserQuestion.created_at >= day_ago)\
     .count()
 print(f"Questions (24h): {recent}")
 
 # Intent distribution
 intents = session.query(
-    UserQuestion.intent,
+    UserQuestion.predicted_intent,
     func.count(UserQuestion.id).label('count')
-).group_by(UserQuestion.intent).all()
+).group_by(UserQuestion.predicted_intent).all()
 
 print("\nIntent Distribution:")
 for intent, count in intents:
@@ -354,14 +349,14 @@ for intent, count in intents:
 
 # Average confidence
 avg_conf = session.query(
-    func.avg(UserQuestion.confidence)
+    func.avg(UserQuestion.confidence_score)
 ).scalar()
-print(f"\nAverage Confidence: {avg_conf:.2%}")
+print(f"\nAverage Confidence: {avg_conf:.2%}" if avg_conf else "N/A")
 
 # High confidence percentage
 total = session.query(UserQuestion).count()
 high_conf = session.query(UserQuestion)\
-    .filter(UserQuestion.confidence >= 0.7)\
+    .filter(UserQuestion.confidence_score >= 0.7)\
     .count()
 print(f"High Confidence: {high_conf/total if total > 0 else 0:.2%}")
 
@@ -489,12 +484,13 @@ print(f"API Latency: {latency:.2f}s")
 # If > 2s, Groq servers might be slow
 
 # Check database latency
-from database import get_db_session
-session = get_db_session()
+from database import SessionLocal, UserQuestion
+session = SessionLocal()
 start = time.time()
 count = session.query(UserQuestion).count()
 db_latency = time.time() - start
 print(f"DB Latency: {db_latency:.2f}s")
+session.close()
 ```
 
 ---
@@ -536,7 +532,7 @@ For production with high traffic:
   1. Deploy to multiple servers
   2. Use load balancer (Railway handles this)
   3. Share PostgreSQL database
-  4. Use Telegram bot API (stateless)
+  4. Use Telegram bot API (single-turn; logging ke PostgreSQL terpisah dari jawaban)
 
 Railway handles load balancing automatically.
 ```

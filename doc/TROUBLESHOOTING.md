@@ -68,7 +68,8 @@ pip install -r requirements.txt
 ```bash
 # Check if models directory exists and has files
 ls -la models/
-# Should show: vectorizer.pkl, model.pkl, label_encoder.pkl
+# Should show v2 bundle: vectorizer_2.pkl, lr_intent_model_2.pkl, label_encoder_2.pkl
+# Fallback v1: models/v1/vectorizer.pkl, models/v1/intent_model.pkl, models/v1/label_encoder.pkl
 
 # If empty, retrain models
 jupyter notebook notebooks/intent_classifier_training_executed_v2.ipynb
@@ -313,13 +314,14 @@ curl -X POST http://localhost:8000/webhook \
 
 # 5. Check database logging
 python -c "
-from database import get_db_session, UserQuestion
-session = get_db_session()
-latest = session.query(UserQuestion).order_by(UserQuestion.timestamp.desc()).first()
+from database import SessionLocal, UserQuestion
+session = SessionLocal()
+latest = session.query(UserQuestion).order_by(UserQuestion.created_at.desc()).first()
 if latest:
-    print(f'Latest: {latest.question} -> {latest.intent}')
+    print(f'Latest: {latest.question_text} -> {latest.predicted_intent}')
 else:
     print('No questions logged yet')
+session.close()
 "
 ```
 
@@ -362,9 +364,10 @@ except Exception as e:
     print(f'✗ Error: {e}')
 "
 
-# 5. For development, use SQLite instead
-# Simpler, no server needed
-DATABASE_URL=sqlite:///./chatbot_psb.db
+# 5. For development without PostgreSQL
+# Pastikan DATABASE_URL di-set ke PostgreSQL local:
+# DATABASE_URL=postgresql://user:password@localhost:5432/chatbot_psb
+# Tidak ada SQLite support di database.py — bot tetap menjawab jika DB gagal.
 ```
 
 ---
@@ -724,12 +727,14 @@ with engine.connect() as conn:
 
 ### Q: Can I run the bot without PostgreSQL?
 
-**A**: Yes, use SQLite for development:
+**A**: Tidak ada SQLite support di `database.py`. Untuk development tanpa PostgreSQL remote, install PostgreSQL lokal:
 ```
-DATABASE_URL=sqlite:///./chatbot_psb.db
+# Buat database lokal
+createdb chatbot_psb_dev
+DATABASE_URL=postgresql://user:password@localhost:5432/chatbot_psb_dev
 ```
 
-SQLite works great for development and testing. Use PostgreSQL for production (Railway provides it free).
+Alternatif: gunakan Railway PostgreSQL (tersedia gratis) — DATABASE_URL di-inject otomatis.
 
 ### Q: How do I backup the database?
 
@@ -749,20 +754,20 @@ psql $DATABASE_URL < backup_20260101.sql
 
 **A**:
 ```python
-from database import get_db_session, UserQuestion
+from database import SessionLocal, UserQuestion
 from datetime import datetime, timedelta
 
-session = get_db_session()
+session = SessionLocal()
 
 # Today's questions
 today = datetime.now().date()
 today_q = session.query(UserQuestion)\
-    .filter(UserQuestion.timestamp >= today)\
+    .filter(UserQuestion.created_at >= today)\
     .all()
 
 for q in today_q:
-    print(f"{q.timestamp}: {q.question}")
-    print(f"  → Intent: {q.intent} (conf: {q.confidence:.1%})")
+    print(f"{q.created_at}: {q.question_text}")
+    print(f"  → Intent: {q.predicted_intent} (conf: {q.confidence_score:.1%})")
     print()
 
 session.close()
