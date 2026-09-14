@@ -2,13 +2,12 @@
     "intent": "program_unggulan",
     "description": "Program unggulan dan keistimewaan pondok pesantren",
     "core_facts": {
-        "program_1": "",
-        "target_tahfidz": "30 juz dalam 3-6 tahun",
-        "program_2": "Bilingual (Arab-Inggris)",
-        "program_3": "Kajian Kitab Kuning Intensif",
-        "program_4": "Leadership & Entrepreneurship",
-        "program_5": "IT & Multimedia",
-        "prestasi_tahfidz": "Juara 1 MTQ Kabupaten 2023"
+        "program_1": "program mengaji kitab kuning, dengan metode 1 guru 2 murid",
+        "target_tahfidz": "one day one ayat, one day one bait",
+        "program_2": "program mujahadah, melalui dzikir, tawajuh, sharing, tabayun, dan islah",
+        "program_3": "Kurikulum HAS, dengan target dapat menasywir alfiah dan fathul mu'in",
+        "program_4": "IT & Multimedia",
+        "prestasi": "Juara 1 MQK Al-fiah tingkat Kabupaten, Juara 1 MQK safinatun najah tingkat Kabupaten"
     },
     "qa_pairs": [
         {
