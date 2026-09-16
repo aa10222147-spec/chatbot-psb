@@ -1,0 +1,352 @@
+{
+    "intent": "biaya_pendidikan",
+    "description": "Informasi biaya pendaftaran, SPP bulanan, dan beasiswa",
+    "core_facts": {
+        "biaya_pendaftaran": "Rp 120.000",
+        "biaya_syahriah_bulanan_pesantren": "Rp 100.000",
+        "biaya_pengembangan_pendidikan": "Rp 1.280.000",
+        "biaya_kebutuhan_santri": "Rp 1.170.000",
+        "spp_bulanan_sma": "Rp 60.000",
+        "rekening_bri": "1234-5678-9012-3456 a.n. Yayasan Ponpes Gemayasih",
+        "rekening_mandiri": "9876-5432-1098-7654 a.n. Yayasan Ponpes Gemayasih"
+    },
+    "qa_pairs": [
+        {
+            "q": "Berapa biaya pendidikan?",
+            "a": "Rincian biaya terbaru:\n\n- Biaya pendaftaran: Rp 120.000\n- Biaya syahriah bulanan pesantren: Rp 100.000\n- Biaya pengembangan pendidikan: Rp 1.280.000\n- Biaya kebutuhan santri: Rp 1.170.000\n- SPP bulanan SMA: Rp 60.000/bulan"
+        },
+        {
+            "q": "Bagaimana cara pembayaran?",
+            "a": "Pembayaran dapat dilakukan melalui transfer bank:\n1. BRI: 1234-5678-9012-3456 a.n. Yayasan Ponpes Gemayasih\n2. Mandiri: 9876-5432-1098-7654 a.n. Yayasan Ponpes Gemayasih\n3. Offline di Kantor\n4. Konfirmasi transfer ke admin untuk proses selanjutnya"
+        }
+    ],
+    "quick_answers": {
+        "biaya_pendaftaran": "Rp 120.000",
+        "syahriah_bulanan": "Rp 100.000/bulan",
+        "spp_sma": "Rp 60.000/bulan",
+        "rekening_bri": "1234-5678-9012-3456 a.n. Yayasan Ponpes Gemayasih",
+        "rekening_mandiri": "9876-5432-1098-7654 a.n. Yayasan Ponpes Gemayasih"
+    }
+},
+{
+    "intent": "eskalasi_admin",
+    "description": "Informasi kontak admin untuk pertanyaan lebih lanjut",
+    "core_facts": {
+        "wa_pendaftaran_calon_santri": "0812-3456-7890 (Ustadz Dian Amarullah)",
+        "wa_pendaftaran_calon_santriah": "0813-4567-8901 (Ustadzah Siti Azizah)",
+        "alamat": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
+        "jam_operasional": "Senin-Jumat 08:00-15:00 WIB"
+    },
+    "qa_pairs": [
+        {
+            "q": "Bagaimana cara menghubungi admin?",
+            "a": "Untuk pendaftaran calon santri, hubungi WhatsApp:\n- Ustadz Dian Amarullah: 0812-3456-7890\n- Ustadzah Siti Azizah: 0813-4567-8901\n\nAlamat: Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya\n\nJam operasional: Senin-Jumat 08:00-15:00 WIB"
+        },
+        {
+            "q": "Saya ingin bicara dengan admin pendaftaran",
+            "a": "Silakan hubungi Ustadz Dian Amarullah di WhatsApp: 0812-3456-7890 (Ustadz Dian Amarullah)\n\nInformasi lain: pendaftaran calon santriah dapat dihubungi Ustadzah Siti Azizah di 0813-4567-8901\n\nJam operasional: Senin-Jumat 08:00-15:00 WIB"
+        }
+    ],
+    "quick_answers": {
+        "wa_calon_santri": "0812-3456-7890 (Ustadz Dian Amarullah)",
+        "wa_calon_santriah": "0813-4567-8901 (Ustadzah Siti Azizah)",
+        "alamat": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
+        "jam_operasional": "Senin-Jumat 08:00-15:00 WIB"
+    }
+},
+{
+    "intent": "faq_umum",
+    "description": "Pertanyaan umum tentang pondok pesantren",
+    "core_facts": {
+        "nama_pesantren": "Pondok Pesantren Gemayasih",
+        "nama_pimpinan": "Kyai Bambang Ashif Barkhaya",
+        "alamat": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
+        "tahun_berdiri": "1924",
+        "jumlah_santri": "200 santri (putra & putri)",
+        "tipe": "Campuran (asrama terpisah)",
+        "jam_besuk": "Setiap Hari 13:00-15:00 WIB",
+        "aturan_hp": "Tidak diperkenankan",
+        "kontak_sekretariat": "(0274) 123-4567"
+    },
+    "qa_pairs": [
+        {
+            "q": "Di mana lokasi pesantren?",
+            "a": "Pondok Pesantren Gemayasih berlokasi di:\nJl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya\n\nKontak sekretariat: (0274) 123-4567"
+        },
+        {
+            "q": "Apakah santri boleh membawa HP?",
+            "a": "Tidak diperkenankan. Aturan HP di pesantren adalah: tidak boleh membawa HP, dan komunikasi dengan orang tua tetap melalui kanal yang disepakati serta saat jam besuk."
+        },
+        {
+            "q": "Kapan waktu libur/pulang?",
+            "a": "Informasi libur/pulang tidak tercantum dalam core facts saat ini. Untuk detail jadwal libur atau izin pulang, silakan hubungi admin atau sekretariat."
+        },
+        {
+            "q": "Apakah orang tua boleh menjenguk?",
+            "a": "Ya, jam besuk adalah setiap hari pukul 13:00-15:00 WIB. Mohon menyesuaikan dengan jadwal dan mengonfirmasi ke admin jika diperlukan."
+        },
+        {
+            "q": "Siapa pimpinan pesantren?",
+            "a": "Pimpinan Pondok Pesantren Gemayasih adalah Kyai Bambang Ashif Barkhaya."
+        }
+    ],
+    "quick_answers": {
+        "nama_pesantren": "Pondok Pesantren Gemayasih",
+        "pimpinan": "Kyai Bambang Ashif Barkhaya",
+        "lokasi": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
+        "tahun_berdiri": "1924",
+        "jumlah_santri": "200 santri (putra & putri)",
+        "tipe": "Campuran (asrama terpisah)",
+        "jam_besuk": "Setiap Hari 13:00-15:00 WIB",
+        "aturan_hp": "Tidak diperkenankan",
+        "kontak_sekretariat": "(0274) 123-4567"
+    }
+},
+{
+    "intent": "info_pendaftaran",
+    "description": "Informasi jadwal dan alur pendaftaran santri baru",
+    "core_facts": {
+        "gelombang_1_start": "15 Januari  2026",
+        "gelombang_1_end": "28 Februari 2026",
+        "gelombang_2_start": "1 Maret 2026",
+        "gelombang_2_end": "30 April 2026",
+        "kuota_smp": 50,
+        "kuota_sma": 50,
+        "batas_akhir": "30 April 2026 atau kuota terpenuhi",
+        "link_pendaftaran": "https://ponpesgemayasih.com/daftar",
+        "waktu_pendaftaran": "Senin-Jumat, 08:00-15:00 WIB"
+    },
+    "qa_pairs": [
+        {
+            "q": "Kapan pendaftaran dibuka?",
+            "a": "Pendaftaran dibuka dalam 2 gelombang:\n- Gelombang 1: 15 Januari 2026 - 28 Februari 2026\n- Gelombang 2: 1 Maret 2026 - 30 April 2026"
+        },
+        {
+            "q": "Bagaimana alur pendaftaran?",
+            "a": "Pendaftaran dilakukan melalui link berikut:\nhttps://ponpesgemayasih.com/daftar\n\nProsesnya dapat disesuaikan dengan petunjuk pada formulir online dan jadwal layanan pendaftaran yang berlaku."
+        },
+        {
+            "q": "Apakah pendaftaran masih dibuka?",
+            "a": "Pendaftaran dibuka sampai 30 April 2026 atau hingga kuota terpenuhi.\n\nKuota tersedia: SMP 50, SMA 50."
+        },
+        {
+            "q": "Kapan jam layanan pendaftaran?",
+            "a": "Jam pendaftaran: Senin-Jumat, 08:00-15:00 WIB."
+        }
+    ],
+    "quick_answers": {
+        "gelombang_1": "15 Januari 2026 - 28 Februari 2026",
+        "gelombang_2": "1 Maret 2026 - 30 April 2026",
+        "kuota_smp": "50",
+        "kuota_sma": "50",
+        "batas_akhir": "30 April 2026 atau kuota terpenuhi",
+        "link_pendaftaran": "https://ponpesgemayasih.com/daftar",
+        "waktu_pendaftaran": "Senin-Jumat, 08:00-15:00 WIB"
+    }
+},
+{
+    "intent": "kegiatan_harian",
+    "description": "Jadwal dan kegiatan harian santri di pondok pesantren",
+    "core_facts": {
+        "bangun_tidur": "03:30 WIB",
+        "subuh_berjamaah": "04:30 WIB",
+        "lugoh_kitab": "05:00-06:30 WIB",
+        "patrol_dan_sarapan": "06:30-07:00 WIB",
+        "sekolah_formal": "07:00-12:00 WIB",
+        "dzuhur_makan_siang": "12:00-13:00 WIB",
+        "istirahat": "13:00-15:00 WIB",
+        "ashar_berjamaah": "15:30 WIB",
+        "tashrifan_dan_lugoh_kitab": "15:40-17:00 WIB",
+        "berjamaah_maghrib": "18:00-18:30 WIB",
+        "Tahfidz": "18:30-19:30 WIB",
+        "berjamaah_isya": "19:30-20:00 WIB",
+        "ngaji_isya": "20:00-21:30 WIB",
+        "dzikiran": "21:30-23:00 WIB",
+        "istirahat_malam": "23:00 WIB"
+    },
+    "qa_pairs": [
+        {
+            "q": "Bagaimana jadwal harian santri?",
+            "a": "Jadwal harian santri:\n\n- 03:30 WIB: Bangun tidur\n- 04:30 WIB: Subuh berjamaah\n- 05:00-06:30 WIB: Lughoh kitab\n- 06:30-07:00 WIB: Patrol dan sarapan\n- 07:00-12:00 WIB: Sekolah formal\n- 12:00-13:00 WIB: Dzuhur & makan siang\n- 13:00-15:00 WIB: Istirahat\n- 15:30 WIB: Ashar berjamaah\n- 15:40-17:00 WIB: Tashrifan dan lughoh kitab\n- 18:00-18:30 WIB: Jamaah Maghrib\n- 18:30-19:30 WIB: Tahfidz\n- 19:30-20:00 WIB: Jamaah Isya\n- 20:00-21:30 WIB: Ngaji Isya\n- 21:30-23:00 WIB: Dzikir\n- 23:00 WIB: Istirahat malam"
+        },
+        {
+            "q": "Kapan waktu istirahat dan tidur?",
+            "a": "Santri mendapat istirahat pada 13:00-15:00 WIB dan istirahat malam mulai pukul 23:00 WIB."
+        }
+    ],
+    "quick_answers": {
+        "bangun_tidur": "03:30 WIB",
+        "subuh_berjamaah": "04:30 WIB",
+        "lugoh_kitab": "05:00-06:30 WIB",
+        "sekolah_formal": "07:00-12:00 WIB",
+        "istirahat": "13:00-15:00 WIB",
+        "ashar_berjamaah": "15:30 WIB",
+        "tahfidz": "18:30-19:30 WIB",
+        "dzikiran": "21:30-23:00 WIB",
+        "istirahat_malam": "23:00 WIB"
+    }
+},
+{
+    "intent": "kirim_dokumen",
+    "description": "Cara mengirim dan upload dokumen persyaratan pendaftaran",
+    "core_facts": {
+        "link_upload": "ponpesgemayasih.com/upload-dokumen",
+        "wa_admin": "0812-3456-7890",
+        "format_file": "PDF atau JPG",
+        "ukuran_maksimal": "5MB per file",
+        "batas_upload": "H-3 sebelum tes seleksi"
+    },
+    "qa_pairs": [
+        {
+            "q": "Bagaimana cara upload dokumen?",
+            "a": "Cara upload dokumen:\n\n1. Kunjungi link upload: ponpesgemayasih.com/upload-dokumen\n2. Upload file dalam format PDF atau JPG\n3. Ukuran maksimal 5MB per file\n4. Jika mengalami kendala, kirim via WhatsApp ke 0812-3456-7890"
+        },
+        {
+            "q": "Kapan batas waktu upload dokumen?",
+            "a": "Batas upload dokumen adalah H-3 sebelum tes seleksi.\n\nPastikan file sudah siap sebelum deadline agar proses verifikasi berjalan lancar."
+        }
+    ],
+    "quick_answers": {
+        "link_upload": "ponpesgemayasih.com/upload-dokumen",
+        "wa_admin": "0812-3456-7890",
+        "format_file": "PDF atau JPG",
+        "ukuran_maksimal": "5MB per file",
+        "batas_upload": "H-3 sebelum tes seleksi"
+    }
+},
+{
+    "intent": "link_formulir",
+    "description": "Link formulir pendaftaran online dan cara mengisi",
+    "core_facts": {
+        "link_utama": "https://ponpesgemayasih.com/daftar",
+        "link_alternatif": "https://forms.ponpesgemayasih.com/psb-2026",
+        "link_cek_status": "https://ponpesgemayasih.com/cek-status",
+        "biaya_isi_formulir": "GRATIS",
+        "format_file_upload": "PDF atau JPG, maksimal 5MB per file"
+    },
+    "qa_pairs": [
+        {
+            "q": "Di mana link formulir pendaftaran?",
+            "a": "Formulir pendaftaran dapat diakses di:\n- Link utama: https://ponpesgemayasih.com/daftar\n- Link alternatif: https://forms.ponpesgemayasih.com/psb-2026\n\nBiaya pengisian formulir: GRATIS."
+        },
+        {
+            "q": "Bagaimana cara mengisi formulir?",
+            "a": "Langkah pengisian formulir:\n1. Klik salah satu link pendaftaran di atas\n2. Isi data diri sesuai identitas\n3. Lengkapi data orang tua/wali\n4. Upload dokumen dengan format PDF atau JPG, maksimal 5MB per file\n5. Klik submit dan simpan bukti pendaftaran yang diterima"
+        },
+        {
+            "q": "Bagaimana cara cek status pendaftaran?",
+            "a": "Cek status pendaftaran di:\n- https://ponpesgemayasih.com/cek-status\n\nAnda dapat mengikuti instruksi yang tersedia di halaman status untuk mengecek progres pendaftaran."
+        }
+    ],
+    "quick_answers": {
+        "link_utama": "https://ponpesgemayasih.com/daftar",
+        "link_alternatif": "https://forms.ponpesgemayasih.com/psb-2026",
+        "link_cek_status": "https://ponpesgemayasih.com/cek-status",
+        "biaya_isi_formulir": "GRATIS",
+        "format_file_upload": "PDF atau JPG, maksimal 5MB per file"
+    }
+},
+{
+    "intent": "pendidikan_formal",
+    "description": "Jenjang pendidikan formal, kurikulum, dan akreditasi",
+    "core_facts": {
+        "jenjang_smp": "SMP Gemayasih Boarding School",
+        "jenjang_sma": "SMA Gemayasih Boarding School",
+        "durasi_smp": "3 tahun",
+        "durasi_sma": "3 tahun",
+        "akreditasi_smp": "C",
+        "akreditasi_ma": "B",
+        "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
+        "ijazah": "Ijazah resmi Kemendikbud",
+        "jurusan_sma": "IPA, IPS, Keagamaan"
+    },
+    "qa_pairs": [
+        {
+            "q": "Jenjang pendidikan apa saja yang tersedia?",
+            "a": "Tersedia dua jenjang formal:\n\n1. SMP Gemayasih Boarding School\n- Durasi: 3 tahun\n- Akreditasi: C\n\n2. SMA Gemayasih Boarding School\n- Durasi: 3 tahun\n- Jurusan: IPA, IPS, Keagamaan\n- Akreditasi: B\n\nSemua lulusan memperoleh ijazah resmi Kemendikbud."
+        },
+        {
+            "q": "Kurikulum apa yang digunakan?",
+            "a": "Kurikulum yang digunakan adalah Kemenag (K13/Merdeka) yang dipadukan dengan kepesantrenan."
+        },
+        {
+            "q": "Apakah lulusan mendapat ijazah resmi?",
+            "a": "Ya. Lulusan mendapatkan ijazah resmi Kemendikbud."
+        }
+    ],
+    "quick_answers": {
+        "jenjang_smp": "SMP Gemayasih Boarding School",
+        "jenjang_sma": "SMA Gemayasih Boarding School",
+        "durasi_smp": "3 tahun",
+        "durasi_sma": "3 tahun",
+        "akreditasi_smp": "C",
+        "akreditasi_ma": "B",
+        "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
+        "ijazah": "Ijazah resmi Kemendikbud",
+        "jurusan_sma": "IPA, IPS, Keagamaan"
+    }
+},
+{
+    "intent": "program_unggulan",
+    "description": "Program unggulan dan keistimewaan pondok pesantren",
+    "core_facts": {
+        "program_1": "program mengaji kitab kuning, dengan metode 1 guru 2 murid",
+        "target_tahfidz": "one day one ayat, one day one bait",
+        "program_2": "program mujahadah, melalui dzikir, tawajuh, sharing, tabayun, dan islah",
+        "program_3": "Kurikulum HAS, dengan target dapat menasywir alfiah dan fathul mu'in",
+        "program_4": "IT & Multimedia",
+        "prestasi": "Juara 1 MQK Al-fiah tingkat Kabupaten, Juara 1 MQK safinatun najah tingkat Kabupaten"
+    },
+    "qa_pairs": [
+        {
+            "q": "Apa saja program unggulan?",
+            "a": "Program unggulan yang tersedia meliputi:\n\n1. Mengaji Kitab Kuning (metode 1 guru 2 murid)\n2. Program Mujahadah (dzikir, tawajuh, sharing, tabayun, dan islah)\n3. Kurikulum HAS (target dapat menasywir alfiah dan fathul mu'in)\n4. IT & Multimedia\n\nTarget tahfidz: one day one ayat, one day one bait."
+        },
+        {
+            "q": "Apakah ada program tahfidz?",
+            "a": "Ya, program tahfidz dengan target one day one ayat, one day one bait.\n\nPrestasi yang telah dicapai: Juara 1 MQK Al-fiah tingkat Kabupaten, Juara 1 MQK Safinatun Najah tingkat Kabupaten."
+        }
+    ],
+    "quick_answers": {
+        "program_kitab_kuning": "Mengaji kitab kuning, metode 1 guru 2 murid",
+        "target_tahfidz": "one day one ayat, one day one bait",
+        "program_mujahadah": "Dzikir, tawajuh, sharing, tabayun, dan islah",
+        "kurikulum_has": "Target dapat menasywir alfiah dan fathul mu'in",
+        "it_multimedia": "IT & Multimedia",
+        "prestasi": "Juara 1 MQK Al-fiah tingkat Kabupaten, Juara 1 MQK Safinatun Najah tingkat Kabupaten"
+    }
+},
+{
+    "intent": "syarat_pendaftaran",
+    "description": "Syarat dan dokumen yang diperlukan untuk pendaftaran santri baru",
+    "core_facts": {
+        "usia_minimal_mts": "12 tahun",
+        "usia_maksimal_mts": "15 tahun",
+        "usia_minimal_ma": "15 tahun",
+        "usia_maksimal_ma": "18 tahun",
+        "pendidikan_mts": "Lulusan SD/MI",
+        "pendidikan_ma": "Lulusan SMP/MTs",
+        "ukuran_foto": "3x4 cm, latar merah",
+        "jumlah_foto": "3 lembar"
+    },
+    "qa_pairs": [
+        {
+            "q": "Apa saja syarat pendaftaran?",
+            "a": "Syarat pendaftaran berdasarkan jenjang:\n\n- SMP Gemayasih Boarding School: usia 12-15 tahun dan lulusan SD/MI\n- SMA Gemayasih Boarding School: usia 15-18 tahun dan lulusan SMP/MTs"
+        },
+        {
+            "q": "Dokumen apa yang harus disiapkan?",
+            "a": "Dokumen yang perlu disiapkan mencakup foto dengan spesifikasi:\n- Ukuran: 3x4 cm\n- Latar belakang: merah\n- Jumlah: 3 lembar"
+        }
+    ],
+    "quick_answers": {
+        "usia_minimal_mts": "12 tahun",
+        "usia_maksimal_mts": "15 tahun",
+        "usia_minimal_ma": "15 tahun",
+        "usia_maksimal_ma": "18 tahun",
+        "pendidikan_mts": "Lulusan SD/MI",
+        "pendidikan_ma": "Lulusan SMP/MTs",
+        "ukuran_foto": "3x4 cm, latar merah",
+        "jumlah_foto": "3 lembar"
+    }
+}

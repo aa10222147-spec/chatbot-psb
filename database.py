@@ -17,6 +17,13 @@ logger = logging.getLogger(__name__)
 # This makes deployment seamless across platforms
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+# Bila DATABASE_URL mengarah ke internal Railway hostname (hanya bisa
+# diakses dari dalam Railway network), fallback ke DATABASE_PUBLIC_URL
+# agar script lokal (mis. generate_gd_report.py via `railway run`) bisa
+# tetap terhubung via public proxy.
+if DATABASE_URL and "railway.internal" in DATABASE_URL:
+    DATABASE_URL = os.getenv("DATABASE_PUBLIC_URL", DATABASE_URL)
+
 # Fallback to individual environment variables for local development
 if not DATABASE_URL:
     DB_HOST = os.getenv("DB_HOST", "localhost")
