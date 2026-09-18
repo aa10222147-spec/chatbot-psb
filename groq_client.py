@@ -371,18 +371,20 @@ Jawaban Anda:"""
         self,
         intent: str,
         confidence: float,
-        knowledge_base_data: List[Dict[str, Any]],
+        knowledge_base_data: Any,
         error: str
     ) -> GroqResponse:
         """
         Generate a safe fallback response when Groq API fails.
         
         This ensures the system degrades gracefully without LLM assistance.
+        Supports both new dict format (core_facts/qa_pairs/quick_answers)
+        and legacy list format KB data.
         
         Args:
             intent: Predicted intent
             confidence: Confidence score
-            knowledge_base_data: KB data to use directly
+            knowledge_base_data: KB data to use directly (Dict or List)
             error: Error message
             
         Returns:
@@ -390,17 +392,46 @@ Jawaban Anda:"""
         """
         logger.info("Generating fallback response (KB-only mode)")
         
-        # Build simple response from KB data
-        if knowledge_base_data and len(knowledge_base_data) > 0:
-            # Combine all KB entries
-            kb_texts = [entry.get("text", "") for entry in knowledge_base_data]
-            fallback_message = "\n\n".join(kb_texts)
-            
-            # Add confidence warning if needed
-            if confidence < 0.7:
-                fallback_message += f"\n\n⚠️ Catatan: Sistem kurang yakin dengan pertanyaan Anda (confidence: {confidence:.0%}). Silakan hubungi admin untuk informasi lebih akurat."
-        else:
-            fallback_message = "Mohon maaf, informasi yang Anda cari tidak tersedia saat ini. Silakan hubungi admin untuk informasi lebih lanjut."
+        try:
+            # Use _format_knowledge_base() which already handles both
+            # new dict format (core_facts/qa_pairs/quick_answers) AND
+            # legacy list format — avoids the 'str has no .get' crash.
+            if knowledge_base_data:
+                kb_formatted = self._format_knowledge_base(knowledge_base_data)
+                
+                fallback_message = (
+                    "Bismillah,\n\n"
+                    "Mohon maaf, layanan AI sedang mengalami gangguan sementara. "
+                    "Berikut informasi dari Knowledge Base kami yang semoga dapat membantu:\n\n"
+                    f"{kb_formatted}"
+                )
+                
+                # Add confidence warning if needed
+                if confidence < 0.7:
+                    fallback_message += (
+                        f"\n\n⚠️ Catatan: Tingkat keyakinan sistem terhadap topik ini "
+                        f"{confidence:.0%}. Untuk kepastian yang lebih akurat, silakan "
+                        "hubungi admin pesantren secara langsung."
+                    )
+                
+                fallback_message += (
+                    "\n\nSemoga bermanfaat dan dimudahkan segala urusannya. Aamiin."
+                )
+            else:
+                fallback_message = (
+                    "Mohon maaf, layanan AI sedang mengalami gangguan sementara dan "
+                    "informasi yang Anda cari tidak tersedia saat ini. "
+                    "Silakan hubungi admin untuk informasi lebih lanjut."
+                )
+        except Exception as fmt_exc:
+            # Last-resort: even the formatter failed — return a safe static message
+            logger.error(
+                f"Fallback formatter also failed: {fmt_exc}", exc_info=True
+            )
+            fallback_message = (
+                "Mohon maaf, layanan AI sedang mengalami gangguan. "
+                "Silakan hubungi admin pesantren untuk informasi lebih lanjut."
+            )
         
         return GroqResponse(
             success=False,

@@ -177,6 +177,20 @@ class ResponseRouter:
             logger.info("STEP 4: Building final response...")
             confidence_level = self.intent_classifier.get_confidence_level(intent_prediction.confidence)
 
+            # Derive routing metadata from the actual Groq outcome.
+            # If Groq succeeded  → route=llm, fallback=False
+            # If Groq failed     → route=fallback, fallback=True (KB-only mode)
+            if groq_response.success:
+                actual_route = "llm"
+                actual_fallback = False
+                actual_fallback_reason = None
+                actual_llm_used = True
+            else:
+                actual_route = "fallback"
+                actual_fallback = True
+                actual_fallback_reason = "groq_api_error"
+                actual_llm_used = False
+
             result = ResponseResult(
                 success=groq_response.success,
                 message=groq_response.message,
@@ -184,17 +198,20 @@ class ResponseRouter:
                 confidence=intent_prediction.confidence,
                 confidence_level=confidence_level,
                 knowledge_base_used=True,
-                llm_used=groq_response.success,
+                llm_used=actual_llm_used,
                 error=groq_response.error,
                 confidence_threshold=threshold,
                 confidence_status=confidence_status,
-                fallback_triggered=False,
-                fallback_reason=None,
-                routed_to="llm"
+                fallback_triggered=actual_fallback,
+                fallback_reason=actual_fallback_reason,
+                routed_to=actual_route
             )
 
-            logger.info(f"[ROUTING] confidence={intent_prediction.confidence:.4f} threshold={threshold:.2f} route=llm fallback=false")
-            logger.info(f"[RESPONSE] route=llm success={result.success}")
+            logger.info(
+                f"[ROUTING] confidence={intent_prediction.confidence:.4f} threshold={threshold:.2f} "
+                f"route={actual_route} fallback={'true' if actual_fallback else 'false'}"
+            )
+            logger.info(f"[RESPONSE] route={actual_route} success={result.success}")
 
             # STEP 5: Log to database
             logger.info("STEP 5: Logging to database...")
