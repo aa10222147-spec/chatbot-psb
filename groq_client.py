@@ -60,7 +60,7 @@ class GroqClient:
         if not self.api_key:
             raise ValueError("GROQ_API_KEY environment variable not set")
         
-        self.api_url = "https://api.groq.com/openai/v1/chat/completions"
+        self.api_url = "https://api.groq.com/openai/v1/invalid-endpoint"
         self.model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
         self.max_tokens = int(os.getenv("GROQ_MAX_TOKENS", "500"))
         self.temperature = float(os.getenv("GROQ_TEMPERATURE", "0.3"))
@@ -328,7 +328,7 @@ Jawaban Anda:"""
                 self.api_url,
                 headers=headers,
                 json=payload,
-                timeout=0.001
+                timeout=30
             )
             
             response.raise_for_status()
