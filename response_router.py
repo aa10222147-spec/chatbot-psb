@@ -24,7 +24,7 @@ from pathlib import Path
 from dataclasses import dataclass
 
 from intent_classifier import get_intent_classifier, IntentPrediction, CONFIDENCE_THRESHOLD
-from groq_client import get_groq_client, GroqResponse
+from groq_client import get_groq_client, GroqResponse, ADMIN_CONTACT
 from database import log_user_question, init_db
 
 # Configure logging
@@ -335,7 +335,8 @@ class ResponseRouter:
         message = (
             "Maaf, saya belum cukup yakin memahami pertanyaan Anda.\n\n"
             "Untuk mendapatkan informasi yang lebih akurat mengenai PSB Pondok Pesantren Gemayasih, "
-            "silakan hubungi admin pondok.\n\n"
+            "silakan hubungi admin pondok secara langsung:\n"
+            f"{ADMIN_CONTACT}\n\n"
             "Silakan juga mencoba pertanyaan yang lebih spesifik mengenai:\n"
             "- pendaftaran\n"
             "- persyaratan\n"

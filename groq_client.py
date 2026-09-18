@@ -27,6 +27,10 @@ from dataclasses import dataclass
 # Configure logging
 logger = logging.getLogger(__name__)
 
+# Admin contact shown in every fail-safe / fallback message.
+# Update this single constant whenever the contact number changes.
+ADMIN_CONTACT = "📞 WhatsApp Admin: 0812-3456-7890 (Ustadz Dian Amarullah)"
+
 
 @dataclass
 class GroqResponse:
@@ -415,13 +419,14 @@ Jawaban Anda:"""
                     )
                 
                 fallback_message += (
+                    f"\n\n{ADMIN_CONTACT}"
                     "\n\nSemoga bermanfaat dan dimudahkan segala urusannya. Aamiin."
                 )
             else:
                 fallback_message = (
                     "Mohon maaf, layanan AI sedang mengalami gangguan sementara dan "
                     "informasi yang Anda cari tidak tersedia saat ini. "
-                    "Silakan hubungi admin untuk informasi lebih lanjut."
+                    f"Untuk bantuan langsung, silakan hubungi:\n{ADMIN_CONTACT}"
                 )
         except Exception as fmt_exc:
             # Last-resort: even the formatter failed — return a safe static message
@@ -430,7 +435,7 @@ Jawaban Anda:"""
             )
             fallback_message = (
                 "Mohon maaf, layanan AI sedang mengalami gangguan. "
-                "Silakan hubungi admin pesantren untuk informasi lebih lanjut."
+                f"Silakan hubungi admin pesantren untuk informasi lebih lanjut:\n{ADMIN_CONTACT}"
             )
         
         return GroqResponse(
