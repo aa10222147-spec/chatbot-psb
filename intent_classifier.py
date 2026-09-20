@@ -19,6 +19,7 @@ Architecture Role: Guard Layer 1 - Context Controller
 """
 
 import os
+import re
 import joblib
 import logging
 import numpy as np
@@ -293,13 +294,9 @@ class IntentClassifier:
         Returns:
             str: Preprocessed text
         """
-        # Basic preprocessing
-        text = text.lower().strip()
-        
-        # Remove extra whitespaces
-        text = " ".join(text.split())
-        
-        return text
+        text = text.lower()
+        text = re.sub(r'[^a-z\s]', '', text)   # sama dengan clean_text di notebook
+        return re.sub(r'\s+', ' ', text).strip()
     
     def _mock_predict(self, text: str) -> IntentPrediction:
         """
