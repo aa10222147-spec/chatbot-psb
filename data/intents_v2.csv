@@ -95,6 +95,16 @@ Syarat mendaftar santri baru?,syarat_pendaftaran
 Apa ketentuan umum pendaftaran?,syarat_pendaftaran
 Apakah santri luar kota bisa daftar?,syarat_pendaftaran
 Syarat daftar mondok?,syarat_pendaftaran
+Apakah calon santri harus membawa surat izin orang tua saat daftar?,syarat_pendaftaran
+Apakah ada tes kesehatan sebelum diterima?,syarat_pendaftaran
+Apakah dokumen bisa dikirim ulang jika kurang lengkap?,syarat_pendaftaran
+Apakah ada persyaratan khusus untuk santri pindahan?,syarat_pendaftaran
+Apakah tersedia jalur khusus untuk hafidz?,syarat_pendaftaran
+Apakah calon santri harus punya rapor terakhir?,syarat_pendaftaran
+Apakah ada syarat pencapaian akademik minimum?,syarat_pendaftaran
+Apakah ada syarat khusus untuk calon santri perempuan?,syarat_pendaftaran
+Apakah ada syarat khusus untuk usia tertentu?,syarat_pendaftaran
+Apakah calon santri harus mengikuti orientasi sebelum masuk?,syarat_pendaftaran
 Berapa biaya pendidikan per bulan?,biaya_pendidikan
 Berapa SPP santri setiap bulan?,biaya_pendidikan
 Apakah biaya asrama sudah termasuk?,biaya_pendidikan
@@ -143,6 +153,16 @@ Biaya awal mondok?,biaya_pendidikan
 Biaya pesantren lengkap?,biaya_pendidikan
 Biaya administrasi?,biaya_pendidikan
 Apakah ada biaya tambahan lain?,biaya_pendidikan
+Apakah ada biaya pendaftaran sekali bayar?,biaya_pendidikan
+Apakah uang pangkal dibayar di awal masuk?,biaya_pendidikan
+Apakah biaya seragam sudah termasuk semua?,biaya_pendidikan
+Apakah biaya asrama dibayar setiap bulan?,biaya_pendidikan
+Apakah ada biaya khusus untuk perpustakaan atau buku?,biaya_pendidikan
+Apakah uang saku santri diatur sendiri atau otomatis?,biaya_pendidikan
+Apakah biaya dapat dibayar secara cicilan?,biaya_pendidikan
+Apakah siswa yang berprestasi mendapat potongan?,biaya_pendidikan
+Apakah ada biaya tambahan untuk kegiatan tahunan?,biaya_pendidikan
+Apakah biaya naik saat naik kelas?,biaya_pendidikan
 Di mana link formulir pendaftaran?,link_formulir
 Tolong kirim formulir pendaftaran online,link_formulir
 Bagaimana cara akses formulir?,link_formulir
@@ -191,6 +211,16 @@ Formulir pendaftaran pesantren ini?,link_formulir
 Apakah ada pendaftaran via Google Form?,link_formulir
 Formulir pendaftaran masih bisa diakses?,link_formulir
 Saya ingin minta link pendaftaran,link_formulir
+Apakah formulir bisa diunduh dalam bentuk PDF?,link_formulir
+Apakah link formulir masih aktif untuk tahun ini?,link_formulir
+Apakah ada formulir khusus untuk santri putra dan putri?,link_formulir
+Bagaimana cara mengecek apakah formulir sudah dibuka?,link_formulir
+Apakah link formulir bisa dikirim lewat WhatsApp?,link_formulir
+Apakah ada formulir offline yang bisa dicetak?,link_formulir
+Apakah link dapat dibuka di smartphone?,link_formulir
+Apakah ada link alternatif jika formulir tidak terbuka?,link_formulir
+Bagaimana jika saya lupa mengisi bagian tertentu di formulir?,link_formulir
+Apakah ada tautan untuk melanjutkan pengisian formulir?,link_formulir
 Bagaimana cara upload dokumen pendaftaran?,kirim_dokumen
 Ke mana saya kirim berkas pendaftaran?,kirim_dokumen
 Apakah dokumen dikirim online?,kirim_dokumen
@@ -382,6 +412,26 @@ Program unggulan keilmuan?,program_unggulan
 Program unggulan karakter?,program_unggulan
 Program unggulan kepesantrenan?,program_unggulan
 Program unggulan pondok pesantren?,program_unggulan
+Bagaimana langkah-langkah mendaftar santri baru?,info_pendaftaran
+Di mana saya bisa mulai proses pendaftaran santri baru?,info_pendaftaran
+Apa saja tahapan pendaftaran santri baru?,info_pendaftaran
+Bagaimana alur pendaftaran santri baru di pesantren ini?,info_pendaftaran
+Apakah pendaftaran santri baru bisa dilakukan secara online?,info_pendaftaran
+Bagaimana cara mendaftar santri baru melalui formulir online?,info_pendaftaran
+Kapan saya harus mulai mengisi formulir pendaftaran?,info_pendaftaran
+Apa yang harus saya lakukan setelah mengisi formulir pendaftaran?,info_pendaftaran
+Bagaimana prosedur pendaftaran santri baru di pesantren ini?,info_pendaftaran
+Apa langkah-langkah awal untuk mendaftar ke pesantren?,info_pendaftaran
+Apakah pesantren ini berlokasi di daerah tertentu?,faq_umum
+Bagaimana alamat lengkap pesantren ini?,faq_umum
+Apa saja fasilitas umum yang tersedia di pesantren?,faq_umum
+Apakah pesantren ini memiliki klinik atau unit kesehatan?,faq_umum
+Bagaimana sistem keamanan dan pengawasan santri?,faq_umum
+Apakah ada layanan konsultasi untuk orang tua santri?,faq_umum
+Siapa nama pengasuh atau pimpinan pesantren?,faq_umum
+Apakah pesantren ini termasuk lembaga resmi atau swasta?,faq_umum
+Bagaimana sistem pembinaan akhlak dan kedisiplinan santri?,faq_umum
+Apakah pesantren ini memiliki program kegiatan sosial atau organisasi santri?,faq_umum
 Apakah santri boleh pulang?,faq_umum
 Bagaimana aturan kunjungan orang tua?,faq_umum
 Apakah santri boleh membawa HP?,faq_umum
@@ -819,6 +869,16 @@ Apa saja aktivitas santri pondok?,kegiatan_harian
 Bagaimana kegiatan santri harian?,kegiatan_harian
 Kegiatan santri rutin apa saja?,kegiatan_harian
 Apa aktivitas santri tiap hari?,kegiatan_harian
+Apakah santri punya waktu latihan olahraga rutin?,kegiatan_harian
+Apa jadwal shalat berjamaah santri?,kegiatan_harian
+Bagaimana pola belajar kitab kuning?,kegiatan_harian
+Apakah ada jadwal membersihkan asrama?,kegiatan_harian
+Kapan santri biasanya istirahat siang?,kegiatan_harian
+Apakah ada kegiatan pramuka atau organisasi?,kegiatan_harian
+Bagaimana jadwal kegiatan malam santri?,kegiatan_harian
+Apakah santri belajar dengan guru khusus?,kegiatan_harian
+Bagaimana keseharian santri saat hari libur?,kegiatan_harian
+Apakah ada kegiatan seni atau keterampilan?,kegiatan_harian
 Apa saja pendidikan formal di pesantren?,pendidikan_formal
 Apakah ada sekolah formal?,pendidikan_formal
 Jenjang pendidikan formal apa saja?,pendidikan_formal
@@ -868,6 +928,16 @@ Pendidikan formal santri seperti apa?,pendidikan_formal
 Apa sekolah formal yang disediakan?,pendidikan_formal
 Jenjang pendidikan formal pesantren?,pendidikan_formal
 Apakah sekolah formal di dalam pesantren?,pendidikan_formal
+Apakah ada kelas homeschooling atau program khusus?,pendidikan_formal
+Apakah santri mengikuti ujian semester seperti sekolah biasa?,pendidikan_formal
+Apakah ada pembelajaran komputer di sekolah formal?,pendidikan_formal
+Apakah program formal terintegrasi dengan kurikulum nasional?,pendidikan_formal
+Apakah ada kegiatan praktikum laboratorium?,pendidikan_formal
+Apakah santri bisa melanjutkan ke perguruan tinggi nanti?,pendidikan_formal
+Apakah ada kelas unggulan untuk siswa berbakat?,pendidikan_formal
+Bagaimana pembagian kelas dalam pendidikan formal?,pendidikan_formal
+Apakah ada kurikulum khusus untuk siswa baru?,pendidikan_formal
+Apakah pendidikan formal bersifat wajib bagi semua santri?,pendidikan_formal
 Apa saja program unggulan pesantren?,program_unggulan
 Program unggulan santri apa?,program_unggulan
 Keunggulan pesantren ini apa?,program_unggulan
@@ -917,6 +987,16 @@ Keunggulan akademik pesantren?,program_unggulan
 Program unggulan santri baru?,program_unggulan
 Apa program unggulan utama?,program_unggulan
 Program unggulan pendidikan Islam?,program_unggulan
+Apakah ada program hafalan Juz 30?,program_unggulan
+Apakah ada program leadership training?,program_unggulan
+Apakah ada program tilawah intensif?,program_unggulan
+Apakah ada kelas bahasa Inggris untuk pemula?,program_unggulan
+Apakah ada program magang atau keterampilan?,program_unggulan
+Apakah tersedia program pelatihan public speaking?,program_unggulan
+Apakah ada program baca tulis Al-Qur'an bagi santri baru?,program_unggulan
+Program apa yang cocok untuk santri yang ingin masuk PTN?,program_unggulan
+Apakah ada program khusus untuk santri rajin hafalan?,program_unggulan
+Apakah program ini tersedia untuk semua jenjang?,program_unggulan
 Dimana lokasi pesantren?,faq_umum
 Apakah pesantren putra atau putri?,faq_umum
 Pesantren ini khusus putra?,faq_umum
@@ -1115,4 +1195,27 @@ Boleh minta nomor WhatsApp pengurus untuk konfirmasi pendaftaran?,eskalasi_admin
 Saya ingin berkomunikasi langsung dengan pihak yang berwenang,eskalasi_admin
 Tolong sambungkan saya ke penanggung jawab penerimaan santri,eskalasi_admin
 Saya ingin berbicara dengan seseorang di pesantren secara langsung,eskalasi_admin
+Saya ingin meminta jadwal konsultasi dengan admin,eskalasi_admin
+Apa yang harus saya lakukan jika formulir tidak terbuka?,eskalasi_admin
+Saya mau tanya detail tentang beasiswa, bisa ke admin?,eskalasi_admin
+Bisakah admin membantu saya mengecek status pendaftaran?,eskalasi_admin
+Saya ingin bertanya soal dokumen yang kurang lengkap, bisa langsung ke admin?,eskalasi_admin
+Bagaimana cara menghubungi admin jika nomor WA tidak aktif?,eskalasi_admin
+Apakah admin bisa membantu menjelaskan jalur pendaftaran?,eskalasi_admin
+Saya butuh bantuan untuk menentukan program yang cocok, ke admin?,eskalasi_admin
+Boleh saya minta admin menghubungi saya kembali?,eskalasi_admin
+Apakah ada jadwal admin yang menerima konsultasi online?,eskalasi_admin
 
+Apakah dokumen bisa dikirim dalam format JPG?,kirim_dokumen
+Apakah ukuran file dibatasi?,kirim_dokumen
+Apa yang harus dilakukan jika scan dokumen buram?,kirim_dokumen
+Apakah file dokumen harus diberi nama tertentu?,kirim_dokumen
+Apakah bisa mengirim dokumen via email?,kirim_dokumen
+Apakah semua dokumen harus dikirim sekaligus?,kirim_dokumen
+Bagaimana cara memastikan dokumen berhasil terupload?,kirim_dokumen
+Apakah dokumen harus dikirim setelah pembayaran?,kirim_dokumen
+Apakah ada layanan bantuan jika upload gagal?,kirim_dokumen
+Apakah ada batas maksimal jumlah file yang diupload?,kirim_dokumen
+"Saya mau tanya detail tentang beasiswa, bisa ke admin?",eskalasi_admin
+"Saya ingin bertanya soal dokumen yang kurang lengkap, bisa langsung ke admin?",eskalasi_admin
+"Saya butuh bantuan untuk menentukan program yang cocok, ke admin?",eskalasi_admin
