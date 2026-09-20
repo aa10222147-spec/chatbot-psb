@@ -377,7 +377,7 @@ jupyter notebook notebooks/intent_classifier_training_executed_v2.ipynb
 intents = classifier.get_all_intents()
 # Returns list of all trained intent labels
 
-# 11 intents (sesuai label_encoder bundle v2):
+# 10 intents (sesuai label_encoder bundle v2):
 [
     'biaya_pendidikan',
     'eskalasi_admin',
@@ -388,8 +388,7 @@ intents = classifier.get_all_intents()
     'link_formulir',
     'pendidikan_formal',
     'program_unggulan',
-    'syarat_pendaftaran',
-    'syariah_guard'
+    'syarat_pendaftaran'
 ]
 ```
 

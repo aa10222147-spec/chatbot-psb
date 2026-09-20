@@ -100,7 +100,7 @@ X = vectorizer.fit_transform(df['clean_text'])
 ├────────────────────────────────────────────────────────────────┤
 │  • Ringan dan cepat - cocok untuk real-time inference          │
 │  • Tidak butuh GPU atau model besar                            │
-│  • Efektif untuk domain terbatas (11 intent PSB)               │
+│  • Efektif untuk domain terbatas (10 intent PSB)               │
 │  • Dapat di-serialize sebagai .pkl file                        │
 │  • Explainable - mudah debug kata mana yang penting            │
 └────────────────────────────────────────────────────────────────┘
@@ -185,7 +185,6 @@ model.fit(X_train, y_train)
 | 7 | `pendidikan_formal` |
 | 8 | `program_unggulan` |
 | 9 | `syarat_pendaftaran` |
-| 10 | `syariah_guard` |
 
 ### Mengapa Logistic Regression?
 

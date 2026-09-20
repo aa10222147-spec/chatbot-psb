@@ -41,8 +41,8 @@ Berapa biaya pendidikan per bulan?,biaya_pendidikan
 
 | Metrik | Nilai |
 |--------|-------|
-| **Total Entries** | 1.066 |
-| **Jumlah Intent** | 11 |
+| **Total Entries** | 1.219 |
+| **Jumlah Intent** | 10 |
 | **Format** | CSV (comma-separated) |
 | **Encoding** | UTF-8 |
 
@@ -50,19 +50,18 @@ Berapa biaya pendidikan per bulan?,biaya_pendidikan
 
 | Intent | Jumlah | Persentase |
 |--------|--------|------------|
-| `faq_umum` | 120 | 11.3% |
-| `program_unggulan` | 104 | 9.8% |
-| `syarat_pendaftaran` | 101 | 9.5% |
-| `kegiatan_harian` | 100 | 9.4% |
-| `info_pendaftaran` | 99 | 9.3% |
-| `biaya_pendidikan` | 99 | 9.3% |
-| `pendidikan_formal` | 98 | 9.2% |
-| `link_formulir` | 98 | 9.2% |
-| `eskalasi_admin` | 97 | 9.1% |
-| `kirim_dokumen` | 95 | 8.9% |
-| `syariah_guard` | 48 | 4.5% |
+| `faq_umum` | 141 | 11.6% |
+| `program_unggulan` | 124 | 10.2% |
+| `syarat_pendaftaran` | 122 | 10.0% |
+| `kegiatan_harian` | 120 | 9.8% |
+| `pendidikan_formal` | 118 | 9.7% |
+| `link_formulir` | 117 | 9.6% |
+| `info_pendaftaran` | 117 | 9.6% |
+| `eskalasi_admin` | 117 | 9.6% |
+| `kirim_dokumen` | 114 | 9.4% |
+| `biaya_pendidikan` | 119 | 9.8% |
 
-> **Catatan:** Dataset didesain dengan distribusi **relatif seimbang** (~9-11% per intent), kecuali `syariah_guard` yang lebih spesifik.
+> **Catatan:** Dataset didesain dengan distribusi **relatif seimbang** di sekitar 9-12% per intent.
 
 ---
 
@@ -79,7 +78,6 @@ Berapa biaya pendidikan per bulan?,biaya_pendidikan
 | `pendidikan_formal` | Jenjang sekolah formal di pesantren | "Apakah ada SMP atau SMA?" |
 | `program_unggulan` | Program khusus pesantren (tahfidz, dll) | "Apa program unggulan pesantren?" |
 | `faq_umum` | Pertanyaan umum (lokasi, aturan, fasilitas) | "Apakah santri boleh membawa HP?" |
-| `syariah_guard` | Pertanyaan tentang syariat dan adab | "Apakah program ini sesuai syariat?" |
 | `eskalasi_admin` | Request untuk berbicara dengan admin | "Saya ingin bicara dengan admin" |
 
 ---

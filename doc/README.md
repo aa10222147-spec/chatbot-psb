@@ -14,7 +14,7 @@ Dokumentasi folder ini menjelaskan implementasi di root `chatbot-psb/`. Ini adal
 ## Fitur yang benar-benar ada di kode
 
 - Intent classification: TF-IDF + Logistic Regression (`intent_classifier.py`)
-- Knowledge base JSON, 11 intent (`knowledge_base/`)
+- Knowledge base JSON, 10 intent (`knowledge_base/`)
 - Groq API bounded reasoning (`groq_client.py`)
 - Telegram via HTTP `requests` (`telegram_bot.py`)
 - Webhook FastAPI (`app.py`) dan polling lokal (`app_polling.py`)
@@ -89,7 +89,7 @@ chatbot-psb/
 ├── admin_labeling.py
 ├── export_training_data.py
 ├── utils/prompt_builder.py      # tidak di-import pipeline
-├── knowledge_base/              # 11 JSON
+├── knowledge_base/              # 10 JSON
 ├── models/                      # v2: vectorizer_2.pkl, lr_intent_model_2.pkl, label_encoder_2.pkl
 ├── data/intents_v2.csv
 ├── notebooks/

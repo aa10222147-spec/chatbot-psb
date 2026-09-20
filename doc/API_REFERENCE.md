@@ -283,7 +283,6 @@ Predicted intent category. Possible values:
 "pendidikan_formal"     - Formal education
 "program_unggulan"      - Featured programs
 "syarat_pendaftaran"    - Registration requirements
-"syariah_guard"         - Islamic compliance
 ```
 
 ### `confidence` (float)

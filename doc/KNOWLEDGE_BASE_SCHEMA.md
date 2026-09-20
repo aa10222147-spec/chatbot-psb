@@ -30,8 +30,7 @@ chatbot-psb/knowledge_base/
 ├── link_formulir.json
 ├── kirim_dokumen.json
 ├── faq_umum.json
-├── eskalasi_admin.json
-└── syariah_guard.json
+└── eskalasi_admin.json
 ```
 
 ---
@@ -75,18 +74,7 @@ Loader juga menerima kunci lama `question`/`answer` pada pasangan Q&A.
 
 ---
 
-## 4. Intent `syariah_guard` (ekstensi)
-
-Selain skema di atas, file ini memuat:
-
-- `triggers`: daftar frasa topik yang tidak dilayani
-- `responses`: template `syariah_violation`, `off_topic`, `inappropriate`
-
-Routing ke file ini tetap lewat prediksi intent classifier, sama seperti intent lain. Tidak ada keyword-filter terpisah di `response_router.py`.
-
----
-
-## 5. Legacy Schema (masih didukung)
+## 4. Legacy Schema (masih didukung)
 
 Jika file berisi `answers` (bukan `core_facts` / `qa_pairs`), router membungkusnya:
 

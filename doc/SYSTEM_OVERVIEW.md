@@ -114,7 +114,7 @@ sequenceDiagram
 | **Framework** | scikit-learn |
 | **Model Files** | `vectorizer_2.pkl`, `lr_intent_model_2.pkl`, `label_encoder_2.pkl` (bundle v2); fallback `models/v1/*.pkl` |
 | **Lokasi** | `models/` |
-| **Intents** | `info_pendaftaran`, `syarat_pendaftaran`, `biaya_pendidikan`, `program_unggulan`, `faq_umum`, `eskalasi_admin`,  `kegiatan_harian`, `kirim_dokumen`, `link_formulir`, `pendidikan_formal`, `syariah_guard`|
+| **Intents** | `info_pendaftaran`, `syarat_pendaftaran`, `biaya_pendidikan`, `program_unggulan`, `faq_umum`, `eskalasi_admin`, `kegiatan_harian`, `kirim_dokumen`, `link_formulir`, `pendidikan_formal` |
 
 ### 2. LLM (Groq API)
 | Aspek | Detail |
@@ -130,7 +130,7 @@ sequenceDiagram
 |-------|--------|
 | **Format** | JSON files dengan `core_facts`, `qa_pairs`, `quick_answers` |
 | **Lokasi** | `knowledge_base/` |
-| **Jumlah Domain** | 11 topik PSB |
+| **Jumlah Domain** | 10 topik PSB |
 
 ### 4. Response Router
 | Aspek | Detail |

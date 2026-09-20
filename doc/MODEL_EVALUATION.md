@@ -29,18 +29,15 @@ Dokumentasi ini berisi hasil evaluasi performa model Intent Classification untuk
 | `pendidikan_formal` | 0.89 | 0.85 | 0.87 | 20 |
 | `program_unggulan` | 0.91 | 0.95 | 0.93 | 21 |
 | `syarat_pendaftaran` | 0.90 | 0.95 | 0.93 | 20 |
-| `syariah_guard` | **1.00** | 0.50 | 0.67 | 10 |
 
 ### Catatan Performa
 
 **Kekuatan:**
-- 5 dari 11 intent mencapai **precision 100%** (`biaya_pendidikan`, `info_pendaftaran`, `kegiatan_harian`, `kirim_dokumen`, `link_formulir`, `syariah_guard`)
-- 2 intent mencapai **perfect F1-score 100%** (`biaya_pendidikan`, `link_formulir`)
 - Model sangat baik dalam memprediksi intent yang berkaitan dengan biaya dan link formulir
+- 2 intent mencapai **perfect F1-score 100%** (`biaya_pendidikan`, `link_formulir`)
 
 **Kelemahan:**
 - `faq_umum` memiliki precision terendah (67%), menandakan banyak false positive
-- `syariah_guard` memiliki recall terendah (50%), kemungkinan karena dataset yang imbalanced (hanya 10 samples)
 
 ---
 
@@ -69,7 +66,6 @@ Dokumentasi ini berisi hasil evaluasi performa model Intent Classification untuk
 | `pendidikan_formal` | 0.89 | 0.85 | 0.87 | 20 |
 | `program_unggulan` | 0.81 | **1.00** | 0.89 | 21 |
 | `syarat_pendaftaran` | 0.95 | 0.95 | 0.95 | 20 |
-| `syariah_guard` | **1.00** | 0.30 | 0.46 | 10 |
 
 ### Catatan Performa
 
@@ -79,7 +75,6 @@ Dokumentasi ini berisi hasil evaluasi performa model Intent Classification untuk
 - Model cenderung lebih baik dalam menangkap variasi pertanyaan
 
 **Kelemahan:**
-- `syariah_guard` memiliki recall sangat rendah (30%), F1-score hanya 46%
 - `info_pendaftaran` memiliki recall yang lebih rendah (75%) dibandingkan Logistic Regression
 - Accuracy keseluruhan lebih rendah dibandingkan Logistic Regression
 
@@ -117,7 +112,6 @@ Alasan:
 - Weighted F1-Score 92% menunjukkan performa yang sangat baik
 
 **Area Perbaikan untuk keduanya:**
-- `syariah_guard` - Perlu lebih banyak training data (hanya 10 samples, recall rendah)
 - `faq_umum` - Perlu definisi boundary yang lebih jelas dengan intent lain
 
 ---

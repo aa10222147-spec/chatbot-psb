@@ -111,9 +111,9 @@ chatbot-psb/
 ├── admin_labeling.py           # Review & koreksi intent
 ├── export_training_data.py     # Export CSV retraining
 ├── utils/prompt_builder.py     # Spesifikasi prompt (tidak di-import pipeline)
-├── knowledge_base/             # 11 file JSON intent
+├── knowledge_base/             # 10 file JSON intent
 ├── models/                     # Bundle v2: vectorizer_2.pkl, lr_intent_model_2.pkl, label_encoder_2.pkl
-├── data/intents_v2.csv         # Dataset training (~1.066 baris)
+├── data/intents_v2.csv         # Dataset training (~1.219 baris)
 ├── notebooks/                  # Training & evaluasi
 ├── tests/                      # Pytest
 ├── Procfile / railway.json / runtime.txt

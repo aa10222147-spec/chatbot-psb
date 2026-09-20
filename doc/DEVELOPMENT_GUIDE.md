@@ -121,7 +121,7 @@ chatbot-psb/
 │   ├── biaya_pendidikan.json
 │   ├── info_pendaftaran.json
 │   ├── syarat_pendaftaran.json
-│   └── ... (11 JSON files)
+│   └── ... (10 JSON files)
 │
 ├── models/                       # Pre-trained ML models (bundle v2)
 │   ├── vectorizer_2.pkl

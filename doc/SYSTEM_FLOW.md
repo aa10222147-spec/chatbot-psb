@@ -260,16 +260,7 @@ Sistem akan melakukan eskalasi ke admin dalam kondisi berikut:
 └───────────────────────────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────────────────────────┐
-│ TRIGGER 4: Intent "syariah_guard"                                                 │
-├───────────────────────────────────────────────────────────────────────────────────┤
-│ Kondisi  : Pertanyaan mengandung topik tidak sesuai syariat atau di luar PSB      │
-│ Trigger  : Topik sensitif (lihat daftar di KB)                                    │
-│ Response : "Maaf, topik ini tidak sesuai layanan PSB" + kontak admin              │
-│ KB File  : syariah_guard.json                                                     │
-└───────────────────────────────────────────────────────────────────────────────────┘
-
-┌───────────────────────────────────────────────────────────────────────────────────┐
-│ TRIGGER 5: API Groq Gagal                                                         │
+│ TRIGGER 4: API Groq Gagal                                                         │
 ├───────────────────────────────────────────────────────────────────────────────────┤
 │ Kondisi  : Timeout atau error saat call Groq API                                  │
 │ Response : Fallback response dari KB langsung                                     │
@@ -302,18 +293,18 @@ Sistem akan melakukan eskalasi ke admin dalam kondisi berikut:
                     │                  │                  │
                     ▼                  ▼                  ▼
            ┌───────────────┐  ┌───────────────┐  ┌───────────────┐
-           │ eskalasi_admin│  │ syariah_guard │  │  Normal PSB   │
-           │   (Direct)    │  │   (Block)     │  │   Intent      │
-           └───────┬───────┘  └───────┬───────┘  └───────┬───────┘
-                   │                  │                  │
-                   ▼                  ▼                  ▼
-           ┌───────────────┐  ┌───────────────┐  ┌───────────────┐
-           │ Tampilkan     │  │ Block dengan  │  │ Check         │
-           │ Kontak Admin  │  │ pesan tolak + │  │ Confidence    │
-           │               │  │ kontak admin  │  │ Score         │
-           └───────────────┘  └───────────────┘  └───────┬───────┘
-                                                          │
-                                    ┌─────────────────────┼─────────────────────┐
+           │ eskalasi_admin│  │  Normal PSB   │
+           │   (Direct)    │  │   Intent      │
+           └───────┬───────┘  └───────┬───────┘
+                   │                  │
+                   ▼                  ▼
+           ┌───────────────┐  ┌───────────────┐
+           │ Tampilkan     │  │ Check         │
+           │ Kontak Admin  │  │ Confidence    │
+           │               │  │ Score         │
+           └───────────────┘  └───────┬───────┘
+                                      │
+                                    ┌───────┴───────┐
                                     │                     │                     │
                                     ▼                     ▼                     ▼
                             ┌───────────────┐     ┌───────────────┐     ┌───────────────┐
@@ -367,24 +358,7 @@ Sistem akan melakukan eskalasi ke admin dalam kondisi berikut:
 └─────────────────────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────────────────────┐
-│ Template 3: Syariah Guard Escalation                                                │
-├─────────────────────────────────────────────────────────────────────────────────────┤
-│ "Maaf, pertanyaan Anda mengandung topik yang tidak sesuai dengan nilai-nilai       │
-│  Islam dan pondok pesantren.                                                        │
-│                                                                                     │
-│  🕌 Pondok Pesantren Gemayasih berkomitmen menjaga lingkungan islami dan edukatif.  │
-│                                                                                     │
-│  Silakan tanyakan tentang:                                                          │
-│  ✅ Pendaftaran santri                                                              │
-│  ✅ Program pendidikan                                                              │
-│  ✅ Biaya                                                             │
-│  ✅ Fasilitas pondok                                                                │
-│                                                                                     │
-│  Atau hubungi admin: 0812-3456-7890"                                               │
-└─────────────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────┐
-│ Template 4: System Error Escalation                                                 │
+│ Template 3: System Error Escalation                                                 │
 ├─────────────────────────────────────────────────────────────────────────────────────┤
 │ "Mohon maaf, terjadi kesalahan: [ERROR_MESSAGE]                                    │
 │                                                                                     │

@@ -64,7 +64,7 @@ The **Double Guard Architecture** is the core innovation that ensures safe, accu
                     │  - biaya_pendidikan.json          │
                     │  - info_pendaftaran.json          │
                     │  - syarat_pendaftaran.json        │
-                    │  - ... (11 JSON files total)      │
+                    │  - ... (10 JSON files total)      │
                     └─────────┬──────────────────────────┘
                               │
                     ┌─────────▼──────────┐
@@ -283,7 +283,6 @@ Component: IntentClassifier
 8. pendidikan_formal - Formal education
 9. program_unggulan - Featured programs
 10. syarat_pendaftaran - Registration requirements
-11. syariah_guard - Islamic compliance
 ```
 
 ### 5. Groq Client (`groq_client.py`)
@@ -334,7 +333,7 @@ Catatan: Output adalah teks natural (bukan JSON).
 Structure: knowledge_base/ directory
 ├─ File-based JSON (One file per intent)
 ├─ Schema: { "intent": "...", "description": "...", "items": [...] }
-├─ Size: ~11 JSON files (see KNOWLEDGE_BASE_SCHEMA.md)
+├─ Size: ~10 JSON files (see KNOWLEDGE_BASE_SCHEMA.md)
 └─ Update: Manual curation (no dynamic training)
 
 Files:
@@ -348,7 +347,6 @@ Files:
 ├─ pendidikan_formal.json
 ├─ program_unggulan.json
 ├─ syarat_pendaftaran.json
-└─ syariah_guard.json
 ```
 
 ### 7. Database (`database.py`)
