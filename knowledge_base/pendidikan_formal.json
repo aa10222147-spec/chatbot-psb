@@ -7,10 +7,10 @@
         "durasi_smp": "3 tahun",
         "durasi_sma": "3 tahun",
         "akreditasi_smp": "C",
-        "akreditasi_ma": "B",
+        "akreditasi_sma":"B",
         "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
         "ijazah": "Ijazah resmi Kemendikbud",
-        "jurusan_sma": "IPA, IPS, Keagamaan"
+        "jurusan_sma": "IPA, IPS"
     },
     "qa_pairs": [
         {
@@ -32,7 +32,7 @@
         "durasi_smp": "3 tahun",
         "durasi_sma": "3 tahun",
         "akreditasi_smp": "C",
-        "akreditasi_ma": "B",
+        "akreditasi_sma":"B",
         "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
         "ijazah": "Ijazah resmi Kemendikbud",
         "jurusan_sma": "IPA, IPS, Keagamaan"
