@@ -588,7 +588,7 @@ Pendaftaran pesantren dilakukan kapan?,info_pendaftaran
 Saya mau tanya soal pendaftaran santri,info_pendaftaran
 Bagaimana proses pendaftaran pesantren?,info_pendaftaran
 Apakah pendaftaran dibuka setiap tahun?,info_pendaftaran
-Saya ingin daftar, bisa jelaskan alurnya?,info_pendaftaran
+"Saya ingin daftar, bisa jelaskan alurnya?",info_pendaftaran
 Bagaimana sistem penerimaan santri baru?,info_pendaftaran
 Informasi pendaftaran pesantren dimana ya?,info_pendaftaran
 Apakah ada seleksi dalam pendaftaran?,info_pendaftaran
@@ -606,7 +606,7 @@ Informasi PPDB pesantren ini apa saja?,info_pendaftaran
 Tahapan pendaftaran santri bagaimana?,info_pendaftaran
 Apakah ada jadwal resmi pendaftaran?,info_pendaftaran
 Pendaftaran santri baru lewat apa?,info_pendaftaran
-Saya mau daftar pesantren, mulai dari mana?,info_pendaftaran
+"Saya mau daftar pesantren, mulai dari mana?",info_pendaftaran
 Bagaimana sistem pendaftaran santri?,info_pendaftaran
 Mohon info awal pendaftaran pesantren,info_pendaftaran
 Pendaftaran pesantren dibuka sampai kapan?,info_pendaftaran
@@ -1097,12 +1097,12 @@ Mohon hubungi admin sekarang,eskalasi_admin
 Saya ingin berbicara dengan admin manusia,eskalasi_admin
 Kapan tepatnya penerimaan santri baru dimulai tahun ini?,info_pendaftaran
 Tolong beritahu saya kapan pesantren membuka pendaftaran,info_pendaftaran
-Saya ingin mendaftarkan anak saya, kapan bisa mulai mendaftar?,info_pendaftaran
+"Saya ingin mendaftarkan anak saya, kapan bisa mulai mendaftar?",info_pendaftaran
 Apakah saat ini pesantren sedang menerima pendaftaran santri?,info_pendaftaran
 Bagaimana cara memulai proses pendaftaran di pesantren ini?,info_pendaftaran
 Boleh tahu kapan waktu penerimaan murid baru dibuka?,info_pendaftaran
 Apakah ada informasi mengenai jadwal penerimaan santri?,info_pendaftaran
-Saya hendak mendaftarkan anak mondok, dari mana saya harus mulai?,info_pendaftaran
+"Saya hendak mendaftarkan anak mondok, dari mana saya harus mulai?",info_pendaftaran
 Apakah pendaftaran sudah bisa dilakukan sekarang?,info_pendaftaran
 Mohon info lengkap mengenai penerimaan santri baru tahun ini,info_pendaftaran
 Apa saja yang perlu saya siapkan untuk mendaftarkan anak ke pesantren?,syarat_pendaftaran
@@ -1128,11 +1128,11 @@ Berapa kisaran biaya bulanan yang perlu dibayarkan?,biaya_pendidikan
 Tolong berikan saya tautan formulir pendaftaran santri baru,link_formulir
 Di mana saya bisa menemukan formulir untuk mendaftar secara online?,link_formulir
 Apakah pendaftaran bisa dilakukan melalui formulir digital?,link_formulir
-Saya ingin mengisi formulir pendaftaran, ke mana saya harus pergi?,link_formulir
+"Saya ingin mengisi formulir pendaftaran, ke mana saya harus pergi?",link_formulir
 Apakah ada tautan resmi untuk mendaftar sebagai santri baru?,link_formulir
 Bagaimana cara mengakses formulir pendaftaran online?,link_formulir
 Mohon dikirimkan link formulir daftar santri,link_formulir
-Saya tidak menemukan formulirnya, bisa bantu arahkan?,link_formulir
+"Saya tidak menemukan formulirnya, bisa bantu arahkan?",link_formulir
 Apakah formulir pendaftaran tersedia dalam format digital?,link_formulir
 Adakah link khusus untuk proses pendaftaran secara online?,link_formulir
 Ke mana saya harus mengirimkan berkas-berkas pendaftaran saya?,kirim_dokumen
@@ -1143,7 +1143,7 @@ Kapan paling lambat dokumen pendaftaran harus dikirimkan?,kirim_dokumen
 Apakah ada panduan khusus untuk mengunggah berkas pendaftaran?,kirim_dokumen
 Bagaimana cara mengirim scan ijazah dan kartu keluarga?,kirim_dokumen
 Apakah berkas bisa dikirim secara bertahap atau harus sekaligus?,kirim_dokumen
-Saya kesulitan mengunggah dokumen, ada panduan langkah demi langkah?,kirim_dokumen
+"Saya kesulitan mengunggah dokumen, ada panduan langkah demi langkah?",kirim_dokumen
 Apakah ada email atau nomor khusus untuk pengiriman berkas?,kirim_dokumen
 Seperti apa gambaran keseharian santri selama di pesantren?,kegiatan_harian
 Bisa ceritakan rutinitas harian yang dijalani santri?,kegiatan_harian
@@ -1197,15 +1197,14 @@ Tolong sambungkan saya ke penanggung jawab penerimaan santri,eskalasi_admin
 Saya ingin berbicara dengan seseorang di pesantren secara langsung,eskalasi_admin
 Saya ingin meminta jadwal konsultasi dengan admin,eskalasi_admin
 Apa yang harus saya lakukan jika formulir tidak terbuka?,eskalasi_admin
-Saya mau tanya detail tentang beasiswa, bisa ke admin?,eskalasi_admin
+"Saya mau tanya detail tentang beasiswa, bisa ke admin?",eskalasi_admin
 Bisakah admin membantu saya mengecek status pendaftaran?,eskalasi_admin
-Saya ingin bertanya soal dokumen yang kurang lengkap, bisa langsung ke admin?,eskalasi_admin
+"Saya ingin bertanya soal dokumen yang kurang lengkap, bisa langsung ke admin?",eskalasi_admin
 Bagaimana cara menghubungi admin jika nomor WA tidak aktif?,eskalasi_admin
 Apakah admin bisa membantu menjelaskan jalur pendaftaran?,eskalasi_admin
-Saya butuh bantuan untuk menentukan program yang cocok, ke admin?,eskalasi_admin
+"Saya butuh bantuan untuk menentukan program yang cocok, ke admin?",eskalasi_admin
 Boleh saya minta admin menghubungi saya kembali?,eskalasi_admin
 Apakah ada jadwal admin yang menerima konsultasi online?,eskalasi_admin
-
 Apakah dokumen bisa dikirim dalam format JPG?,kirim_dokumen
 Apakah ukuran file dibatasi?,kirim_dokumen
 Apa yang harus dilakukan jika scan dokumen buram?,kirim_dokumen
