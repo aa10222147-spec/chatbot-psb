@@ -182,8 +182,10 @@ class TelegramBotHandler:
         # Main response
         message = result.message
         
-        # Add metadata footer for low confidence or errors
-        if result.confidence_level in ['low', 'very_low'] and result.confidence > 0:
+        # Only show the confidence note for the actual runtime fallback mode.
+        # This prevents misleading notes for medium/low model confidence that is
+        # still allowed to continue through normal routing.
+        if result.fallback_triggered and result.confidence > 0 and result.confidence < 0.30:
             message += f"\n\n💡 _Catatan: Tingkat keyakinan sistem {result.confidence:.0%}_"
         
         # Add debug info in development mode

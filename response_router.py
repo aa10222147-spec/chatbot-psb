@@ -30,6 +30,11 @@ from database import log_user_question, init_db
 # Configure logging
 logger = logging.getLogger(__name__)
 
+# Runtime routing policy lives here: fallback to KB-only mode only when
+# the model confidence is below the explicit operational threshold.
+# This keeps behavior consistent with the documented policy in the project.
+RUNTIME_FALLBACK_THRESHOLD = 0.30
+
 
 @dataclass
 class ResponseResult:
@@ -104,7 +109,7 @@ class ResponseRouter:
             return self._get_error_response("Pertanyaan tidak boleh kosong.")
         
         logger.info(f"Processing question: {question[:100]}...")
-        threshold = getattr(self.intent_classifier, "confidence_threshold", CONFIDENCE_THRESHOLD)
+        threshold = RUNTIME_FALLBACK_THRESHOLD
         logger.info(f"[QUERY] user_id={user_id} question=\"{question}\"")
 
         try:
@@ -123,12 +128,12 @@ class ResponseRouter:
             #   and require a confidence-aware disclaimer in the prompt/response.
             # - < 30%: graceful fallback; do not trust the predicted intent enough
             #   to select a knowledge-base context for the LLM.
-            if intent_prediction.confidence < 0.30:
+            if intent_prediction.confidence < RUNTIME_FALLBACK_THRESHOLD:
                 logger.info(
                     f"[ROUTING] confidence={intent_prediction.confidence:.4f} route=fallback "
-                    f"fallback=true reason=confidence_below_30pct"
+                    f"fallback=true reason=confidence_below_runtime_threshold"
                 )
-                result = self._get_low_confidence_response(intent_prediction, 0.30)
+                result = self._get_low_confidence_response(intent_prediction, RUNTIME_FALLBACK_THRESHOLD)
                 question_id = self._log_to_database(
                     user_id=user_id,
                     question=question,
@@ -329,7 +334,7 @@ class ResponseRouter:
     def _get_low_confidence_response(
         self,
         intent_prediction: IntentPrediction,
-        threshold: float = CONFIDENCE_THRESHOLD
+        threshold: float = RUNTIME_FALLBACK_THRESHOLD
     ) -> ResponseResult:
         """Return the safe graceful-degradation message for low confidence."""
         message = (
@@ -363,7 +368,7 @@ class ResponseRouter:
     def _get_no_kb_response(
         self,
         intent_prediction: IntentPrediction,
-        threshold: float = CONFIDENCE_THRESHOLD
+        threshold: float = RUNTIME_FALLBACK_THRESHOLD
     ) -> ResponseResult:
         """
         Generate response when knowledge base is not available.

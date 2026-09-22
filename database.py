@@ -237,8 +237,43 @@ def log_user_question(
         return data.id
     except Exception:
         session.rollback()
-        logger.exception("Error logging user question")
-        raise
+        # Some production databases may still be missing the newer schema columns.
+        # Apply a targeted migration and retry once to avoid losing telemetry.
+        try:
+            ensure_user_question_schema()
+            session = SessionLocal()
+            data = UserQuestion(
+                user_id=str(user_id),
+                platform=platform,
+                question_text=question_text,
+                predicted_intent=predicted_intent,
+                confidence_score=confidence_score,
+                confidence_threshold=confidence_threshold,
+                confidence_status=confidence_status,
+                routed_to=routed_to,
+                fallback_triggered=bool(fallback_triggered),
+                response_text=response_text,
+                fallback_reason=fallback_reason,
+                knowledge_base_used=knowledge_base_used,
+                llm_used=bool(llm_used),
+                error_message=error_message,
+            )
+            session.add(data)
+            session.commit()
+            session.refresh(data)
+            logger.info(
+                "Logged question after schema migration id=%s user_id=%s intent=%s confidence=%s",
+                data.id,
+                user_id,
+                predicted_intent,
+                confidence_score,
+            )
+            return data.id
+        except Exception:
+            logger.exception("Error logging user question even after schema migration")
+            raise
+        finally:
+            session.close()
     finally:
         session.close()
 
