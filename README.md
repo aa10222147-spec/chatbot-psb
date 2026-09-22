@@ -1,144 +1,167 @@
 # Chatbot PSB – Penerimaan Santri Baru
 
-**Version:** 1.2  
-**Platform:** Telegram  
-**Architecture:** Double Guard (Intent Classifier + LLM Reasoning)  
-**Last updated:** September 2026
+Project ini adalah chatbot Telegram untuk layanan penerimaan santri baru di Pondok Pesantren Gemayasih. Arsitekturnya menggunakan pola Double Guard: intent classifier sebagai pengunci konteks, lalu Groq digunakan untuk merapikan jawaban berdasarkan knowledge base yang sudah ditentukan.
 
-Chatbot NLP untuk Penerimaan Santri Baru (PSB) Pondok Pesantren Gemayasih.  
-Intent classification mengunci konteks; Groq hanya merangkai bahasa dari knowledge base JSON.
+## Ringkasan Proyek
 
----
+- Bot berjalan di Telegram
+- Request masuk diproses melalui FastAPI
+- Intent diprediksi dengan TF-IDF + Logistic Regression
+- Knowledge base JSON menjadi satu-satunya sumber fakta
+- Groq hanya digunakan untuk menulis ulang jawaban secara formal dan santun
+- PostgreSQL digunakan sebagai logging bila tersedia
+- Saat confidence rendah atau Groq gagal, sistem secara aman beralih ke fallback
 
 ## Fitur Utama
 
-- ✅ **Intent Classification** – TF-IDF + Logistic Regression (`intent_classifier.py`)
-- ✅ **Knowledge Base** – JSON per intent, single source of truth (`knowledge_base/`)
-- ✅ **LLM Bounded Reasoning** – Groq API, hanya merangkai bahasa (`groq_client.py`)
-- ✅ **Double Guard Architecture** – mencegah hallucination
-- ✅ **Telegram Bot** – webhook (produksi) & polling (dev)
-- ✅ **PostgreSQL Logging** – catat pertanyaan, intent, confidence (`database.py`)
-- ✅ **Admin Tools** – labeling & export dataset retraining
-- ✅ **Graceful Fallback** – jika confidence rendah, KB hilang, atau Groq gagal
-
----
+- Intent classification dengan model ML yang diload dari folder `models/`
+- Knowledge base per intent di folder `knowledge_base/`
+- Response routing melalui `response_router.py`
+- Telegram webhook dan polling mode untuk kebutuhan lokal atau produksi
+- Database logging untuk pertanyaan, intent, dan confidence
+- Graceful degradation untuk kondisi API atau model tidak tersedia
 
 ## Arsitektur
 
-```
-User → Telegram Bot API
+```text
+User
   ↓
-FastAPI webhook (app.py)  atau  polling (app_polling.py)
+Telegram Bot API
+  ↓
+FastAPI app / polling bot
   ↓
 telegram_bot.py
   ↓
 response_router.py
-  ├─ Guard 1: intent_classifier.py  (TF-IDF + Logistic Regression)
-  ├─ knowledge_base/{intent}.json   (sumber fakta)
-  ├─ Guard 2: groq_client.py        (bounded LLM)
-  └─ database.py                    (logging, best-effort)
+  ├─ intent_classifier.py   (Guard 1: klasifikasi intent)
+  ├─ knowledge_base/*.json  (single source of truth)
+  ├─ groq_client.py         (Guard 2: bounded reasoning)
+  └─ database.py            (logging optional)
   ↓
-Response → User
+Response dikirim kembali ke user
 ```
 
----
+## Struktur Folder
 
-## Quick Start
+```text
+chatbot-psb/
+├── app.py                 # FastAPI webhook + health check
+├── app_polling.py         # Long polling untuk dev lokal
+├── telegram_bot.py        # Handler update Telegram
+├── response_router.py     # Orchestrator utama
+├── intent_classifier.py   # Guard 1: TF-IDF + Logistic Regression
+├── groq_client.py         # Guard 2: Groq bounded reasoning
+├── database.py            # Koneksi/log database PostgreSQL
+├── init_database.py       # Inisialisasi tabel DB
+├── admin_labeling.py      # Labeling manual untuk data training
+├── export_training_data.py# Export data untuk retraining
+├── generate_gd_report.py # Generate laporan / analisis
+├── knowledge_base/        # Data fakta per intent
+├── models/                # Model bundle terlatih
+├── data/                  # Dataset dan export
+├── notebooks/             # Notebook eksperimen training
+├── tests/                 # Pytest coverage
+├── .env.example           # Contoh konfigurasi env
+├── requirements.txt        # Dependency produksi
+├── requirements-dev.txt    # Dependency pengembangan/testing
+├── requirements-minimal.txt
+├── Procfile               # Deploy Railway
+├── railway.json           # Konfigurasi Railway
+├── runtime.txt            # Versi runtime Python
+├── pytest.ini             # Konfigurasi pytest
+├── .gitignore
+├── LICENSE
+├── README.md
+└── .env                   # Local secret, tidak dipush
+```
 
-### Prasyarat
+## Prasyarat
 
-- Python 3.11
-- Telegram Bot Token (dari [@BotFather](https://t.me/BotFather))
-- Groq API Key (dari [console.groq.com](https://console.groq.com))
-- PostgreSQL (opsional — bot tetap menjawab jika DB tidak tersedia)
+- Python 3.10+ (direkomendasikan 3.11)
+- Telegram Bot Token dari @BotFather
+- Groq API Key dari Groq Console
+- PostgreSQL optional untuk logging dan admin tools
 
-### Instalasi
+## Setup Awal
 
 ```bash
-# 1. Virtual environment
-python -m venv venv
-source venv/bin/activate         # Linux/Mac
-# venv\Scripts\activate          # Windows
-
-# 2. Install dependensi
-pip install -r requirements.txt         # produksi
-# pip install -r requirements-dev.txt  # + pytest, black, jupyter
-
-# 3. Konfigurasi
+cd chatbot-psb
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 cp .env.example .env
-# Edit .env: isi TELEGRAM_BOT_TOKEN dan GROQ_API_KEY
+```
 
-# 4. (Opsional) Inisialisasi database
-python init_database.py
+Edit file `.env` dan isi variabel berikut:
 
-# 5. Jalankan (development)
+```env
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=llama-3.3-70b-versatile
+GROQ_MAX_TOKENS=500
+GROQ_TEMPERATURE=0.3
+WEBHOOK_URL=https://your-domain.com/webhook
+ENVIRONMENT=production
+PORT=8000
+LOG_LEVEL=INFO
+DATABASE_URL=
+ALLOW_MOCK_CLASSIFIER=false
+```
+
+## Menjalankan Bot
+
+### Mode lokal dengan polling
+
+```bash
 python app_polling.py
-
-# atau (produksi / FastAPI dengan webhook/ngrok)
-# uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
----
+Ini cocok untuk development lokal karena bot akan polling update Telegram secara berkala.
 
-## Environment Variables
+### Mode produksi dengan webhook
 
-**Wajib:** `TELEGRAM_BOT_TOKEN`, `GROQ_API_KEY`
-
-| Variable | Default | Keterangan |
-|----------|---------|------------|
-| `GROQ_MODEL` | `llama-3.3-70b-versatile` | Model Groq |
-| `GROQ_MAX_TOKENS` | `500` | |
-| `GROQ_TEMPERATURE` | `0.3` | |
-| `WEBHOOK_URL` | – | URL publik `/webhook` |
-| `ENVIRONMENT` | `production` | `development` mengaktifkan debug endpoints |
-| `DATABASE_URL` | – | PostgreSQL (Railway inject) |
-| `ALLOW_MOCK_CLASSIFIER` | `false` | `true` hanya untuk demo tanpa `.pkl` |
-
----
-
-## Struktur Project
-
-```
-chatbot-psb/
-├── app.py                      # FastAPI: webhook, /health, debug (dev)
-├── app_polling.py              # Long polling untuk localhost
-├── telegram_bot.py             # Handler pesan Telegram
-├── response_router.py          # Orchestrator Double Guard
-├── intent_classifier.py        # Guard 1
-├── groq_client.py              # Guard 2 + prompt runtime
-├── database.py                 # ORM + logging PostgreSQL
-├── init_database.py            # Buat tabel
-├── admin_labeling.py           # Review & koreksi intent
-├── export_training_data.py     # Export CSV retraining
-├── utils/prompt_builder.py     # Spesifikasi prompt (tidak di-import pipeline)
-├── knowledge_base/             # 10 file JSON intent
-├── models/                     # Bundle v2: vectorizer_2.pkl, lr_intent_model_2.pkl, label_encoder_2.pkl
-├── data/intents_v2.csv         # Dataset training (~1.219 baris)
-├── notebooks/                  # Training & evaluasi
-├── tests/                      # Pytest
-├── Procfile / railway.json / runtime.txt
-└── requirements.txt
+```bash
+uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
----
+Pastikan `WEBHOOK_URL` dan environment server sudah benar saat deploy.
 
-## Perintah Bot
+## Database
 
-`/start` &nbsp; `/help` &nbsp; `/status` &nbsp; `/about`
+Jika `DATABASE_URL` tersedia, system akan mencoba inisialisasi database pada startup. Jika tidak, bot tetap dapat berjalan dengan mode degradasi.
 
----
+Untuk inisialisasi tabel secara manual:
 
-## Endpoint HTTP
+```bash
+python init_database.py
+```
 
-| Method | Path | Keterangan |
-|--------|------|------------|
-| `GET` | `/` | Info layanan |
-| `GET` | `/health` | Health check (Railway) |
-| `POST` | `/webhook` | Update Telegram |
-| `GET` | `/webhook/info` | Debug webhook |
-| `GET/POST` | `/debug/*` | Hanya `ENVIRONMENT=development` |
+## Endpoint Penting
 
----
+- `GET /` — informasi service
+- `GET /health` — health check
+- `POST /webhook` — webhook Telegram
+- `GET /webhook/info` — debug webhook
+
+## Command Telegram
+
+Bot menyediakan command berikut:
+
+- `/start`
+- `/help`
+- `/status`
+- `/about`
+
+## Model dan Guardrails
+
+Intent classifier memuat model dari `models/`. Jika bundle model valid tidak tersedia, aplikasi dapat diblokir di production agar tidak berjalan dengan prediksi yang tidak valid, kecuali `ALLOW_MOCK_CLASSIFIER=true` secara eksplisit untuk demo/development.
+
+Groq client memiliki aturan keras:
+
+- hanya menggunakan knowledge base
+- tidak boleh menambah fakta baru
+- tidak boleh mengganti intent yang sudah diprediksi
+- hanya memperhalus bahasa, bukan menggantikan logika sistem
 
 ## Testing
 
@@ -147,32 +170,15 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
----
+## Catatan Deployment
 
-## Dokumentasi Lengkap
+Project ini siap untuk deploy di Railway dengan `Procfile` dan `railway.json` yang sudah disediakan. Environment variable `DATABASE_URL` akan otomatis terisi saat PostgreSQL service terhubung.
 
-Semua dokumentasi teknis ada di folder [`doc/`](doc/):
+## Lisensi
 
-| Dokumen | Isi |
-|---------|-----|
-| [DOCUMENTATION_INDEX.md](doc/DOCUMENTATION_INDEX.md) | Indeks & navigasi |
-| [QUICK_START.md](doc/QUICK_START.md) | Setup 5 menit |
-| [ARCHITECTURE.md](doc/ARCHITECTURE.md) | Diagram arsitektur |
-| [SYSTEM_OVERVIEW.md](doc/SYSTEM_OVERVIEW.md) | Overview sistem |
-| [COMPONENTS.md](doc/COMPONENTS.md) | Referensi komponen |
-| [API_REFERENCE.md](doc/API_REFERENCE.md) | Endpoint REST |
-| [DEPLOYMENT_GUIDE.md](doc/DEPLOYMENT_GUIDE.md) | Deploy ke Railway |
-| [DEVELOPMENT_GUIDE.md](doc/DEVELOPMENT_GUIDE.md) | Panduan developer |
-| [TROUBLESHOOTING.md](doc/TROUBLESHOOTING.md) | Pemecahan masalah |
-| [NLP_PIPELINE.md](doc/NLP_PIPELINE.md) | Pipeline NLP detail |
-| [MODEL_EVALUATION.md](doc/MODEL_EVALUATION.md) | Hasil evaluasi model |
-| [KNOWLEDGE_BASE_SCHEMA.md](doc/KNOWLEDGE_BASE_SCHEMA.md) | Skema KB JSON |
-| [PROMPT_GUARD.md](doc/PROMPT_GUARD.md) | Guardrail LLM |
-| [DATASET_DESCRIPTION.md](doc/DATASET_DESCRIPTION.md) | Deskripsi dataset |
-| [OUTLINE_FINAL.md](doc/OUTLINE_FINAL.md) | Outline laporan skripsi |
-| [WRITING_GUIDELINE.md](doc/WRITING_GUIDELINE.md) | Panduan penulisan |
-| [DECISION_LOG.md](doc/DECISION_LOG.md) | Log keputusan desain |
+Project ini menggunakan lisensi MIT. Lihat file `LICENSE` untuk detail lengkap.
 
 ---
 
-*Made with ❤️ for Islamic Education*
+Made with care for Islamic education and operational chatbot workflows.
+

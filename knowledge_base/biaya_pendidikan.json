@@ -1,30 +1,59 @@
 {
     "intent": "biaya_pendidikan",
-    "description": "Informasi biaya pendaftaran, SPP bulanan, dan beasiswa",
+    "description": "Informasi biaya pendaftaran, kebutuhan santri, SPP, dan pembayaran di Pondok Pesantren Gemayasih.",
     "core_facts": {
         "biaya_pendaftaran": "Rp 120.000",
-        "biaya_syahriah_bulanan_pesantren": "Rp 100.000",
-        "biaya_pengembangan_pendidikan": "Rp 1.280.000",
+        "total_biaya_masuk": "Rp 2.670.000",
+        "biaya_pengembangan_pendidikan": "Rp 1.000.000",
+        "biaya_perbaikan": "Rp 280.000",
         "biaya_kebutuhan_santri": "Rp 1.170.000",
-        "spp_bulanan_sma": "Rp 60.000",
-        "rekening_bri": "1234-5678-9012-3456 a.n. Yayasan Ponpes Gemayasih",
-        "rekening_mandiri": "9876-5432-1098-7654 a.n. Yayasan Ponpes Gemayasih"
+        "lemari": "Rp 450.000",
+        "seragam_formal": "Rp 400.000",
+        "seragam_olahraga": "Rp 170.000",
+        "atribut": "Rp 50.000",
+        "map_raport": "Rp 50.000",
+        "kts": "Rp 30.000",
+        "name_tag": "Rp 20.000",
+        "syahriah_bulanan": "Rp 100.000",
+        "spp_sma": "Rp 60.000/bulan",
+        "iuran_beras_santri": "13 kg/bulan atau dibayar dengan uang sesuai harga pasar",
+        "iuran_beras_santriah": "11 kg/bulan atau dibayar dengan uang sesuai harga pasar",
+        "buku_kitab": "Rp 55.000",
+        "buku_termasuk": [
+            "Riyadhoh",
+            "40 Hadits Pilihan",
+            "Buku tentang adab sehari-hari"
+        ],
+        "beasiswa": "Tidak ada beasiswa khusus; pemilik kartu PIP saat SD atau SMP dapat mengajukan",
+        "mekanisme_pembayaran": "Pembayaran dilakukan di pesantren saat daftar ulang"
     },
     "qa_pairs": [
         {
-            "q": "Berapa biaya pendidikan?",
-            "a": "Rincian biaya terbaru:\n\n- Biaya pendaftaran: Rp 120.000\n- Biaya syahriah bulanan pesantren: Rp 100.000\n- Biaya pengembangan pendidikan: Rp 1.280.000\n- Biaya kebutuhan santri: Rp 1.170.000\n- SPP bulanan SMA: Rp 60.000/bulan"
+            "q": "Berapa biaya pendaftaran?",
+            "a": "Biaya pendaftaran adalah Rp 120.000."
+        },
+        {
+            "q": "Berapa total biaya masuk?",
+            "a": "Total biaya masuk sebesar Rp 2.670.000, terdiri dari biaya pengembangan pendidikan, perbaikan, kebutuhan santri, dan komponen lainnya."
+        },
+        {
+            "q": "Berapa biaya syahriah bulanan?",
+            "a": "Biaya syahriah bulanan adalah Rp 100.000."
+        },
+        {
+            "q": "Ada berapa SPP untuk SMA?",
+            "a": "SPP sekolah hanya untuk SMA sebesar Rp 60.000 per bulan."
         },
         {
             "q": "Bagaimana cara pembayaran?",
-            "a": "Pembayaran dapat dilakukan melalui transfer bank:\n1. BRI: 1234-5678-9012-3456 a.n. Yayasan Ponpes Gemayasih\n2. Mandiri: 9876-5432-1098-7654 a.n. Yayasan Ponpes Gemayasih\n3. Offline di Kantor\n4. Konfirmasi transfer ke admin untuk proses selanjutnya"
+            "a": "Pembayaran dilakukan di pesantren saat daftar ulang."
         }
     ],
     "quick_answers": {
         "biaya_pendaftaran": "Rp 120.000",
-        "syahriah_bulanan": "Rp 100.000/bulan",
+        "total_biaya_masuk": "Rp 2.670.000",
+        "syahriah_bulanan": "Rp 100.000",
         "spp_sma": "Rp 60.000/bulan",
-        "rekening_bri": "1234-5678-9012-3456 a.n. Yayasan Ponpes Gemayasih",
-        "rekening_mandiri": "9876-5432-1098-7654 a.n. Yayasan Ponpes Gemayasih"
+        "mekanisme_pembayaran": "Pembayaran dilakukan di pesantren saat daftar ulang"
     }
 }

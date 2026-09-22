@@ -27,7 +27,7 @@
         "rekening_bri": "1234-5678-9012-3456 a.n. Yayasan Ponpes Gemayasih",
         "rekening_mandiri": "9876-5432-1098-7654 a.n. Yayasan Ponpes Gemayasih"
     }
-},
+}
 {
     "intent": "eskalasi_admin",
     "description": "Informasi kontak admin untuk pertanyaan lebih lanjut",
@@ -53,13 +53,13 @@
         "alamat": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
         "jam_operasional": "Senin-Jumat 08:00-15:00 WIB"
     }
-},
+}
 {
     "intent": "faq_umum",
     "description": "Pertanyaan umum tentang pondok pesantren",
     "core_facts": {
         "nama_pesantren": "Pondok Pesantren Gemayasih",
-        "nama_pimpinan": "Kyai Bambang Ashif Barkhaya",
+        "nama_pimpinan": "Kyai Bambang Ashif Barkhaya", 
         "alamat": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
         "tahun_berdiri": "1924",
         "jumlah_santri": "200 santri (putra & putri)",
@@ -79,7 +79,7 @@
         },
         {
             "q": "Kapan waktu libur/pulang?",
-            "a": "Informasi libur/pulang tidak tercantum dalam core facts saat ini. Untuk detail jadwal libur atau izin pulang, silakan hubungi admin atau sekretariat."
+            "a": "Informasi libur/pulang tidak tercantum dalam core facts saat ini. Untuk detail jadwal libur atau izin pulang, silakan hubungi admin atau sekretariat." 
         },
         {
             "q": "Apakah orang tua boleh menjenguk?",
@@ -101,7 +101,7 @@
         "aturan_hp": "Tidak diperkenankan",
         "kontak_sekretariat": "(0274) 123-4567"
     }
-},
+}
 {
     "intent": "info_pendaftaran",
     "description": "Informasi jadwal dan alur pendaftaran santri baru",
@@ -143,7 +143,7 @@
         "link_pendaftaran": "https://ponpesgemayasih.com/daftar",
         "waktu_pendaftaran": "Senin-Jumat, 08:00-15:00 WIB"
     }
-},
+}
 {
     "intent": "kegiatan_harian",
     "description": "Jadwal dan kegiatan harian santri di pondok pesantren",
@@ -185,7 +185,7 @@
         "dzikiran": "21:30-23:00 WIB",
         "istirahat_malam": "23:00 WIB"
     }
-},
+}
 {
     "intent": "kirim_dokumen",
     "description": "Cara mengirim dan upload dokumen persyaratan pendaftaran",
@@ -213,7 +213,7 @@
         "ukuran_maksimal": "5MB per file",
         "batas_upload": "H-3 sebelum tes seleksi"
     }
-},
+}
 {
     "intent": "link_formulir",
     "description": "Link formulir pendaftaran online dan cara mengisi",
@@ -245,7 +245,7 @@
         "biaya_isi_formulir": "GRATIS",
         "format_file_upload": "PDF atau JPG, maksimal 5MB per file"
     }
-},
+}
 {
     "intent": "pendidikan_formal",
     "description": "Jenjang pendidikan formal, kurikulum, dan akreditasi",
@@ -255,10 +255,10 @@
         "durasi_smp": "3 tahun",
         "durasi_sma": "3 tahun",
         "akreditasi_smp": "C",
-        "akreditasi_ma": "B",
+        "akreditasi_sma":"B",
         "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
         "ijazah": "Ijazah resmi Kemendikbud",
-        "jurusan_sma": "IPA, IPS, Keagamaan"
+        "jurusan_sma": "IPA, IPS"
     },
     "qa_pairs": [
         {
@@ -280,12 +280,12 @@
         "durasi_smp": "3 tahun",
         "durasi_sma": "3 tahun",
         "akreditasi_smp": "C",
-        "akreditasi_ma": "B",
+        "akreditasi_sma":"B",
         "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
         "ijazah": "Ijazah resmi Kemendikbud",
-        "jurusan_sma": "IPA, IPS, Keagamaan"
+        "jurusan_sma": "IPA, IPS"
     }
-},
+}
 {
     "intent": "program_unggulan",
     "description": "Program unggulan dan keistimewaan pondok pesantren",
@@ -315,7 +315,7 @@
         "it_multimedia": "IT & Multimedia",
         "prestasi": "Juara 1 MQK Al-fiah tingkat Kabupaten, Juara 1 MQK Safinatun Najah tingkat Kabupaten"
     }
-},
+}
 {
     "intent": "syarat_pendaftaran",
     "description": "Syarat dan dokumen yang diperlukan untuk pendaftaran santri baru",

@@ -1,26 +1,38 @@
 {
     "intent": "eskalasi_admin",
-    "description": "Informasi kontak admin untuk pertanyaan lebih lanjut",
+    "description": "Informasi kontak admin serta lokasi layanan pendaftaran Pondok Pesantren Gemayasih.",
     "core_facts": {
-        "wa_pendaftaran_calon_santri": "0812-3456-7890 (Ustadz Dian Amarullah)",
-        "wa_pendaftaran_calon_santriah": "0813-4567-8901 (Ustadzah Siti Azizah)",
+        "wa_admin": "0856-0384-5315",
+        "nama_admin_santri": "Ustadz Dian Amarullah",
+        "nama_admin_santriah": "Ustadzah Siti Azizah Juariyah",
         "alamat": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
-        "jam_operasional": "Senin-Jumat 08:00-15:00 WIB"
+        "google_maps": "https://maps.app.goo.gl/crE4PdvkSgbvKMRx8",
+        "email": "gemayasihcibungurr@gmail.com",
+        "jam_operasional": "Setiap hari, 07:00-17:00 WIB"
     },
     "qa_pairs": [
         {
-            "q": "Bagaimana cara menghubungi admin?",
-            "a": "Untuk pendaftaran calon santri, hubungi WhatsApp:\n- Ustadz Dian Amarullah: 0812-3456-7890\n- Ustadzah Siti Azizah: 0813-4567-8901\n\nAlamat: Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya\n\nJam operasional: Senin-Jumat 08:00-15:00 WIB"
+            "q": "Siapa admin yang bisa dihubungi?",
+            "a": "Nomor WhatsApp admin adalah 0856-0384-5315. Admin santri: Ustadz Dian Amarullah. Admin santriah: Ustadzah Siti Azizah Juariyah."
         },
         {
-            "q": "Saya ingin bicara dengan admin pendaftaran",
-            "a": "Silakan hubungi Ustadz Dian Amarullah di WhatsApp: 0812-3456-7890 (Ustadz Dian Amarullah)\n\nInformasi lain: pendaftaran calon santriah dapat dihubungi Ustadzah Siti Azizah di 0813-4567-8901\n\nJam operasional: Senin-Jumat 08:00-15:00 WIB"
+            "q": "Di mana alamat pesantren?",
+            "a": "Alamat Pondok Pesantren Gemayasih: Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya."
+        },
+        {
+            "q": "Bagaimana cara melihat lokasi?",
+            "a": "Lokasi dapat dilihat melalui Google Maps: https://maps.app.goo.gl/crE4PdvkSgbvKMRx8."
+        },
+        {
+            "q": "Kapan jam operasional layanan pendaftaran?",
+            "a": "Jam operasional layanan pendaftaran adalah setiap hari, pukul 07:00-17:00 WIB."
         }
     ],
     "quick_answers": {
-        "wa_calon_santri": "0812-3456-7890 (Ustadz Dian Amarullah)",
-        "wa_calon_santriah": "0813-4567-8901 (Ustadzah Siti Azizah)",
+        "wa_admin": "0856-0384-5315",
+        "nama_admin_santri": "Ustadz Dian Amarullah",
+        "nama_admin_santriah": "Ustadzah Siti Azizah Juariyah",
         "alamat": "Jl. Derah Km. 130 46185, Desa Cibungur, Kecamatan Parungponteng, Kabupaten Tasikmalaya",
-        "jam_operasional": "Senin-Jumat 08:00-15:00 WIB"
+        "jam_operasional": "Setiap hari, 07:00-17:00 WIB"
     }
 }

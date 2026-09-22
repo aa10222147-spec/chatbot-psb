@@ -1,28 +1,41 @@
 {
     "intent": "kirim_dokumen",
-    "description": "Cara mengirim dan upload dokumen persyaratan pendaftaran",
+    "description": "Daftar dokumen yang harus dikirim untuk pendaftaran santri baru.",
     "core_facts": {
-        "link_upload": "ponpesgemayasih.com/upload-dokumen",
-        "wa_admin": "0812-3456-7890",
+        "dokumen_wajib": [
+            "Kartu Keluarga",
+            "Akta kelahiran",
+            "KTP orang tua",
+            "Ijazah atau SKL",
+            "NISN",
+            "Foto",
+            "Surat penghasilan orang tua",
+            "Kartu sosial (jika ada)",
+            "Surat pernyataan"
+        ],
         "format_file": "PDF atau JPG",
-        "ukuran_maksimal": "5MB per file",
-        "batas_upload": "H-3 sebelum tes seleksi"
+        "ukuran_maksimal_file": "10 MB",
+        "jumlah_file": 3,
+        "catatan": "Beberapa detail teknis upload seperti aturan penamaan file masih perlu konfirmasi lebih lanjut."
     },
     "qa_pairs": [
         {
-            "q": "Bagaimana cara upload dokumen?",
-            "a": "Cara upload dokumen:\n\n1. Kunjungi link upload: ponpesgemayasih.com/upload-dokumen\n2. Upload file dalam format PDF atau JPG\n3. Ukuran maksimal 5MB per file\n4. Jika mengalami kendala, kirim via WhatsApp ke 0812-3456-7890"
+            "q": "Dokumen apa yang harus dikirim?",
+            "a": "Dokumen yang biasanya diminta adalah KK, akta kelahiran, KTP orang tua, ijazah atau SKL, NISN, foto, surat penghasilan orang tua, kartu sosial bila ada, dan surat pernyataan."
         },
         {
-            "q": "Kapan batas waktu upload dokumen?",
-            "a": "Batas upload dokumen adalah H-3 sebelum tes seleksi.\n\nPastikan file sudah siap sebelum deadline agar proses verifikasi berjalan lancar."
+            "q": "Berapa ukuran file yang diperbolehkan?",
+            "a": "Ukuran file maksimal yang disebutkan adalah 10 MB per file."
+        },
+        {
+            "q": "Apa format file yang bisa diupload?",
+            "a": "Format yang dipakai umumnya PDF atau JPG."
         }
     ],
     "quick_answers": {
-        "link_upload": "ponpesgemayasih.com/upload-dokumen",
-        "wa_admin": "0812-3456-7890",
+        "dokumen_wajib": "KK, akta kelahiran, KTP orang tua, ijazah/SKL, NISN, foto, surat penghasilan, kartu sosial, surat pernyataan",
         "format_file": "PDF atau JPG",
-        "ukuran_maksimal": "5MB per file",
-        "batas_upload": "H-3 sebelum tes seleksi"
+        "ukuran_maksimal_file": "10 MB",
+        "jumlah_file": "3"
     }
 }

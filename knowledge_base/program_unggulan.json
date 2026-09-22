@@ -1,30 +1,39 @@
 {
     "intent": "program_unggulan",
-    "description": "Program unggulan dan keistimewaan pondok pesantren",
+    "description": "Program unggulan dan keistimewaan pembelajaran di Pondok Pesantren Gemayasih.",
     "core_facts": {
-        "program_1": "program mengaji kitab kuning, dengan metode 1 guru 2 murid",
-        "target_tahfidz": "one day one ayat, one day one bait",
-        "program_2": "program mujahadah, melalui dzikir, tawajuh, sharing, tabayun, dan islah",
-        "program_3": "Kurikulum HAS, dengan target dapat menasywir alfiah dan fathul mu'in",
-        "program_4": "IT & Multimedia",
-        "prestasi": "Juara 1 MQK Al-fiah tingkat Kabupaten, Juara 1 MQK safinatun najah tingkat Kabupaten"
+        "pembentukan_karakter": "Menggunakan metode riyadhoh (dzikir) dan mujahadah",
+        "mujahadah_bersama": "Mujahadah bersama dijadwalkan malam minggu",
+        "metode_belajar_nahwu_shorof": "Metode belajar cepat nahwu dan shorof",
+        "metode_guru_murid": "Metode satu guru dua murid",
+        "saling_asah_asih_asuh": [
+            "Ta'arufan",
+            "Tawajuhan",
+            "Tabayunan",
+            "Islahan"
+        ],
+        "tahfidz_dan_alfiah": "Wajib, target minimal Al-Qur'an untuk murid baru adalah Juz 30; target Alfiah minimal 250 bait per semester",
+        "ekstrakurikuler": ["Pramuka", "OSN"]
     },
     "qa_pairs": [
         {
-            "q": "Apa saja program unggulan?",
-            "a": "Program unggulan yang tersedia meliputi:\n\n1. Mengaji Kitab Kuning (metode 1 guru 2 murid)\n2. Program Mujahadah (dzikir, tawajuh, sharing, tabayun, dan islah)\n3. Kurikulum HAS (target dapat menasywir alfiah dan fathul mu'in)\n4. IT & Multimedia\n\nTarget tahfidz: one day one ayat, one day one bait."
+            "q": "Apa program unggulan pesantren?",
+            "a": "Program unggulan meliputi pembentukan karakter melalui riyadhoh dan mujahadah, metode belajar cepat nahwu dan shorof, metode satu guru dua murid, serta program saling asah, asih, dan asuh."
         },
         {
             "q": "Apakah ada program tahfidz?",
-            "a": "Ya, program tahfidz dengan target one day one ayat, one day one bait.\n\nPrestasi yang telah dicapai: Juara 1 MQK Al-fiah tingkat Kabupaten, Juara 1 MQK Safinatun Najah tingkat Kabupaten."
+            "a": "Ya, tahfidz Al-Qur'an dan Alfiah adalah program wajib. Target minimal untuk murid baru adalah Juz 30, dan target Alfiah minimal 250 bait per semester."
+        },
+        {
+            "q": "Ekstrakurikuler apa yang tersedia?",
+            "a": "Ekstrakurikuler yang tersedia adalah Pramuka dan OSN."
         }
     ],
     "quick_answers": {
-        "program_kitab_kuning": "Mengaji kitab kuning, metode 1 guru 2 murid",
-        "target_tahfidz": "one day one ayat, one day one bait",
-        "program_mujahadah": "Dzikir, tawajuh, sharing, tabayun, dan islah",
-        "kurikulum_has": "Target dapat menasywir alfiah dan fathul mu'in",
-        "it_multimedia": "IT & Multimedia",
-        "prestasi": "Juara 1 MQK Al-fiah tingkat Kabupaten, Juara 1 MQK Safinatun Najah tingkat Kabupaten"
+        "pembentukan_karakter": "Riyadhoh dan mujahadah",
+        "metode_nahwu_shorof": "Belajar cepat nahwu dan shorof",
+        "satu_guru_dua_murid": "Metode satu guru dua murid",
+        "tahfidz": "Wajib, target Juz 30 dan 250 bait Alfiah per semester",
+        "ekstrakurikuler": "Pramuka dan OSN"
     }
 }

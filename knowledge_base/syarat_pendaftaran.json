@@ -1,34 +1,39 @@
 {
     "intent": "syarat_pendaftaran",
-    "description": "Syarat dan dokumen yang diperlukan untuk pendaftaran santri baru",
+    "description": "Syarat dan dokumen administrasi yang diperlukan untuk pendaftaran santri baru.",
     "core_facts": {
-        "usia_minimal_mts": "12 tahun",
-        "usia_maksimal_mts": "15 tahun",
-        "usia_minimal_ma": "15 tahun",
-        "usia_maksimal_ma": "18 tahun",
-        "pendidikan_mts": "Lulusan SD/MI",
-        "pendidikan_ma": "Lulusan SMP/MTs",
-        "ukuran_foto": "3x4 cm, latar merah",
+        "dokumen_wajib": [
+            "Fotokopi Ijazah dan SKL (SKL dapat menjadi pengganti ijazah)",
+            "Fotokopi NISN (3 lembar)",
+            "Fotokopi sertifikat ujian (3 lembar)",
+            "Fotokopi KTP orang tua (3 lembar)",
+            "Fotokopi akta kelahiran (3 lembar)",
+            "Fotokopi Kartu Keluarga (3 lembar)",
+            "Pas foto 3x4 cm (3 lembar)",
+            "Surat penghasilan orang tua",
+            "Kartu sosial (jika ada, 3 lembar)",
+            "Surat pernyataan orang tua/wali dan santri"
+        ],
+        "ukuran_foto": "3x4 cm",
         "jumlah_foto": "3 lembar"
     },
     "qa_pairs": [
         {
-            "q": "Apa saja syarat pendaftaran?",
-            "a": "Syarat pendaftaran berdasarkan jenjang:\n\n- SMP Gemayasih Boarding School: usia 12-15 tahun dan lulusan SD/MI\n- SMA Gemayasih Boarding School: usia 15-18 tahun dan lulusan SMP/MTs"
+            "q": "Dokumen apa saja yang harus dipersiapkan?",
+            "a": "Dokumen yang wajib disiapkan adalah fotokopi ijazah atau SKL, NISN, sertifikat ujian, KTP orang tua, akta kelahiran, KK, pas foto 3x4 cm, surat penghasilan orang tua, kartu sosial bila ada, dan surat pernyataan orang tua/wali serta santri."
         },
         {
-            "q": "Dokumen apa yang harus disiapkan?",
-            "a": "Dokumen yang perlu disiapkan mencakup foto dengan spesifikasi:\n- Ukuran: 3x4 cm\n- Latar belakang: merah\n- Jumlah: 3 lembar"
+            "q": "Berapa jumlah foto yang perlu dipersiapkan?",
+            "a": "Pas foto ukuran 3x4 cm dibutuhkan sebanyak 3 lembar."
+        },
+        {
+            "q": "Apakah SKL bisa menggantikan ijazah?",
+            "a": "Ya. SKL dapat digunakan sebagai pengganti ijazah."
         }
     ],
     "quick_answers": {
-        "usia_minimal_mts": "12 tahun",
-        "usia_maksimal_mts": "15 tahun",
-        "usia_minimal_ma": "15 tahun",
-        "usia_maksimal_ma": "18 tahun",
-        "pendidikan_mts": "Lulusan SD/MI",
-        "pendidikan_ma": "Lulusan SMP/MTs",
-        "ukuran_foto": "3x4 cm, latar merah",
+        "dokumen_wajib": "Ijazah/SKL, NISN, sertifikat ujian, KTP orang tua, akta kelahiran, KK, pas foto, surat penghasilan, kartu sosial, surat pernyataan",
+        "ukuran_foto": "3x4 cm",
         "jumlah_foto": "3 lembar"
     }
 }

@@ -1,40 +1,46 @@
 {
     "intent": "pendidikan_formal",
-    "description": "Jenjang pendidikan formal, kurikulum, dan akreditasi",
+    "description": "Informasi jenjang, kurikulum, akreditasi, dan program formal Pondok Pesantren Gemayasih.",
     "core_facts": {
-        "jenjang_smp": "SMP Gemayasih Boarding School",
-        "jenjang_sma": "SMA Gemayasih Boarding School",
-        "durasi_smp": "3 tahun",
-        "durasi_sma": "3 tahun",
+        "jenjang": ["SMP", "SMA"],
+        "nama_smp": "SMP GEMAYASIH BOARDING SCHOOL",
+        "nama_sma": "SMA GEMAYASIH BOARDING SCHOOL",
         "akreditasi_smp": "C",
-        "akreditasi_sma":"B",
-        "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
-        "ijazah": "Ijazah resmi Kemendikbud",
-        "jurusan_sma": "IPA, IPS"
+        "akreditasi_sma": "B",
+        "kurikulum": "Kurikulum Merdeka",
+        "ijazah": "Ijazah Kemendikbud",
+        "jurusan_sma": "IPS",
+        "ekstrakurikuler": "Pramuka",
+        "bahasa": "Bahasa Indonesia",
+        "jumlah_kelas": "3 kelas"
     },
     "qa_pairs": [
         {
             "q": "Jenjang pendidikan apa saja yang tersedia?",
-            "a": "Tersedia dua jenjang formal:\n\n1. SMP Gemayasih Boarding School\n- Durasi: 3 tahun\n- Akreditasi: C\n\n2. SMA Gemayasih Boarding School\n- Durasi: 3 tahun\n- Jurusan: IPA, IPS, Keagamaan\n- Akreditasi: B\n\nSemua lulusan memperoleh ijazah resmi Kemendikbud."
+            "a": "Tersedia jenjang SMP dan SMA."
+        },
+        {
+            "q": "Apa akreditasi sekolahnya?",
+            "a": "Akreditasi SMP adalah C, sedangkan SMA adalah B."
         },
         {
             "q": "Kurikulum apa yang digunakan?",
-            "a": "Kurikulum yang digunakan adalah Kemenag (K13/Merdeka) yang dipadukan dengan kepesantrenan."
+            "a": "Kurikulum yang digunakan adalah Kurikulum Merdeka."
         },
         {
-            "q": "Apakah lulusan mendapat ijazah resmi?",
-            "a": "Ya. Lulusan mendapatkan ijazah resmi Kemendikbud."
+            "q": "Apa jurusan SMA?",
+            "a": "SMA di pesantren ini memiliki jurusan IPS."
         }
     ],
     "quick_answers": {
-        "jenjang_smp": "SMP Gemayasih Boarding School",
-        "jenjang_sma": "SMA Gemayasih Boarding School",
-        "durasi_smp": "3 tahun",
-        "durasi_sma": "3 tahun",
+        "jenjang": "SMP dan SMA",
+        "nama_smp": "SMP GEMAYASIH BOARDING SCHOOL",
+        "nama_sma": "SMA GEMAYASIH BOARDING SCHOOL",
         "akreditasi_smp": "C",
-        "akreditasi_sma":"B",
-        "kurikulum": "Kemenag (K13/Merdeka) + Kepesantrenan",
-        "ijazah": "Ijazah resmi Kemendikbud",
-        "jurusan_sma": "IPA, IPS"
+        "akreditasi_sma": "B",
+        "kurikulum": "Kurikulum Merdeka",
+        "ijazah": "Ijazah Kemendikbud",
+        "jurusan_sma": "IPS",
+        "ekstrakurikuler": "Pramuka"
     }
 }

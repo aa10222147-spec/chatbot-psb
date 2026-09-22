@@ -1,32 +1,37 @@
 {
     "intent": "link_formulir",
-    "description": "Link formulir pendaftaran online dan cara mengisi",
+    "description": "Link formulir pendaftaran online dan informasi pengisian untuk PSB Gemayasih.",
     "core_facts": {
-        "link_utama": "https://ponpesgemayasih.com/daftar",
-        "link_alternatif": "https://forms.ponpesgemayasih.com/psb-2026",
-        "link_cek_status": "https://ponpesgemayasih.com/cek-status",
+        "link_utama": "https://forms.gle/fe2UiKuCuxN5Te29",
         "biaya_isi_formulir": "GRATIS",
-        "format_file_upload": "PDF atau JPG, maksimal 5MB per file"
+        "login": "Menggunakan email Google untuk mengisi Google Form",
+        "pilihan_jenjang": ["SMP", "SMA"],
+        "upload_dokumen": "Dilakukan di formulir",
+        "cek_status": "Melalui WhatsApp admin"
     },
     "qa_pairs": [
         {
             "q": "Di mana link formulir pendaftaran?",
-            "a": "Formulir pendaftaran dapat diakses di:\n- Link utama: https://ponpesgemayasih.com/daftar\n- Link alternatif: https://forms.ponpesgemayasih.com/psb-2026\n\nBiaya pengisian formulir: GRATIS."
+            "a": "Link formulir pendaftaran adalah https://forms.gle/fe2UiKuCuxN5Te29."
+        },
+        {
+            "q": "Apakah pengisian formulir berbayar?",
+            "a": "Tidak. Biaya pengisian formulir adalah GRATIS."
         },
         {
             "q": "Bagaimana cara mengisi formulir?",
-            "a": "Langkah pengisian formulir:\n1. Klik salah satu link pendaftaran di atas\n2. Isi data diri sesuai identitas\n3. Lengkapi data orang tua/wali\n4. Upload dokumen dengan format PDF atau JPG, maksimal 5MB per file\n5. Klik submit dan simpan bukti pendaftaran yang diterima"
+            "a": "Formulir diisi menggunakan email Google, lalu memilih jenjang SMP atau SMA sesuai kebutuhan. Dokumen juga diupload langsung di formulir."
         },
         {
-            "q": "Bagaimana cara cek status pendaftaran?",
-            "a": "Cek status pendaftaran di:\n- https://ponpesgemayasih.com/cek-status\n\nAnda dapat mengikuti instruksi yang tersedia di halaman status untuk mengecek progres pendaftaran."
+            "q": "Bagaimana cara mengecek status pendaftaran?",
+            "a": "Status pendaftaran dapat dicek melalui WhatsApp admin."
         }
     ],
     "quick_answers": {
-        "link_utama": "https://ponpesgemayasih.com/daftar",
-        "link_alternatif": "https://forms.ponpesgemayasih.com/psb-2026",
-        "link_cek_status": "https://ponpesgemayasih.com/cek-status",
+        "link_utama": "https://forms.gle/fe2UiKuCuxN5Te29",
         "biaya_isi_formulir": "GRATIS",
-        "format_file_upload": "PDF atau JPG, maksimal 5MB per file"
+        "login": "Email Google",
+        "pilihan_jenjang": "SMP atau SMA",
+        "cek_status": "WhatsApp admin"
     }
 }

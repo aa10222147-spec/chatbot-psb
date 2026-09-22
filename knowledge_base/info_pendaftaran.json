@@ -1,42 +1,57 @@
 {
     "intent": "info_pendaftaran",
-    "description": "Informasi jadwal dan alur pendaftaran santri baru",
+    "description": "Informasi jadwal, kuota, dan alur pendaftaran santri baru Pondok Pesantren Gemayasih.",
     "core_facts": {
-        "gelombang_1_start": "15 Januari  2026",
-        "gelombang_1_end": "28 Februari 2026",
-        "gelombang_2_start": "1 Maret 2026",
-        "gelombang_2_end": "30 April 2026",
+        "tahun_ajaran": "2026/2027",
+        "pendaftaran_mulai": "17 Januari 2026",
+        "gelombang_1": "17 Januari 2026 - 15 Februari 2026",
+        "gelombang_2": "16 Februari 2026 - 30 April 2026",
+        "pendaftaran_tutup": "Saat daftar ulang",
         "kuota_smp": 50,
         "kuota_sma": 50,
-        "batas_akhir": "30 April 2026 atau kuota terpenuhi",
-        "link_pendaftaran": "https://ponpesgemayasih.com/daftar",
-        "waktu_pendaftaran": "Senin-Jumat, 08:00-15:00 WIB"
+        "daftar_ulang": "10-12 Juli 2026",
+        "alur_online": [
+            "Akses Google Form",
+            "Masukkan email",
+            "Isi data",
+            "Upload file persyaratan",
+            "Pembayaran saat daftar ulang",
+            "Finalisasi data saat daftar ulang"
+        ],
+        "alur_offline": [
+            "Datang ke sekretariat",
+            "Ambil dan isi formulir fisik",
+            "Serahkan fotokopi dokumen",
+            "Pembayaran",
+            "Verifikasi berkas langsung",
+            "Soan ke keluarga pesantren"
+        ]
     },
     "qa_pairs": [
         {
-            "q": "Kapan pendaftaran dibuka?",
-            "a": "Pendaftaran dibuka dalam 2 gelombang:\n- Gelombang 1: 15 Januari 2026 - 28 Februari 2026\n- Gelombang 2: 1 Maret 2026 - 30 April 2026"
+            "q": "Kapan pendaftaran dimulai?",
+            "a": "Pendaftaran tahun ajaran 2026/2027 dimulai pada 17 Januari 2026."
         },
         {
-            "q": "Bagaimana alur pendaftaran?",
-            "a": "Pendaftaran dilakukan melalui link berikut:\nhttps://ponpesgemayasih.com/daftar\n\nProsesnya dapat disesuaikan dengan petunjuk pada formulir online dan jadwal layanan pendaftaran yang berlaku."
+            "q": "Berapa gelombang pendaftaran?",
+            "a": "Ada dua gelombang pendaftaran: Gelombang 1 dari 17 Januari 2026 sampai 15 Februari 2026, dan Gelombang 2 dari 16 Februari 2026 sampai 30 April 2026."
         },
         {
-            "q": "Apakah pendaftaran masih dibuka?",
-            "a": "Pendaftaran dibuka sampai 30 April 2026 atau hingga kuota terpenuhi.\n\nKuota tersedia: SMP 50, SMA 50."
+            "q": "Berapa kuota pendaftaran?",
+            "a": "Kuota tersedia adalah 50 untuk SMP dan 50 untuk SMA."
         },
         {
-            "q": "Kapan jam layanan pendaftaran?",
-            "a": "Jam pendaftaran: Senin-Jumat, 08:00-15:00 WIB."
+            "q": "Bagaimana alur pendaftaran online?",
+            "a": "Alur pendaftaran online adalah: akses Google Form, masukkan email, isi data, upload persyaratan, lalu lakukan pembayaran saat daftar ulang dan finalisasi data saat daftar ulang."
         }
     ],
     "quick_answers": {
-        "gelombang_1": "15 Januari 2026 - 28 Februari 2026",
-        "gelombang_2": "1 Maret 2026 - 30 April 2026",
+        "tahun_ajaran": "2026/2027",
+        "pendaftaran_mulai": "17 Januari 2026",
+        "gelombang_1": "17 Januari 2026 - 15 Februari 2026",
+        "gelombang_2": "16 Februari 2026 - 30 April 2026",
         "kuota_smp": "50",
         "kuota_sma": "50",
-        "batas_akhir": "30 April 2026 atau kuota terpenuhi",
-        "link_pendaftaran": "https://ponpesgemayasih.com/daftar",
-        "waktu_pendaftaran": "Senin-Jumat, 08:00-15:00 WIB"
+        "daftar_ulang": "10-12 Juli 2026"
     }
 }
