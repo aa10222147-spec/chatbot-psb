@@ -181,12 +181,16 @@ class TelegramBotHandler:
         """
         # Main response
         message = result.message
-        
-        # Only show the confidence note for the actual runtime fallback mode.
-        # This prevents misleading notes for medium/low model confidence that is
-        # still allowed to continue through normal routing.
-        if result.fallback_triggered and result.confidence > 0 and result.confidence < 0.30:
-            message += f"\n\n💡 _Catatan: Tingkat keyakinan sistem {result.confidence:.0%}_"
+
+        # Show a confidence note for all uncertain tiers (2–4) according to the
+        # graceful-degradation policy: 0.30 <= confidence < 0.70.
+        # For Tier 4 (< 0.30), the fallback message already includes the score;
+        # this prevents duplicate notes while keeping the score visible.
+        if result.confidence > 0 and result.confidence < 0.70 and "Tingkat keyakinan sistem" not in message:
+            message += (
+                f"\n\n💡 _Catatan: Tingkat keyakinan sistem {result.confidence:.0%}. "
+                "Jawaban ini tetap perlu kehati-hatian dan dapat dikonfirmasi ke admin._"
+            )
         
         # Add debug info in development mode
         if os.getenv("ENVIRONMENT") == "development":

@@ -347,7 +347,8 @@ class ResponseRouter:
             "- persyaratan\n"
             "- biaya\n"
             "- program pendidikan\n"
-            "- kegiatan pondok"
+            "- kegiatan pondok\n\n"
+            f"⚠️ Catatan: Tingkat keyakinan sistem {intent_prediction.confidence:.0%}."
         )
         return ResponseResult(
             success=True,

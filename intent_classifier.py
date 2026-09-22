@@ -411,21 +411,19 @@ class IntentClassifier:
     
     def get_confidence_level(self, confidence: float) -> str:
         """
-        Get human-readable confidence level.
-        
-        Args:
-            confidence: Confidence score (0.0 to 1.0)
-            
-        Returns:
-            str: Confidence level description
+        Get the confidence band used in the graceful-degradation policy.
+
+        Four-tier policy aligned with the project thesis:
+        - >= 0.70: high
+        - 0.50 to < 0.70: medium / cautious
+        - 0.30 to < 0.50: low / ambiguous
+        - < 0.30: very_low / total fallback
         """
-        if confidence >= 0.9:
-            return "very_high"
-        elif confidence >= self.confidence_threshold:
+        if confidence >= 0.70:
             return "high"
-        elif confidence >= 0.5:
+        elif confidence >= 0.50:
             return "medium"
-        elif confidence >= 0.3:
+        elif confidence >= 0.30:
             return "low"
         else:
             return "very_low"
