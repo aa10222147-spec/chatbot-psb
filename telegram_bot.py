@@ -14,9 +14,10 @@ Responsibilities:
 Integration: Telegram Bot API ↔ Response Router
 """
 
+import inspect
 import os
 import re
-import requests
+import httpx
 import logging
 from typing import Dict, Optional, Any
 
@@ -184,16 +185,20 @@ class TelegramBotHandler:
             user_id=str(chat_id),
             platform="telegram"
         )
+        if inspect.isawaitable(response_result):
+            response_result = await response_result
         
         # Build response message
         message = self._build_response_message(response_result)
         response_result.message = message
 
         if getattr(response_result, 'question_id', None):
-            self.response_router.update_logged_question_response(
+            update_result = self.response_router.update_logged_question_response(
                 response_result.question_id,
                 message,
             )
+            if inspect.isawaitable(update_result):
+                await update_result
         
         # Send response
         await self.send_message(chat_id, message)
@@ -308,35 +313,44 @@ class TelegramBotHandler:
         if parse_mode:
             payload["parse_mode"] = parse_mode
         
+        response = None
         try:
-            response = requests.post(url, json=payload, timeout=10)
+            async def _post_with_compat(client: httpx.AsyncClient, *args, **kwargs):
+                result = client.post(*args, **kwargs)
+                if inspect.isawaitable(result):
+                    return await result
+                return result
+
+            async with httpx.AsyncClient() as client:
+                response = await _post_with_compat(client, url, json=payload, timeout=10.0)
             response.raise_for_status()
             
             logger.debug(f"Message sent successfully to chat_id {chat_id}")
             return True
         
-        except requests.exceptions.RequestException as e:
+        except httpx.HTTPError as e:
             # Log detailed error from Telegram API
             try:
-                error_detail = response.json()
+                error_detail = response.json() if response is not None else None
                 logger.error(f"Telegram API Error: {error_detail}")
-            except:
+            except Exception:
                 logger.error(f"Failed to send message: {str(e)}")
             
             # Try again without parse_mode if it failed
             if parse_mode:
                 try:
-                    # Remove parse_mode entirely (not set to None)
-                    del payload["parse_mode"]
-                    response = requests.post(url, json=payload, timeout=10)
-                    response.raise_for_status()
+                    payload_without_mode = dict(payload)
+                    del payload_without_mode["parse_mode"]
+                    async with httpx.AsyncClient() as client:
+                        retry_response = await _post_with_compat(client, url, json=payload_without_mode, timeout=10.0)
+                    retry_response.raise_for_status()
                     logger.info("Message sent successfully without parse_mode")
                     return True
                 except Exception as retry_error:
                     try:
-                        retry_detail = response.json()
+                        retry_detail = retry_response.json() if 'retry_response' in locals() else None
                         logger.error(f"Retry also failed: {retry_detail}")
-                    except:
+                    except Exception:
                         logger.error(f"Retry also failed: {str(retry_error)}")
             
             return False
@@ -357,7 +371,14 @@ class TelegramBotHandler:
         }
         
         try:
-            requests.post(url, json=payload, timeout=5)
+            async def _post_with_compat(client: httpx.AsyncClient, *args, **kwargs):
+                result = client.post(*args, **kwargs)
+                if inspect.isawaitable(result):
+                    return await result
+                return result
+
+            async with httpx.AsyncClient() as client:
+                await _post_with_compat(client, url, json=payload, timeout=5.0)
         except Exception as e:
             logger.debug(f"Failed to send chat action: {str(e)}")
     

@@ -18,8 +18,9 @@ Restrictions (CRITICAL):
 - LLM CANNOT act as primary decision maker
 """
 
+import inspect
 import os
-import requests
+import httpx
 import logging
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
@@ -293,7 +294,7 @@ Jawaban Anda:"""
         
         return "\n\n".join(formatted_entries)
     
-    def generate_response(
+    async def generate_response(
         self,
         question: str,
         intent: str,
@@ -338,15 +339,22 @@ Jawaban Anda:"""
                 "top_p": 0.9,
                 "stream": False
             }
+
+            async def _post_with_compat(client: httpx.AsyncClient, *args, **kwargs):
+                result = client.post(*args, **kwargs)
+                if inspect.isawaitable(result):
+                    return await result
+                return result
             
-            # Call Groq API
-            logger.debug(f"Calling Groq API with model: {self.model}")
-            response = requests.post(
-                self.api_url,
-                headers=headers,
-                json=payload,
-                timeout=30
-            )
+            async with httpx.AsyncClient() as client:
+                logger.debug(f"Calling Groq API with model: {self.model}")
+                response = await _post_with_compat(
+                    client,
+                    self.api_url,
+                    headers=headers,
+                    json=payload,
+                    timeout=30.0,
+                )
             
             response.raise_for_status()
             
@@ -371,14 +379,14 @@ Jawaban Anda:"""
                 confidence=confidence
             )
         
-        except requests.exceptions.Timeout:
+        except httpx.TimeoutException:
             logger.error("Groq API request timeout")
             return self._generate_fallback_response(
                 intent, confidence, knowledge_base_data,
                 error="API timeout"
             )
         
-        except requests.exceptions.RequestException as e:
+        except httpx.HTTPError as e:
             logger.error(f"Groq API request failed: {str(e)}")
             return self._generate_fallback_response(
                 intent, confidence, knowledge_base_data,
@@ -487,12 +495,12 @@ Jawaban Anda:"""
                 "max_tokens": 5
             }
             
-            response = requests.post(
-                self.api_url,
-                headers=headers,
-                json=payload,
-                timeout=10
-            )
+            with httpx.Client(timeout=10.0) as client:
+                response = client.post(
+                    self.api_url,
+                    headers=headers,
+                    json=payload,
+                )
             
             return response.status_code == 200
         

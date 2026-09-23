@@ -1,4 +1,5 @@
 # Database connections for PSB Chatbot
+import asyncio
 from sqlalchemy import create_engine, Column, Integer, String, Text, Float, TIMESTAMP, Boolean, inspect, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -222,6 +223,11 @@ def update_user_question_response(
         session.close()
 
 
+async def async_update_user_question_response(*args, **kwargs) -> bool:
+    """Async wrapper to avoid blocking the FastAPI event loop during DB writes."""
+    return await asyncio.to_thread(update_user_question_response, *args, **kwargs)
+
+
 def log_user_question(
     user_id: str,
     question_text: str,
@@ -318,6 +324,11 @@ def log_user_question(
             session.close()
     finally:
         session.close()
+
+
+async def async_log_user_question(*args, **kwargs) -> int:
+    """Async wrapper to avoid blocking the FastAPI event loop during DB writes."""
+    return await asyncio.to_thread(log_user_question, *args, **kwargs)
 
 
 def get_graceful_degradation_stats(

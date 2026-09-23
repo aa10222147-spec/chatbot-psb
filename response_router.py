@@ -16,6 +16,7 @@ This is the HEART of the system - where all components come together.
 Architecture: Double Guard Orchestrator
 """
 
+import asyncio
 import os
 import json
 import logging
@@ -25,7 +26,7 @@ from dataclasses import dataclass
 
 from intent_classifier import get_intent_classifier, IntentPrediction, CONFIDENCE_THRESHOLD
 from groq_client import get_groq_client, GroqResponse, ADMIN_CONTACT
-from database import log_user_question, init_db, update_user_question_response
+from database import async_update_user_question_response, init_db, log_user_question
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -85,7 +86,7 @@ class ResponseRouter:
         
         logger.info(f"Response Router initialized with KB dir: {self.knowledge_base_dir}")
     
-    def process_question(self, question: str, user_id: str = "anonymous", platform: str = "telegram") -> ResponseResult:
+    async def process_question(self, question: str, user_id: str = "anonymous", platform: str = "telegram") -> ResponseResult:
         """
         Process a user question through the Double Guard Architecture.
         
@@ -134,12 +135,13 @@ class ResponseRouter:
                     f"fallback=true reason=confidence_below_runtime_threshold"
                 )
                 result = self._get_low_confidence_response(intent_prediction, RUNTIME_FALLBACK_THRESHOLD)
-                question_id = self._log_to_database(
-                    user_id=user_id,
-                    question=question,
-                    result=result,
-                    platform=platform,
-                    knowledge_base_used=None
+                question_id = await asyncio.to_thread(
+                    self._log_to_database,
+                    user_id,
+                    question,
+                    result,
+                    platform,
+                    None,
                 )
                 result.question_id = question_id
                 return result
@@ -156,12 +158,13 @@ class ResponseRouter:
             if not kb_data:
                 logger.warning(f"No knowledge base data found for intent: {intent_prediction.intent}")
                 result = self._get_no_kb_response(intent_prediction, threshold)
-                self._log_to_database(
-                    user_id=user_id,
-                    question=question,
-                    result=result,
-                    platform=platform,
-                    knowledge_base_used=None
+                await asyncio.to_thread(
+                    self._log_to_database,
+                    user_id,
+                    question,
+                    result,
+                    platform,
+                    None,
                 )
                 return result
 
@@ -171,7 +174,7 @@ class ResponseRouter:
 
             # STEP 3: LLM Bounded Reasoning (Guard Layer 2)
             logger.info("STEP 3: Generating response with Groq API...")
-            groq_response = self.groq_client.generate_response(
+            groq_response = await self.groq_client.generate_response(
                 question=question,
                 intent=intent_prediction.intent,
                 confidence=intent_prediction.confidence,
@@ -220,12 +223,13 @@ class ResponseRouter:
 
             # STEP 5: Log to database
             logger.info("STEP 5: Logging to database...")
-            question_id = self._log_to_database(
-                user_id=user_id,
-                question=question,
-                result=result,
-                platform=platform,
-                knowledge_base_used=intent_prediction.intent
+            question_id = await asyncio.to_thread(
+                self._log_to_database,
+                user_id,
+                question,
+                result,
+                platform,
+                intent_prediction.intent,
             )
             result.question_id = question_id
 
@@ -331,13 +335,13 @@ class ResponseRouter:
             # Don't fail the whole request if logging fails
             return None
 
-    def update_logged_question_response(self, question_id: int, response_text: str) -> bool:
+    async def update_logged_question_response(self, question_id: int, response_text: str) -> bool:
         """Persist the final user-visible response text for a logged question."""
         if question_id is None:
             return False
 
         try:
-            return update_user_question_response(
+            return await async_update_user_question_response(
                 question_id=question_id,
                 response_text=response_text,
                 fallback_triggered=None,
