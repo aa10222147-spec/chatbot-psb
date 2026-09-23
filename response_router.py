@@ -25,7 +25,7 @@ from dataclasses import dataclass
 
 from intent_classifier import get_intent_classifier, IntentPrediction, CONFIDENCE_THRESHOLD
 from groq_client import get_groq_client, GroqResponse, ADMIN_CONTACT
-from database import log_user_question, init_db
+from database import log_user_question, init_db, update_user_question_response
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -330,6 +330,23 @@ class ResponseRouter:
             logger.error(f"Failed to log question to database: {str(e)}")
             # Don't fail the whole request if logging fails
             return None
+
+    def update_logged_question_response(self, question_id: int, response_text: str) -> bool:
+        """Persist the final user-visible response text for a logged question."""
+        if question_id is None:
+            return False
+
+        try:
+            return update_user_question_response(
+                question_id=question_id,
+                response_text=response_text,
+                fallback_triggered=None,
+                routed_to=None,
+                confidence_status=None,
+            )
+        except Exception as e:
+            logger.error(f"Failed to update final response for question {question_id}: {str(e)}")
+            return False
     
     def _get_low_confidence_response(
         self,

@@ -180,6 +180,48 @@ def get_db():
         db.close()
 
 
+def update_user_question_response(
+    question_id: int,
+    response_text: str,
+    fallback_triggered: bool = None,
+    routed_to: str = None,
+    confidence_status: str = None,
+) -> bool:
+    """Update the persisted response payload for a question record."""
+    if question_id is None:
+        return False
+
+    session = SessionLocal()
+    try:
+        row = session.query(UserQuestion).filter(UserQuestion.id == question_id).first()
+        if row is None:
+            logger.warning(f"No user question found with id={question_id} for response update")
+            return False
+
+        if response_text is not None:
+            row.response_text = response_text
+        if fallback_triggered is not None:
+            row.fallback_triggered = bool(fallback_triggered)
+        if routed_to is not None:
+            row.routed_to = routed_to
+        if confidence_status is not None:
+            row.confidence_status = confidence_status
+
+        session.commit()
+        logger.info(
+            "Updated final response for question id=%s response_len=%s",
+            question_id,
+            len(response_text or ""),
+        )
+        return True
+    except Exception:
+        session.rollback()
+        logger.exception("Failed to update response_text for question id=%s", question_id)
+        return False
+    finally:
+        session.close()
+
+
 def log_user_question(
     user_id: str,
     question_text: str,

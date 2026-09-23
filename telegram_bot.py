@@ -158,6 +158,13 @@ class TelegramBotHandler:
         
         # Build response message
         message = self._build_response_message(response_result)
+        response_result.message = message
+
+        if getattr(response_result, 'question_id', None):
+            self.response_router.update_logged_question_response(
+                response_result.question_id,
+                message,
+            )
         
         # Send response
         await self.send_message(chat_id, message)
