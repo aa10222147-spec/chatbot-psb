@@ -345,7 +345,7 @@ Jawaban Anda:"""
                 self.api_url,
                 headers=headers,
                 json=payload,
-                timeout=0.001
+                timeout=30
             )
             
             response.raise_for_status()
