@@ -339,13 +339,13 @@ Jawaban Anda:"""
             
             # Parse response
             response_data = response.json()
-            refined_message = response_data["choices"][0]["message"]["content"].strip()
-            
+            llm_response = response_data["choices"][0]["message"]["content"].strip()
             logger.info("Response generated successfully")
-            
+            logger.info("[LLM RESPONSE] %s", llm_response)
+
             return GroqResponse(
                 success=True,
-                message=refined_message,
+                message=llm_response,
                 intent=intent,  # Intent NEVER changes
                 confidence=confidence
             )

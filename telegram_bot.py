@@ -199,6 +199,7 @@ class TelegramBotHandler:
         """
         # Main response
         message = result.message
+        logger.info("[FINAL RESPONSE] %s", message)
 
         # Show a confidence note for all uncertain tiers (2–4) according to the
         # graceful-degradation policy: 0.30 <= confidence < 0.70.
@@ -209,6 +210,8 @@ class TelegramBotHandler:
                 f"\n\n💡 _Catatan: Tingkat keyakinan sistem {result.confidence:.0%}. "
                 "Jawaban ini tetap perlu kehati-hatian dan dapat dikonfirmasi ke admin._"
             )
+
+        logger.info("[FINAL RESPONSE] %s", message)
         
         # Add debug info in development mode
         if os.getenv("ENVIRONMENT") == "development":
