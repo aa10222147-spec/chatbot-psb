@@ -35,6 +35,17 @@ class TelegramBotHandler:
     - Manages bot commands
     - Integrates with Response Router for chatbot logic
     """
+
+    @staticmethod
+    def _escape_markdown(text: str) -> str:
+        """Escape Markdown characters so Telegram does not strip LLM answer content."""
+        if not text:
+            return text
+
+        escaped = text.replace('\\', '\\\\')
+        for char in ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']:
+            escaped = escaped.replace(char, f'\\{char}')
+        return escaped
     
     def __init__(self):
         """
@@ -215,7 +226,7 @@ class TelegramBotHandler:
         self,
         chat_id: int,
         text: str,
-        parse_mode: str = "Markdown"
+        parse_mode: Optional[str] = None
     ) -> bool:
         """
         Send a message to a Telegram chat.
@@ -229,12 +240,16 @@ class TelegramBotHandler:
             bool: True if message sent successfully
         """
         url = f"{self.api_base_url}/sendMessage"
-        
+
+        if parse_mode == "Markdown":
+            text = self._escape_markdown(text)
+
         payload = {
             "chat_id": chat_id,
             "text": text,
-            "parse_mode": parse_mode
         }
+        if parse_mode:
+            payload["parse_mode"] = parse_mode
         
         try:
             response = requests.post(url, json=payload, timeout=10)
