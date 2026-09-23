@@ -15,6 +15,7 @@ Integration: Telegram Bot API ↔ Response Router
 """
 
 import os
+import re
 import requests
 import logging
 from typing import Dict, Optional, Any
@@ -35,6 +36,23 @@ class TelegramBotHandler:
     - Manages bot commands
     - Integrates with Response Router for chatbot logic
     """
+
+    @staticmethod
+    def _strip_markdown(text: str) -> str:
+        """Convert Markdown-formatted LLM output into plain Telegram text."""
+        if not text:
+            return text
+
+        cleaned = text
+        cleaned = re.sub(r"\[(.*?)\]\((.*?)\)", r"\1", cleaned)
+        cleaned = re.sub(r"\*\*(.+?)\*\*", r"\1", cleaned)
+        cleaned = re.sub(r"\*(.+?)\*", r"\1", cleaned)
+        cleaned = re.sub(r"__(.+?)__", r"\1", cleaned)
+        cleaned = re.sub(r"_(.+?)_", r"\1", cleaned)
+        cleaned = cleaned.replace("`", "")
+        cleaned = cleaned.replace("~", "")
+        cleaned = cleaned.replace("#", "")
+        return cleaned.strip()
 
     @staticmethod
     def _escape_markdown(text: str) -> str:
@@ -187,6 +205,40 @@ class TelegramBotHandler:
             f"Success: {response_result.success}"
         )
     
+    @staticmethod
+    def _normalize_plaintext_message(text: str) -> str:
+        """Normalize LLM text into clean, readable plain text for Telegram."""
+        if not text:
+            return ""
+
+        cleaned = TelegramBotHandler._strip_markdown(str(text))
+        cleaned = cleaned.replace("\r\n", "\n").replace("\r", "\n")
+
+        lines = []
+        for raw_line in cleaned.split("\n"):
+            line = re.sub(r"\s+", " ", raw_line).strip()
+            if line:
+                lines.append(line)
+
+        paragraphs = []
+        current_paragraph = []
+        for line in lines:
+            bullet_match = re.match(r"^[-*•]\s+|^\d+[\.)]\s+", line)
+            if bullet_match:
+                if current_paragraph:
+                    paragraphs.append(" ".join(current_paragraph).strip())
+                    current_paragraph = []
+                paragraphs.append(line)
+            else:
+                current_paragraph.append(line)
+
+        if current_paragraph:
+            paragraphs.append(" ".join(current_paragraph).strip())
+
+        normalized = "\n\n".join(part.strip() for part in paragraphs if part.strip())
+        normalized = re.sub(r"\n{3,}", "\n\n", normalized)
+        return normalized.strip()
+
     def _build_response_message(self, result: ResponseResult) -> str:
         """
         Build formatted response message for Telegram.
@@ -197,8 +249,8 @@ class TelegramBotHandler:
         Returns:
             str: Formatted message text
         """
-        # Main response
-        message = result.message
+        message = self._normalize_plaintext_message(result.message or "")
+
         logger.info("[FINAL RESPONSE] %s", message)
 
         # Show a confidence note for all uncertain tiers (2–4) according to the
@@ -206,10 +258,14 @@ class TelegramBotHandler:
         # For Tier 4 (< 0.30), the fallback message already includes the score;
         # this prevents duplicate notes while keeping the score visible.
         if result.confidence > 0 and result.confidence < 0.70 and "Tingkat keyakinan sistem" not in message:
-            message += (
-                f"\n\n💡 _Catatan: Tingkat keyakinan sistem {result.confidence:.0%}. "
-                "Jawaban ini tetap perlu kehati-hatian dan dapat dikonfirmasi ke admin._"
+            if message and not message.endswith((".", "!", "?")):
+                message += "."
+
+            confidence_note = (
+                f"\n\nCatatan: Tingkat keyakinan sistem {result.confidence:.0%}. "
+                "Jawaban ini tetap perlu kehati-hatian dan dapat dikonfirmasi ke admin."
             )
+            message += confidence_note
 
         logger.info("[FINAL RESPONSE] %s", message)
         
@@ -244,12 +300,10 @@ class TelegramBotHandler:
         """
         url = f"{self.api_base_url}/sendMessage"
 
-        if parse_mode == "Markdown":
-            text = self._escape_markdown(text)
-
+        plain_text = self._strip_markdown(text or "")
         payload = {
             "chat_id": chat_id,
-            "text": text,
+            "text": plain_text,
         }
         if parse_mode:
             payload["parse_mode"] = parse_mode

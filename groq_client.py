@@ -136,19 +136,32 @@ FORMAT JAWABAN:
         kb_text = self._format_knowledge_base(knowledge_base_data)
         
         # Confidence-aware instruction (register formal-islami)
-        if confidence < 0.5:
+        if confidence < 0.3:
             confidence_instruction = """
-INSTRUKSI KHUSUS (Tingkat Keyakinan Rendah):
-1. PERIKSA terlebih dahulu: apakah pertanyaan penanya berkaitan dengan topik "{}"?
-2. JIKA BERKAITAN:
-   - Awali dengan kalimat: "Berdasarkan pemahaman kami atas pertanyaan Antum, insya Allah kami sampaikan sebagai berikut..."
-   - Jawab secara lengkap berlandaskan Knowledge Base
-   - Akhiri dengan: "Untuk mendapatkan kepastian yang lebih akurat, kami persilakan Antum untuk menghubungi admin pesantren kami secara langsung."
-   - Sertakan kontak admin
-3. JIKA TIDAK BERKAITAN: Alihkan dengan santun ke admin tanpa menjawab detail
-""".format(intent)
+INSTRUKSI KHUSUS (Tingkat Keyakinan Sangat Rendah):
+1. Pertanyaan pengguna tidak cukup dipercaya untuk diproses secara langsung.
+2. Jangan memaksakan jawaban dari Knowledge Base jika Anda tidak yakin relevansinya.
+3. Arahkan pengguna ke admin pesantren untuk konfirmasi.
+4. Jika tidak ada dasar kuat dari intent maupun KB, jangan menjawab detail.
+"""
+        elif confidence < 0.5:
+            confidence_instruction = """
+INSTRUKSI KHUSUS (Tingkat Keyakinan Rendah: 0.30 sampai < 0.50):
+1. Lakukan pemeriksaan relevansi terlebih dahulu: apakah intent yang diprediksi benar-benar selaras dengan maksud pertanyaan pengguna?
+2. Gunakan tiga sumber: pertanyaan asli, intent yang diprediksi, dan Knowledge Base dari intent tersebut.
+3. JIKA RELEVAN:
+   - Jawab berdasarkan Knowledge Base yang tersedia.
+   - Gunakan kalimat hati-hati, misalnya: "Berdasarkan pemahaman kami atas pertanyaan Antum, insya Allah kami sampaikan sebagai berikut..."
+   - Sertakan catatan bahwa jawaban dapat dikonfirmasi ke admin jika diperlukan.
+   - Jangan menambahkan informasi di luar Knowledge Base.
+4. JIKA TIDAK RELEVAN:
+   - Jangan memaksakan Knowledge Base dari intent tersebut untuk menjawab.
+   - Jangan menebak intent yang benar.
+   - Sampaikan bahwa informasi belum dapat dipastikan dan arahkan pengguna untuk menghubungi admin.
+5. Tujuan pemeriksaan ini adalah memastikan keselarasan antara pertanyaan pengguna dan intent sebelum Knowledge Base digunakan untuk menghasilkan jawaban.
+"""
         elif confidence < 0.7:
-            confidence_instruction = "INSTRUKSI: Sampaikan jawaban dengan hati-hati dan penuh tawadhu'. Pertimbangkan untuk menganjurkan konfirmasi langsung kepada admin pesantren."
+            confidence_instruction = "INSTRUKSI: Sampaikan jawaban dengan hati-hati dan penuh tawadhu'. Tetap jawab berdasarkan Knowledge Base dan anjurkan konfirmasi langsung kepada admin pesantren jika diperlukan."
         else:
             confidence_instruction = "INSTRUKSI: Sampaikan jawaban dengan mantap, lugas, dan penuh keyakinan berlandaskan Knowledge Base. Alhamdulillah."
 
@@ -340,6 +353,14 @@ Jawaban Anda:"""
             # Parse response
             response_data = response.json()
             llm_response = response_data["choices"][0]["message"]["content"].strip()
+
+            if not llm_response:
+                logger.warning("[LLM RESPONSE] empty; using fallback instead of marking success")
+                return self._generate_fallback_response(
+                    intent, confidence, knowledge_base_data,
+                    error="empty_llm_response"
+                )
+
             logger.info("Response generated successfully")
             logger.info("[LLM RESPONSE] %s", llm_response)
 
