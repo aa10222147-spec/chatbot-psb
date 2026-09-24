@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 # Admin contact shown in every fail-safe / fallback message.
 # Update this single constant whenever the contact number changes.
-ADMIN_CONTACT = "📞 WhatsApp Admin: 0812-3456-7890 (Ustadz Dian Amarullah)"
+ADMIN_CONTACT = "📞 WhatsApp Admin: 0856-0384-5315 (Ustadz Dian Amarullah)"
 
 
 @dataclass

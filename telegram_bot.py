@@ -212,37 +212,13 @@ class TelegramBotHandler:
     
     @staticmethod
     def _normalize_plaintext_message(text: str) -> str:
-        """Normalize LLM text into clean, readable plain text for Telegram."""
+        """Normalize LLM text into readable output while preserving intended Markdown tokens."""
         if not text:
             return ""
 
-        cleaned = TelegramBotHandler._strip_markdown(str(text))
-        cleaned = cleaned.replace("\r\n", "\n").replace("\r", "\n")
-
-        lines = []
-        for raw_line in cleaned.split("\n"):
-            line = re.sub(r"\s+", " ", raw_line).strip()
-            if line:
-                lines.append(line)
-
-        paragraphs = []
-        current_paragraph = []
-        for line in lines:
-            bullet_match = re.match(r"^[-*•]\s+|^\d+[\.)]\s+", line)
-            if bullet_match:
-                if current_paragraph:
-                    paragraphs.append(" ".join(current_paragraph).strip())
-                    current_paragraph = []
-                paragraphs.append(line)
-            else:
-                current_paragraph.append(line)
-
-        if current_paragraph:
-            paragraphs.append(" ".join(current_paragraph).strip())
-
-        normalized = "\n\n".join(part.strip() for part in paragraphs if part.strip())
-        normalized = re.sub(r"\n{3,}", "\n\n", normalized)
-        return normalized.strip()
+        cleaned = str(text).replace("\r\n", "\n").replace("\r", "\n")
+        cleaned = re.sub(r"\n{3,}", "\n\n", cleaned).strip()
+        return cleaned
 
     def _build_response_message(self, result: ResponseResult) -> str:
         """
@@ -267,7 +243,7 @@ class TelegramBotHandler:
                 message += "."
 
             confidence_note = (
-                f"\n\nCatatan: Tingkat keyakinan sistem {result.confidence:.0%}. "
+                f"\n\n*Catatan:* Tingkat keyakinan sistem {result.confidence:.0%}. "
                 "Jawaban ini tetap perlu kehati-hatian dan dapat dikonfirmasi ke admin."
             )
             message += confidence_note
@@ -277,7 +253,7 @@ class TelegramBotHandler:
         # Add debug info in development mode
         if os.getenv("ENVIRONMENT") == "development":
             message += (
-                f"\n\n🔍 Debug Info:\n"
+                f"\n\n*Debug Info:*\n"
                 f"Intent: {result.intent}\n"
                 f"Confidence: {result.confidence:.2%}\n"
                 f"KB Used: {'✓' if result.knowledge_base_used else '✗'}\n"
@@ -290,7 +266,7 @@ class TelegramBotHandler:
         self,
         chat_id: int,
         text: str,
-        parse_mode: Optional[str] = None
+        parse_mode: Optional[str] = "Markdown"
     ) -> bool:
         """
         Send a message to a Telegram chat.
@@ -305,10 +281,9 @@ class TelegramBotHandler:
         """
         url = f"{self.api_base_url}/sendMessage"
 
-        plain_text = self._strip_markdown(text or "")
         payload = {
             "chat_id": chat_id,
-            "text": plain_text,
+            "text": text or "",
         }
         if parse_mode:
             payload["parse_mode"] = parse_mode
@@ -341,6 +316,7 @@ class TelegramBotHandler:
                 try:
                     payload_without_mode = dict(payload)
                     del payload_without_mode["parse_mode"]
+                    payload_without_mode["text"] = self._strip_markdown(payload.get("text", ""))
                     async with httpx.AsyncClient() as client:
                         retry_response = await _post_with_compat(client, url, json=payload_without_mode, timeout=10.0)
                     retry_response.raise_for_status()
@@ -487,7 +463,7 @@ Teknologi:
 
 Fitur Keamanan:
 ✓ Jawaban berbasis knowledge base resmi
-✓ Tidak ada hallucination LLM
+✓ Target FCR ≥ 85% dengan risiko residual yang tetap diakui
 ✓ Context-aware responses
 ✓ Confidence scoring
 

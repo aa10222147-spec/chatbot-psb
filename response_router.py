@@ -404,7 +404,7 @@ class ResponseRouter:
         message = (
             f"Mohon maaf, informasi untuk topik '{intent_prediction.intent}' "
             "belum tersedia dalam sistem. Silakan hubungi admin untuk informasi lebih lanjut.\n\n"
-            "📧 Kontak Admin: [info@pesantren.example.com]"
+            f"📧 Kontak Admin: {ADMIN_CONTACT}"
         )
 
         confidence_level = self.intent_classifier.get_confidence_level(intent_prediction.confidence)
