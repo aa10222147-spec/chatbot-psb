@@ -14,7 +14,7 @@ Cara pakai:
    (di Railway: Settings > Variables pada service Postgres, atau jalankan
    lewat `railway run python generate_gd_report.py` supaya env terisi otomatis).
 3. (Opsional) atur START_DATE / END_DATE di bawah bila ingin membatasi periode
-   pengujian (mis. hanya log selama sesi pengujian FCR pada Subbab 3.15).
+   pengujian (mis. hanya log selama sesi pengujian FCR pada Subbab 3.14).
 4. Jalankan: python generate_gd_report.py
 5. Keluaran:
    - gd_summary.md         -> tabel ringkasan statistik siap tempel ke skripsi
