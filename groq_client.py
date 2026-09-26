@@ -66,7 +66,7 @@ class GroqClient:
             raise ValueError("GROQ_API_KEY environment variable not set")
         
         self.api_url = "https://api.groq.com/openai/v1/chat/completions"
-        self.model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+        self.model = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
         self.max_tokens = int(os.getenv("GROQ_MAX_TOKENS", "500"))
         self.temperature = float(os.getenv("GROQ_TEMPERATURE", "0.3"))
         
