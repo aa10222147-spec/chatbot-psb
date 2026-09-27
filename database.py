@@ -32,11 +32,32 @@ if not DATABASE_URL:
     DB_NAME = os.getenv("DB_NAME", "chatbot_psb")
     DB_USER = os.getenv("DB_USER", "chatbot_user")
     DB_PASSWORD = os.getenv("DB_PASSWORD", "chatbot123")
-    
+
     DATABASE_URL = (
         f"postgresql://{DB_USER}:{DB_PASSWORD}"
         f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
+
+
+def normalize_database_url(url: str | None) -> str | None:
+    """Force SQLAlchemy to use psycopg2 for PostgreSQL URLs.
+
+    SQLAlchemy 2.1 changed the default PostgreSQL driver from psycopg2 to psycopg
+    when the URL is written as postgresql://... . This project is pinned to
+    psycopg2-binary, so keep the connection string explicit and compatible.
+    """
+    if not url:
+        return url
+
+    normalized_url = url.strip()
+
+    if normalized_url.startswith("postgresql://"):
+        return normalized_url.replace("postgresql://", "postgresql+psycopg2://", 1)
+
+    return normalized_url
+
+
+DATABASE_URL = normalize_database_url(DATABASE_URL)
 
 # ===============================
 # SQLALCHEMY SETUP
