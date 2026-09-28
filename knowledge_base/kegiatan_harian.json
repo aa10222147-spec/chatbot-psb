@@ -12,13 +12,14 @@
         "ashar_berjamaah": "15:30 WIB",
         "tashrifan_dan_lugoh_kitab": "15:40-17:00 WIB",
         "berjamaah_maghrib": "18:00-18:30 WIB",
-        "Tahfidz": "18:30-19:30 WIB",
+        "tahfidz": "18:30-19:30 WIB",
         "berjamaah_isya": "19:30-20:00 WIB",
         "ngaji_isya": "20:00-21:30 WIB",
         "dzikiran": "21:30-23:00 WIB",
         "istirahat_malam": "23:00 WIB",
         "hari_sekolah": "Senin-Kamis dan Sabtu-Minggu",
-        "jumat": "Jumat bersih",
+        "jumat": "Jumat bersih"
+    },
     "qa_pairs": [
         {
             "q": "Bagaimana jadwal harian santri?",
@@ -31,6 +32,10 @@
         {
             "q": "Hari sekolah seperti apa?",
             "a": "Hari sekolah adalah Senin-Kamis dan Sabtu-Minggu. Jumat adalah hari Jumat bersih."
+        },
+        {
+            "q": "Kapan waktu tahfidz santri?",
+            "a": "Waktu tahfidz santri adalah 18:30-19:30 WIB."
         }
     ],
     "quick_answers": {
@@ -46,5 +51,4 @@
         "hari_sekolah": "Senin-Kamis dan Sabtu-Minggu",
         "jumat": "Jumat bersih"
     }
-}
 }
